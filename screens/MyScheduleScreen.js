@@ -1,17 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AppNav from "./navigation/AppNavigation";
-import { NavigationContainer } from '@react-navigation/native';
-
 
 export default function App() {
   return (
-      < NavigationContainer >
-          <AppNav headerMode="none" headerShown="false" />
-      </NavigationContainer >
+    <View style={styles.container}>
+      <Text>This is the my schedule screen</Text>
+      <StatusBar style="auto" />
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
