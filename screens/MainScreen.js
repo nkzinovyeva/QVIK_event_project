@@ -13,7 +13,8 @@ export default function App({navigation}) {
       headerBackground: () => (
         <Image
           style={{ width: width, height: 150,}}
-          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/20150826_2130_MG_0302_c_Jussi_Hellsten.jpg/1920px-20150826_2130_MG_0302_c_Jussi_Hellsten.jpg'}}
+          source={require('../assets/mainPic.jpg')}
+          //source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/20150826_2130_MG_0302_c_Jussi_Hellsten.jpg/1920px-20150826_2130_MG_0302_c_Jussi_Hellsten.jpg'}}
         />
       ),
       headerRight: () => (
@@ -29,7 +30,7 @@ export default function App({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text>this is the main screen</Text>
+      <Text>this is the screen</Text>
       <StatusBar style="light" />
     </View>
   );

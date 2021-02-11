@@ -19,3 +19,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+//gray - '#888888'
+//black - '#222222'
+//blue - '#007AFF'
+//almost white - '#FAFAFA'
+//white - '#FFFFFF'

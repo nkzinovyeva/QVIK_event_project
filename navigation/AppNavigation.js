@@ -12,8 +12,11 @@ const defaultNavOptions =  {
   },
   headerTintColor: 'white',
   headerTitleStyle: {
-    fontWeight: 'bold',
-    fontSize: 22,
+    //fontWeight: 'bold',
+    fontSize: 32,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fontFamily: 'System',
   },
   headerBackTitleStyle: {
   }
@@ -95,8 +98,8 @@ export default function AppNav() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'blue',
-          inactiveTintColor: 'gray',
+          activeTintColor: '#007AFF',
+          inactiveTintColor: '#888888',
         }}
       >
         <MainNav.Screen key="1" name="Events" component={MainStackScreen} />
