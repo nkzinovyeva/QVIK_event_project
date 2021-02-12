@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator} from '@react-navigation/stack';
-import MainScreen from "../screens/MainScreen";
+import EventsScreen from "../screens/EventsScreen";
+import Screen from "../screens/Screen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
 import Colors from "../assets/constants/colors";
@@ -23,15 +24,15 @@ const defaultNavOptions =  {
   }
 }
 
-// main stack 
-const mainStack = createStackNavigator();
+// main events stack 
+const eventsStack = createStackNavigator();
 
-function MainStackScreen() {
+function EventsStackScreen() {
     return (
-      <mainStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-        <mainStack.Screen name="Night(s) of Arts" component={MainScreen} />
-        <mainStack.Screen name="MySchedule" component={MySchedule} />
-      </mainStack.Navigator>
+      <eventsStack.Navigator screenOptions={() => (defaultNavOptions)}  >
+        <eventsStack.Screen name="Night(s) of Arts" component={EventsScreen} />
+        <eventsStack.Screen name="MySchedule" component={MySchedule} />
+      </eventsStack.Navigator>
     );
 }
 
@@ -41,7 +42,7 @@ const myScheduleStack = createStackNavigator();
 function MyScheduleStackScreen() {
     return (
         <myScheduleStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-            <myScheduleStack.Screen name="Events" component={MainScreen} />
+            <myScheduleStack.Screen name="Events" component={Screen} />
             <myScheduleStack.Screen name="My Schedule" component={MySchedule} />
       </myScheduleStack.Navigator>
     );
@@ -53,24 +54,13 @@ const restStack = createStackNavigator();
 function restorantsStackScreen() {
     return (
       <restStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-        <restStack.Screen name="Events" component={MainScreen}  />
+        <restStack.Screen name="Events" component={Screen}  />
         <restStack.Screen name="My Schedule" component={MySchedule} />
       </restStack.Navigator>
     );
 }
 
-// mySchedule stack  - fake at this moment
-const infoStack = createStackNavigator();
-
-function InfoStackScreen() {
-    return (
-        <infoStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-            <infoStack.Screen name="Events" component={MainScreen}  />
-            <infoStack.Screen name="My Schedule" component={MySchedule} />
-      </infoStack.Navigator>
-    );
-}
-
+//bottomTab navigation
 const MainNav = createBottomTabNavigator();
 
 export default function AppNav() {
@@ -95,6 +85,7 @@ export default function AppNav() {
             return <Icon name={iconName} type={iconType} size={size} color={color}/>
           },
         })}
+        initialRouteName="Events"
         tabBarOptions={{
           activeTintColor: Colors.blueColor,
           inactiveTintColor: Colors.grayColor,
@@ -114,7 +105,7 @@ export default function AppNav() {
         }}
       >
         <MainNav.Screen key="1" name="My Schedule" component={MyScheduleStackScreen} />
-        <MainNav.Screen key="2" name="Events" component={MainStackScreen} />
+        <MainNav.Screen key="2" name="Events" component={EventsStackScreen} />
         <MainNav.Screen key="3" name="Late Bites" component={restorantsStackScreen} />
       </MainNav.Navigator>
   );

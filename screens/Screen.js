@@ -6,7 +6,7 @@ import Colors from "../assets/constants/colors";
 
 const { width } = Dimensions.get("screen");
 
-export default function App({navigation}) {
+export default function Screen({navigation}) {
   
   //header component
   React.useLayoutEffect(() => {
@@ -47,15 +47,3 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backwhite,
   },
 });
-
-/*
-React.useLayoutEffect(() => {
-  navigation.setOptions({
-    headerRight: () => (
-      <Pressable onPress={filter}>
-        <Icon name='sign-out-alt' type='font-awesome-5' color ='white' marginRight={20}/>
-      </Pressable>
-    ),
-  });
-}, [navigation]);
-*/
