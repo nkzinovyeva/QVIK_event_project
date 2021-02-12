@@ -4,13 +4,14 @@ import { createStackNavigator} from '@react-navigation/stack';
 import MainScreen from "../screens/MainScreen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
+import Colors from "../assets/constants/colors";
 
 //default options for the screens
 const defaultNavOptions =  {
   headerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.backwhite,
   },
-  headerTintColor: 'white',
+  headerTintColor: Colors.whiteColor,
   headerTitleStyle: {
     //fontWeight: 'bold',
     fontSize: 32,
@@ -80,32 +81,41 @@ export default function AppNav() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName, iconType;
 
-            if (route.name === 'Events') {
-                iconName = 'drama-masks';
-                iconType = 'material-community';
-            } else if (route.name === 'My Schedule') {
+            if (route.name === 'My Schedule') {
                 iconName = 'star-outline';
                 iconType = 'material-community';
+            } else if (route.name === 'Events') {
+              iconName = 'drama-masks';
+              iconType = 'material-community';
             } else if (route.name === 'Late Bites') {
                 iconName = 'fast-food-outline';
                 iconType = 'ionicon';
-            } else if (route.name === 'Info') {
-                iconName = 'information-outline'; //'filter-variant';
-                iconType = 'material-community';
-            }  
+            } 
 
             return <Icon name={iconName} type={iconType} size={size} color={color}/>
           },
         })}
         tabBarOptions={{
-          activeTintColor: '#007AFF',
-          inactiveTintColor: '#888888',
+          activeTintColor: Colors.blueColor,
+          inactiveTintColor: Colors.grayColor,
+          style: { 
+            backgroundColor: Colors.whiteColor,
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowColor: Colors.grayColor,
+            shadowOpacity: 2,
+            shadowRadius: 2,
+            elevation: 2,
+            //borderTopWidth: 1,
+            //top: 1,
+            },
         }}
       >
-        <MainNav.Screen key="1" name="Events" component={MainStackScreen} />
-        <MainNav.Screen key="2" name="My Schedule" component={MyScheduleStackScreen} />
+        <MainNav.Screen key="1" name="My Schedule" component={MyScheduleStackScreen} />
+        <MainNav.Screen key="2" name="Events" component={MainStackScreen} />
         <MainNav.Screen key="3" name="Late Bites" component={restorantsStackScreen} />
-        <MainNav.Screen key="3" name="Info" component={InfoStackScreen} />
       </MainNav.Navigator>
   );
 

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, Image, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Colors from "../assets/constants/colors";
 
 const { width } = Dimensions.get("screen");
 
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.backwhite,
   },
 });
 
