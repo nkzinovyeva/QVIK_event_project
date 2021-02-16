@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, Text, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView  } from 'react-native';
+import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView  } from 'react-native';
+//import AsyncStorage from '@react-native-community/async-storage';
 import { Icon } from 'react-native-elements';
 import {ListItem, Avatar} from 'react-native-elements';
 import Colors from "../assets/constants/colors";
@@ -34,6 +35,7 @@ export default function EventsScreen({navigation}) {
 
   //constants
   const [allEvents, setAllEvents] = useState([]);
+  //const [favorite, setFavorite] = useState(false);
 
   // get all events
   const getAllEvents = () => {
@@ -42,6 +44,7 @@ export default function EventsScreen({navigation}) {
     .then((response) => response.json())
     .then((jsondata) => { 
       setAllEvents(jsondata.data);
+      allEvents.forEach(item => {item.favorite = false})
       console.log(allEvents)
     })
     .catch((error) => { 
@@ -53,25 +56,52 @@ export default function EventsScreen({navigation}) {
     getAllEvents();
   }, []);
   
-  //Render Items 
-  const Item = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Event details", item.event_id)
-        }
-      >
-        <ListItem bottomDivider >
-          <Avatar source={{}} />
-          <ListItem.Content>
-            <ListItem.Title>{item.shortDescription}</ListItem.Title>
-            <ListItem.Subtitle>{item.category}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-      </TouchableOpacity>
-    );
+
+//Render Items 
+const Item = ({item}) => {
+
+  //conditional rendering for the icon (doesnt work yet!!!!)
+  const name = () => {
+    if (item.favorite) {
+      return 'star-sharp'
+    } 
+    return 'star-outline'
   }
+
+  //function to save/unsave the item
+  const handleFavoriteClick = () => {
+    item.favorite = !item.favorite, 
+    console.log(item.favorite)
+    if (item.favorite) {
+      console.log('Im ready to save')
+    }
+    else if (!item.favorite) {
+    console.log('Im ready to unsave')
+    }
+  }
+
+  return (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("Event details", item.event_id)
+      }
+    >
+      <ListItem bottomDivider >
+        <Icon 
+          //name={item.favorite ? 'star-sharp' : 'star-outline'}
+          name={name()}
+          type='ionicon'
+          onPress={handleFavoriteClick}
+        /> 
+        <ListItem.Content>
+          <ListItem.Title>{item.shortDescription}</ListItem.Title>
+          <ListItem.Subtitle>{item.category}</ListItem.Subtitle>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem>
+    </TouchableOpacity>
+  );
+}
 
 //return flatlist
   return (
