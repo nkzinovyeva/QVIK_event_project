@@ -44,7 +44,7 @@ export default function EventsScreen({navigation}) {
     .then((response) => response.json())
     .then((jsondata) => { 
       setAllEvents(jsondata.data);
-      allEvents.forEach(item => {item.favorite = false})
+      allEvents.forEach(item => {item.favourite = false})
       console.log(allEvents)
     })
     .catch((error) => { 
@@ -62,20 +62,20 @@ const Item = ({item}) => {
 
   //conditional rendering for the icon (doesnt work yet!!!!)
   const name = () => {
-    if (item.favorite) {
+    if (item.favourite) {
       return 'star-sharp'
     } 
     return 'star-outline'
   }
 
   //function to save/unsave the item
-  const handleFavoriteClick = () => {
-    item.favorite = !item.favorite, 
-    console.log(item.favorite)
-    if (item.favorite) {
+  const handleFavouriteClick = () => {
+    item.favourite = !item.favourite, 
+    console.log(item.favourite)
+    if (item.favourite) {
       console.log('Im ready to save')
     }
-    else if (!item.favorite) {
+    else if (!item.favourite) {
     console.log('Im ready to unsave')
     }
   }
@@ -88,10 +88,10 @@ const Item = ({item}) => {
     >
       <ListItem bottomDivider >
         <Icon 
-          //name={item.favorite ? 'star-sharp' : 'star-outline'}
+          //name={item.favourite ? 'star-sharp' : 'star-outline'}
           name={name()}
           type='ionicon'
-          onPress={handleFavoriteClick}
+          onPress={handleFavouriteClick}
         /> 
         <ListItem.Content>
           <ListItem.Title>{item.shortDescription}</ListItem.Title>
