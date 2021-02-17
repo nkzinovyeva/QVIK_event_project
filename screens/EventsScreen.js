@@ -59,7 +59,7 @@ const storeData = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(keyStr, jsonValue)
-    alert("The event saved to Favourites")
+    alert("The event is saved in Favourites")
   } catch (e) {
     alert("Error in saving data");
   }
@@ -70,7 +70,7 @@ const removeData = async(key)=>{
   const keyStr = key.toString()
   try {
       await AsyncStorage.removeItem(keyStr);
-      alert("Removed from Favourites")
+      alert("The event is removed from Favourites")
     }
     catch (e) {
       alert("Error in removing data");
@@ -80,35 +80,35 @@ const removeData = async(key)=>{
 //render the event
 const Event = (props) => {
 
-  const { id, title, location, date, duration } = props
+  //const { id, title, location, date, duration } = props
   const [favourite, setFavourite] = useState(false)
 
   //handle saving/unsaving the event to Favourites 
   const handleFavouriteClick = () => {
     setFavourite(!favourite)
-      if (favourite) {
-        storeData(id, { id, title, location, date, duration, favourite});
+      if (!favourite) {
+        storeData(props.id, { props, favourite });
       }
-      else if (!favourite) {
-        removeData(id)
+      else if (favourite) {
+        removeData(props.id)
       }
   }
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event details", id)
+        navigation.navigate("Event details", props.id)
       }
     >
       <ListItem bottomDivider >
         <Icon 
-          name={favourite ? 'star-outline' : 'star-sharp'}
+          name={!favourite ? 'star-outline' : 'star-sharp'}
           type='ionicon'
           onPress={handleFavouriteClick}
         /> 
         <ListItem.Content>
-          <ListItem.Title>{title}</ListItem.Title>
-          <ListItem.Subtitle>{location}</ListItem.Subtitle>
+          <ListItem.Title>{props.title}</ListItem.Title>
+          <ListItem.Subtitle>{props.location}</ListItem.Subtitle>
         </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
@@ -123,14 +123,20 @@ const Event = (props) => {
           <FlatList 
               data={allEvents}
               keyExtractor={(item, index) => item + index} 
-              //renderItem={({item}) => <Item item = {item}/>}
-              renderItem={({item}) => (<Event id={item.event_id} title={item.shortDescription} location={item.category} date={item.startTime}duration='60 min'/>)}
+              renderItem={({item}) => (
+                <Event 
+                  id={item.event_id} 
+                  title={item.shortDescription} 
+                  location={item.category} 
+                  date={item.startTime}
+                  duration='60 min'
+                />
+              )}
           />  
         </View>
       </SafeAreaView> 
     );
 }
-
 
 const styles = StyleSheet.create({
   container: {
