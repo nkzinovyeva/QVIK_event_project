@@ -10,6 +10,7 @@ import Colors from "../assets/constants/colors";
 //default options for the screens
 const defaultNavOptions =  {
   headerStyle: {
+    height: 150,
     backgroundColor: Colors.backwhite,
   },
   headerTintColor: Colors.whiteColor,

@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView  } from 'react-native';
+import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView, Text  } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements';
 import {ListItem, Avatar} from 'react-native-elements';
 import Colors from "../assets/constants/colors";
+import moment from "moment";
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -12,15 +13,28 @@ const { width } = Dimensions.get("screen");
 export default function EventsScreen({navigation}) {
 
   //constants
+  const [mainEvent, setMainEvent] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
+  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events';
   
   useEffect(() => {
     getAllEvents();
   }, []);
   
   //header component
+
+  function LogoTitle() {
+    return (
+      <View style={{alignSelf: "flex-start", alignItems: 'flex-start', fontFamily: 'System', color:"#FFFFFF"}}>
+        <Text style={{fontSize: 32,  fontFamily: 'System', color:"#FFFFFF"}}>{mainEvent.title}</Text>
+        <Text style={{fontSize: 16,  fontFamily: 'System', color:"#FFFFFF"}}>@Helsinki, {moment(mainEvent.startDate).format("MMM Do")} - {moment(mainEvent.endDate).format("Do YYYY")}</Text>
+      </View>
+    );
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitle: props => <LogoTitle {...props} />,
       headerBackground: () => (
         <Image
           style={{ width: width, height: 150,}}
@@ -42,11 +56,12 @@ export default function EventsScreen({navigation}) {
   
   // get all events
   const getAllEvents = () => {
-    const url = 'https://qvik.herokuapp.com/api/v1/events';
+    const url = dataUrl;
     fetch(url)
     .then((response) => response.json())
     .then((jsondata) => { 
-      setAllEvents(jsondata.data);
+      setMainEvent(jsondata.data["Parent Event"]);
+      setAllEvents(jsondata.data["Sub events"]);
     })
     .catch((error) => { 
         Alert.alert('Error', error); 
@@ -59,9 +74,9 @@ const storeData = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(keyStr, jsonValue)
-    alert("The event is saved in Favourites")
+    Alert.alert("The event is saved in Favourites")
   } catch (e) {
-    alert("Error in saving data");
+    Alert.alert("Error in saving data");
   }
 }
 
@@ -70,10 +85,10 @@ const removeData = async(key)=>{
   const keyStr = key.toString()
   try {
       await AsyncStorage.removeItem(keyStr);
-      alert("The event is removed from Favourites")
+      Alert.alert("The event is removed from Favourites")
     }
     catch (e) {
-      alert("Error in removing data");
+      Alert.alert("Error in removing data");
     }
 };
 
@@ -83,11 +98,13 @@ const Event = (props) => {
   //const { id, title, location, date, duration } = props
   const [favourite, setFavourite] = useState(false)
 
+  const venue = mainEvent.event_venues[0].venue.name
+
   //handle saving/unsaving the event to Favourites 
   const handleFavouriteClick = () => {
     setFavourite(!favourite)
       if (!favourite) {
-        storeData(props.id, { props, favourite });
+        storeData(props.id, { props, venue, favourite });
       }
       else if (favourite) {
         removeData(props.id)
@@ -108,7 +125,7 @@ const Event = (props) => {
         /> 
         <ListItem.Content>
           <ListItem.Title>{props.title}</ListItem.Title>
-          <ListItem.Subtitle>{props.location}</ListItem.Subtitle>
+          <ListItem.Subtitle>{venue}, {props.location}</ListItem.Subtitle>
         </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
@@ -126,8 +143,8 @@ const Event = (props) => {
               renderItem={({item}) => (
                 <Event 
                   id={item.event_id} 
-                  title={item.shortDescription} 
-                  location={item.category} 
+                  title={item.title} 
+                  location={item.event_stages[0].stage.name}
                   date={item.startTime}
                   duration='60 min'
                 />
@@ -148,7 +165,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     flex: 1,
-    marginTop: 60,
+    marginTop: 10,
     //justifyContent: "center",
     alignContent: "center",
     backgroundColor: 'white',

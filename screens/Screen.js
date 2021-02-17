@@ -9,6 +9,7 @@ const { width } = Dimensions.get("screen");
 export default function Screen({navigation}) {
   
   //header component
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerBackground: () => (
