@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView  } from 'react-native';
-//import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements';
 import {ListItem, Avatar} from 'react-native-elements';
 import Colors from "../assets/constants/colors";
@@ -10,6 +10,14 @@ import Colors from "../assets/constants/colors";
 const { width } = Dimensions.get("screen");
 
 export default function EventsScreen({navigation}) {
+
+  //constants
+  const [allEvents, setAllEvents] = useState([]);
+
+  useEffect(() => {
+    getAllEvents();
+  }, []);
+
   
   //header component
   React.useLayoutEffect(() => {
@@ -32,11 +40,7 @@ export default function EventsScreen({navigation}) {
   //possible filtering function
   const filter = () => {
   }
-
-  //constants
-  const [allEvents, setAllEvents] = useState([]);
-  //const [favorite, setFavorite] = useState(false);
-
+  
   // get all events
   const getAllEvents = () => {
     const url = 'https://qvik.herokuapp.com/api/v1/events';
@@ -51,11 +55,33 @@ export default function EventsScreen({navigation}) {
         Alert.alert('Error', error); 
     }); 
   };
-
-  useEffect(() => {
-    getAllEvents();
-  }, []);
   
+// store data
+const storeData = async (key, value) => {
+  const keyStr = key.toString()
+  console.log (key, value)
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(keyStr, jsonValue)
+    alert("Data saved")
+  } catch (e) {
+    alert("Error in saving data");
+  }
+}
+
+// remove data
+const removeData = async(key)=>{
+  const keyStr = key.toString()
+  getData(keyStr)
+  try {
+      await AsyncStorage.removeItem(keyStr);
+      alert("Removed")
+    }
+    catch (e) {
+      alert("Error");
+    }
+    console.log('Done.')
+};
 
 //Render Items 
 const Item = ({item}) => {
@@ -72,12 +98,14 @@ const Item = ({item}) => {
   const handleFavouriteClick = () => {
     item.favourite = !item.favourite, 
     console.log(item.favourite)
-    if (item.favourite) {
-      console.log('Im ready to save')
-    }
-    else if (!item.favourite) {
-    console.log('Im ready to unsave')
-    }
+      if (item.favourite) {
+        console.log('Im ready to save')
+        storeData(item.event_id, item);
+      }
+      else if (!item.favourite) {
+      console.log('Im ready to unsave')
+      removeData(item.event_id)
+      }
   }
 
   return (

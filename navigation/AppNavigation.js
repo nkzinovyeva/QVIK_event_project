@@ -42,8 +42,8 @@ const myScheduleStack = createStackNavigator();
 function MyScheduleStackScreen() {
     return (
         <myScheduleStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-            <myScheduleStack.Screen name="Events" component={Screen} />
             <myScheduleStack.Screen name="My Schedule" component={MySchedule} />
+            <myScheduleStack.Screen name="Events" component={Screen} />
       </myScheduleStack.Navigator>
     );
 }
