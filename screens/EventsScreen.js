@@ -72,7 +72,6 @@ const storeData = async (key, value) => {
 // remove data
 const removeData = async(key)=>{
   const keyStr = key.toString()
-  getData(keyStr)
   try {
       await AsyncStorage.removeItem(keyStr);
       alert("Removed")
