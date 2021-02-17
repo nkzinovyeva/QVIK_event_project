@@ -13,11 +13,10 @@ export default function EventsScreen({navigation}) {
 
   //constants
   const [allEvents, setAllEvents] = useState([]);
-
+  
   useEffect(() => {
     getAllEvents();
   }, []);
-
   
   //header component
   React.useLayoutEffect(() => {
@@ -48,22 +47,19 @@ export default function EventsScreen({navigation}) {
     .then((response) => response.json())
     .then((jsondata) => { 
       setAllEvents(jsondata.data);
-      allEvents.forEach(item => {item.favourite = false})
-      console.log(allEvents)
     })
     .catch((error) => { 
         Alert.alert('Error', error); 
     }); 
   };
   
-// store data
+// store data in Favourites
 const storeData = async (key, value) => {
   const keyStr = key.toString()
-  console.log (key, value)
   try {
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(keyStr, jsonValue)
-    alert("Data saved")
+    alert("The event saved to Favourites")
   } catch (e) {
     alert("Error in saving data");
   }
@@ -74,55 +70,45 @@ const removeData = async(key)=>{
   const keyStr = key.toString()
   try {
       await AsyncStorage.removeItem(keyStr);
-      alert("Removed")
+      alert("Removed from Favourites")
     }
     catch (e) {
-      alert("Error");
+      alert("Error in removing data");
     }
-    console.log('Done.')
 };
 
-//Render Items 
-const Item = ({item}) => {
+//render the event
+const Event = (props) => {
 
-  //conditional rendering for the icon (doesnt work yet!!!!)
-  const name = () => {
-    if (item.favourite) {
-      return 'star-sharp'
-    } 
-    return 'star-outline'
-  }
+  const { id, title, location, date, duration } = props
+  const [favourite, setFavourite] = useState(false)
 
-  //function to save/unsave the item
+  //handle saving/unsaving the event to Favourites 
   const handleFavouriteClick = () => {
-    item.favourite = !item.favourite, 
-    console.log(item.favourite)
-      if (item.favourite) {
-        console.log('Im ready to save')
-        storeData(item.event_id, item);
+    setFavourite(!favourite)
+      if (favourite) {
+        storeData(id, { id, title, location, date, duration, favourite});
       }
-      else if (!item.favourite) {
-      console.log('Im ready to unsave')
-      removeData(item.event_id)
+      else if (!favourite) {
+        removeData(id)
       }
   }
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event details", item.event_id)
+        navigation.navigate("Event details", id)
       }
     >
       <ListItem bottomDivider >
         <Icon 
-          //name={item.favourite ? 'star-sharp' : 'star-outline'}
-          name={name()}
+          name={favourite ? 'star-outline' : 'star-sharp'}
           type='ionicon'
           onPress={handleFavouriteClick}
         /> 
         <ListItem.Content>
-          <ListItem.Title>{item.shortDescription}</ListItem.Title>
-          <ListItem.Subtitle>{item.category}</ListItem.Subtitle>
+          <ListItem.Title>{title}</ListItem.Title>
+          <ListItem.Subtitle>{location}</ListItem.Subtitle>
         </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
@@ -137,7 +123,8 @@ const Item = ({item}) => {
           <FlatList 
               data={allEvents}
               keyExtractor={(item, index) => item + index} 
-              renderItem={({item}) => <Item item = {item}/>}
+              //renderItem={({item}) => <Item item = {item}/>}
+              renderItem={({item}) => (<Event id={item.event_id} title={item.shortDescription} location={item.category} date={item.startTime}duration='60 min'/>)}
           />  
         </View>
       </SafeAreaView> 
