@@ -33,7 +33,7 @@ export default function Screen({ navigation }) {
       headerBackground: () => (
         <Image
           style={{ width: width, height: 150, }}
-          source={require('../assets/mainPic.jpg')}
+          source={require('../assets/restPic.jpg')}
         //source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/20150826_2130_MG_0302_c_Jussi_Hellsten.jpg/1920px-20150826_2130_MG_0302_c_Jussi_Hellsten.jpg'}}
         />
       ),
