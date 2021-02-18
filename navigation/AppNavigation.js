@@ -55,7 +55,7 @@ const restStack = createStackNavigator();
 function restorantsStackScreen() {
     return (
       <restStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-        <restStack.Screen name="Events" component={Screen}  />
+        <restStack.Screen name="Late Bites" component={Screen}  />
         <restStack.Screen name="My Schedule" component={MySchedule} />
       </restStack.Navigator>
     );
