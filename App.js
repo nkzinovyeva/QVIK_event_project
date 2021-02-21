@@ -8,7 +8,7 @@ import  AppLoading from "expo-app-loading";
 
 /*const customFonts = () => {
   Font.loadAsync({
-    sanfrancisco: require("./assets/fonts/SF-Pro-Display-Regular.otf"),
+    sanfrancisco: require("./constants/fonts/SF-Pro-Display-Regular.otf"),
   });
 };*/
 

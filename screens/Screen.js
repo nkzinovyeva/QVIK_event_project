@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Text, View, Pressable, Image, Dimensions } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
-import Colors from "../assets/constants/colors";
+import Colors from "../constants/colors";
 import moment from "moment";
 
 const { width } = Dimensions.get("screen");

@@ -2,12 +2,14 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator} from '@react-navigation/stack';
 import EventsScreen from "../screens/EventsScreen";
+import EventsDetails from "../screens/EventDetails";
+//import EventsScreen from "../screens/EventsScreen_test";
 import Screen from "../screens/Screen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
-import Colors from "../assets/constants/colors";
+import Colors from "../constants/colors";
 
-//default options for the screens
+//default options for the screens || check later if needed
 const defaultNavOptions =  {
   headerStyle: {
     height: 150,
@@ -15,11 +17,11 @@ const defaultNavOptions =  {
   },
   headerTintColor: Colors.whiteColor,
   headerTitleStyle: {
-    //fontWeight: 'bold',
-    fontSize: 32,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    fontFamily: 'System',
+    fontSize: 32,  
+    fontFamily: 'System', 
+    color: Colors.whiteColor
+    //alignSelf: 'center',
+    //justifyContent: 'center',
   },
   headerBackTitleStyle: {
   }
@@ -31,32 +33,31 @@ const eventsStack = createStackNavigator();
 function EventsStackScreen() {
     return (
       <eventsStack.Navigator screenOptions={() => (defaultNavOptions)}  >
-        <eventsStack.Screen name="Night(s) of Arts" component={EventsScreen} />
-        <eventsStack.Screen name="MySchedule" component={MySchedule} />
+        <eventsStack.Screen name="Whole Schedule" component={EventsScreen} />
+        <eventsStack.Screen name="Event" component={EventsDetails} /> 
       </eventsStack.Navigator>
     );
 }
 
-// mySchedule stack  - fake at this moment
+
 const myScheduleStack = createStackNavigator();
 
 function MyScheduleStackScreen() {
     return (
         <myScheduleStack.Navigator screenOptions={() => (defaultNavOptions)}  >
             <myScheduleStack.Screen name="My Schedule" component={MySchedule} />
-            <myScheduleStack.Screen name="Events" component={Screen} />
+            <myScheduleStack.Screen name="Event" component={EventsDetails} /> 
       </myScheduleStack.Navigator>
     );
 }
 
-// restorants stack - fake at this moment
+
 const restStack = createStackNavigator();
 
 function restorantsStackScreen() {
     return (
       <restStack.Navigator screenOptions={() => (defaultNavOptions)}  >
         <restStack.Screen name="Late Bites" component={Screen}  />
-        <restStack.Screen name="My Schedule" component={MySchedule} />
       </restStack.Navigator>
     );
 }

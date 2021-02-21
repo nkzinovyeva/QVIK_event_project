@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+mport { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList  } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,14 +16,15 @@ export default function EventsScreen({navigation}) {
   const dataUrl = 'https://qvik.herokuapp.com/api/v1/events';
   const [mainEvent, setMainEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+  const [sortedEvents, setSortedEvents] = useState([]);
   const [venue, setVenue] = useState('');
-  
+
   //header component 
   const LogoTitle = () => {
     return (
         <View style={{alignItems: 'flex-start'}}>
-          <Text style={{fontSize: 32, fontFamily: 'System', color: Colors.whiteColor}}>{mainEvent.title}</Text>
-          <Text style={{fontSize: 16, fontFamily: 'System', color: Colors.whiteColor}}>{venue}, {moment(mainEvent.startDate).format("MMM Do")} - {moment(mainEvent.endDate).format("Do YYYY")}</Text>
+          <Text style={{fontSize: 32,  fontFamily: 'System', color: Colors.whiteColor}}>{mainEvent.title}</Text>
+          <Text style={{fontSize: 16,  fontFamily: 'System', color: Colors.whiteColor}}>{venue}, {moment(mainEvent.startDate).format("MMM Do")} - {moment(mainEvent.endDate).format("Do YYYY")}</Text>
         </View>
     );
   }
@@ -40,9 +41,11 @@ export default function EventsScreen({navigation}) {
     });
   }, [navigation]);
   
+
   //hooks
   useEffect(() => {
     getAllEvents();
+    getSortedEvents(); // function to refactor the data with whe titles
   }, []);
 
   // get all events
@@ -60,6 +63,40 @@ export default function EventsScreen({navigation}) {
         Alert.alert('Error', error); 
     });
   };
+
+  //****--------------------------****//
+  // block for the refactoring data (get sorted by dates + title)
+
+  async function makeSort(arr) {
+
+    const groups = arr.reduce((groups, event) => {
+      const date = event.startDate
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(event);
+      return groups;
+    }, {});
+
+    const groupArrays = Object.keys(groups).map((date) => {
+      return {
+        date,
+        events: groups[date]
+      };
+    });
+
+    return groupArrays;
+
+  }
+  
+  async function getSortedEvents() {
+    console.log('Im here too')
+    let result = await makeSort(allEvents);
+    setSortedEvents(result); // 
+   }
+
+//***----------------------***//
+
 
 // store data in Favourites || to be moved to functions
 const storeData = async (key, value) => {
@@ -104,7 +141,7 @@ const Event = ({item}) => {
     passed = true;
   }
     
-  const [favourite, setFavourite] = useState(false) 
+  const [favourite, setFavourite] = useState(false)  // flag used for the star icon
 
   //handle saving/unsaving the event to Favourites 
   const handleFavouriteClick = () => {
@@ -117,7 +154,7 @@ const Event = ({item}) => {
       }
   }
 
-  return ( // passed should be !passed (to change after tests!)
+  return ( // 'passed' should be '!passed' (to change after tests!)
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("Event details", id) // TO PASS TO THE EVENT PAGE
@@ -143,18 +180,43 @@ const Event = ({item}) => {
   );
 }
 
+//****--------------------------****//
+// function to delay rendering
+
+  const Delayed = ({ children, waitBeforeShow = 1000 }) => {
+    const [isShown, setIsShown] = useState(false);
+  
+    useEffect(() => {
+      setTimeout(() => {
+        setIsShown(true);
+      }, waitBeforeShow);
+    }, [waitBeforeShow]);
+  
+    return isShown ? children : null;
+  };
+
+//****--------------------------****//
+
 //return flatlist
   return (
       <SafeAreaView style={styles.screen}>
+        <Delayed>
           <View style={{ }}>
             <FlatList 
                 data={allEvents}
                 keyExtractor={(item, index) => item + index} 
-                //renderItem={({item}) => <Text>text</Text>}
                 renderItem={({item}) => <Event item={item}/>}
             />
-            
+
+            <SectionList
+                sections={sortedEvents}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({item}) => <Event item={item}/>}
+                renderSectionHeader={({ section: { date } }) => (<Text>{date}</Text>)}
+            />
+
           </View>
+        </Delayed>
       </SafeAreaView> 
     );
 }
@@ -168,6 +230,55 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backwhite,
     paddingTop: StatusBar.currentHeight,
   },
-  
 }
+
 );
+
+
+/*
+//****--------------------------****
+DIFFERENT APROACH TO HAVE A TITLED LIST:
+
+fetch ParentEvent -> calculate dates it lasts -> fetch data from API by dates
+
+DATA sample = [
+    {
+      title: "date", (momentsjs to convert to dayweek)
+      data: [event1,event2..]
+    },
+    ...
+];
+
+get dates:
+
+  var startDate = mainEvent.startDate
+  var endDate = mainEvent.endDate
+
+  function enumerateDaysBetweenDates (startDate, endDate){
+    let date = []
+    while(moment(startDate) <= moment(endDate)){
+      date.push(startDate);
+      startDate = moment(startDate).add(1, 'days').format("YYYY-MM-DD");
+    }
+    return date;
+  }
+  
+  console.log(JSON.stringify(enumerateDaysBetweenDates(startDate, endDate)))
+
+  for (let item of enumerateDaysBetweenDates(startDate, endDate)) {
+    
+  }
+
+ ////** timeout for the rendering
+  
+const [show, setShow] = useState(false)
+
+  useEffect(()=>{
+    const timeout = setTimeout(() => {
+      setShow(!show)
+    }, 5000);
+    return ()=> clearTimeout(timeout)
+  },[show])
+
+
+*/
