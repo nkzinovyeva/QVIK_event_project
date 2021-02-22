@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList  } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect } from 'react';
+import { Alert, StyleSheet, View,FlatList, ImageBackground, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList, ScrollView  } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {ListItem,} from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
 import { getEvents, addFavourite, removeFavourite, getParent} from '../redux/actions';
+import AppHeader from "../components/header"
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -47,6 +47,7 @@ export default function EventsScreen({navigation}) {
     return false;
   };
   
+  
   //header component 
   const LogoTitle = () => {
     return (
@@ -68,8 +69,9 @@ export default function EventsScreen({navigation}) {
       ),
     });
   }, [navigation]);
-  
 
+
+  
 //render the event
 const Event = ({item}) => {
 
@@ -140,5 +142,48 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backwhite,
     paddingTop: StatusBar.currentHeight,
   }, 
+  tag: {
+    backgroundColor: '#007AFF',
+    padding: 6,
+    margin: 5,
+    borderRadius: 10
+  },
+  tagText: {
+    color: 'white',
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    padding: 10,
+  },
 }
 );
+
+/*
+//alternative header
+  let tags = ["No smoking", "No smoking", "No smoking","No smoking","No smoking","No smoking"];
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false});
+  }, [navigation]);
+
+  return (
+      <SafeAreaView style={styles.container}>
+        <AppHeader 
+          tags={tags}
+          img={null}
+          //title={events.parentEvent.title} 
+          //subTitle={events.parentEvent.eventVenues[0].venue.name + ', ' + (moment(events.parentEvent.startDate).format("MMM Do") +  " - " + moment(events.parentEvent.endDate).format("Do YYYY"))}
+          backButton={false}
+          adminButton={true}
+        />
+          <View style={{ }}>
+            <FlatList 
+                data={events.subEvents}
+                keyExtractor={item => item.eventId.toString()} 
+                renderItem={({item}) => <Event item={item}/>}
+            />
+          </View>
+      </SafeAreaView> 
+    );
+*/

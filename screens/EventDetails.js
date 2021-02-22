@@ -6,6 +6,7 @@ import { ListItem, } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 
+
 export default function EventDetailsScreen({ route, navigation }) {
   //get the width of the screen
   const { width } = Dimensions.get("screen");
@@ -18,7 +19,7 @@ export default function EventDetailsScreen({ route, navigation }) {
   }, []);
 
   React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
+    navigation.setOptions({ headerShown: false});
   }, [navigation]);
 
   // //header component 
@@ -89,51 +90,49 @@ export default function EventDetailsScreen({ route, navigation }) {
   }
   else {
     return (
+      
       <SafeAreaView style={styles.screen}>
-
         <View style={{ height: 150 }}>
-
-          <ImageBackground source={require('../assets/mainPic.jpg')}
-            style={styles.image}
-          >
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Icon
-                name='chevron-back'
-                type='ionicon'
-                color='white'
-                onPress={() => navigation.goBack()}
-              />
+        <ImageBackground source={require('../assets/mainPic.jpg')}
+          style={styles.image}
+        >
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Icon
+              name='chevron-back'
+              type='ionicon'
+              color='white'
+              onPress={() => navigation.goBack()}
+            />
+          </View>
+          <View style={{ flex: 4, justifyContent: 'center', }}>
+            <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor, marginTop: 25 }}>{event.title}</Text>
+            <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor }}>{event.eventVenues[0].venue.name}, {moment(event.startDate).format("MMM Do")} - {moment(event.endDate).format("Do YYYY")}</Text>
+            <View>
+              <ScrollView style={{}}
+                horizontal={true}
+                contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+              >
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>No smoking</Text>
+                </View>
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>No smoking</Text>
+                </View>
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>No smoking</Text>
+                </View>
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>No smoking</Text>
+                </View>
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>No smoking</Text>
+                </View>
+              </ScrollView>
             </View>
-
-            <View style={{ flex: 4, justifyContent: 'center', }}>
-              <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor, marginTop: 25 }}>{event.title}</Text>
-              <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor }}>{event.eventVenues[0].venue.name}, {moment(event.startDate).format("MMM Do")} - {moment(event.endDate).format("Do YYYY")}</Text>
-              <View>
-                <ScrollView style={{}}
-                  horizontal={true}
-                  contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <View style={styles.tag}>
-                    <Text style={styles.tagText}>No smoking</Text>
-                  </View>
-                  <View style={styles.tag}>
-                    <Text style={styles.tagText}>No smoking</Text>
-                  </View>
-                  <View style={styles.tag}>
-                    <Text style={styles.tagText}>No smoking</Text>
-                  </View>
-                  <View style={styles.tag}>
-                    <Text style={styles.tagText}>No smoking</Text>
-                  </View>
-                  <View style={styles.tag}>
-                    <Text style={styles.tagText}>No smoking</Text>
-                  </View>
-                </ScrollView>
-              </View>
-            </View>
-          </ImageBackground>
+          </View>
+        </ImageBackground>
         </View>
-
+        
         <View style={{}}>
           <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: 'white' }}>{event.fullDescription}</Text>
         </View>
@@ -167,3 +166,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+/*
+//possible to use external component:
+
+import AppHeader from "../components/header";
+
+let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
+
+  <AppHeader 
+    tags={tags}
+    img={null}
+    title={event.title} 
+    subTitle={event.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
+    backButton={true}
+    adminButton={true}
+    navigation={navigation}
+  />
+
+  */
