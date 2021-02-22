@@ -91,7 +91,7 @@ const Event = ({item}) => {
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event details", id) // TO PASS TO THE EVENT PAGE
+        navigation.navigate("Event", id) // TO PASS TO THE EVENT PAGE
       }
     >
       <ListItem bottomDivider >
