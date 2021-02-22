@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import { ListItem, } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
-
+import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
   //get the width of the screen
@@ -69,6 +69,8 @@ export default function EventDetailsScreen({ route, navigation }) {
   //   });
   // }, 1000);
 
+  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
+
   const getEvent = () => {
     const url = dataUrl;
     fetch(url)
@@ -84,15 +86,62 @@ export default function EventDetailsScreen({ route, navigation }) {
   if (!event) {
     return (
       <View>
-        <Text>Something went wrong</Text>
+        <Text>Loading..</Text>
       </View>
     )
   }
   else {
     return (
-      
       <SafeAreaView style={styles.screen}>
-        <View style={{ height: 150 }}>
+        <AppHeader 
+          tags={tags}
+          img={null}
+          title={event.title} 
+          subTitle={event.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
+          backButton={true}
+          adminButton={true}
+          navigation={navigation}
+        />
+        <View style={{}}>
+          <ScrollView >
+            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: 'white' }}>{event.fullDescription}</Text>
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tag: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    margin: 5,
+    borderRadius: 16
+  },
+  tagText: {
+    color: 'white',
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    flexDirection: 'row',
+  },
+});
+
+/*
+//possible to use external component:
+
+  <View style={{ height: 150 }}>
         <ImageBackground source={require('../assets/mainPic.jpg')}
           style={styles.image}
         >
@@ -132,56 +181,5 @@ export default function EventDetailsScreen({ route, navigation }) {
           </View>
         </ImageBackground>
         </View>
-        
-        <View style={{}}>
-          <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: 'white' }}>{event.fullDescription}</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tag: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    margin: 5,
-    borderRadius: 16
-  },
-  tagText: {
-    color: 'white',
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-    flexDirection: 'row',
-  },
-});
-
-/*
-//possible to use external component:
-
-import AppHeader from "../components/header";
-
-let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
-
-  <AppHeader 
-    tags={tags}
-    img={null}
-    title={event.title} 
-    subTitle={event.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
-    backButton={true}
-    adminButton={true}
-    navigation={navigation}
-  />
 
   */

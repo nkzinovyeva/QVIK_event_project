@@ -22,11 +22,11 @@ export default AppHeader = (props) => {
     }
 
   return (
-  <View style={{ paddingTop: StatusBar.currentHeight, height: 150 }}>
+  <View style={{ height: 180 }}>
     <ImageBackground source={require('../assets/mainPic.jpg')}
       style={styles.image}
     >
-      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: "row"  }}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: "row", paddingTop: 30 }}>
       {!props.backButton ? (<Text></Text> ) 
         : (<Icon
               name='chevron-back'
@@ -38,8 +38,8 @@ export default AppHeader = (props) => {
           {!props.adminButton ? (<Text></Text> ) 
         : (
         <Icon
-          name='admin-panel-settings'
-          type='material'
+          name='users-cog'
+          type='font-awesome-5'
           color='white'
           size={25}
           onPress={props.adminButton ? () => {} : {}}
