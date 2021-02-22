@@ -5,6 +5,7 @@ import { BASE_URL } from '../config';
 export const GET_EVENTS = 'GET_EVENTS';
 export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
+//export const GET_PARENT = 'GET_PARENT';
 
 export const getEvents = () => {
     try {
@@ -20,7 +21,6 @@ export const getEvents = () => {
         }
       };
     } catch (error) {
-      // Add custom logic to handle errors
       console.log(error);
     }
   };
@@ -38,3 +38,27 @@ export const getEvents = () => {
       payload: event
     });
   };
+
+  
+  /* ATTEMPT TO GET THE PARENT INFO 
+
+  export const getParent = () => {
+    try {
+      return async dispatch => {
+        const response = await axios.get(`${BASE_URL}`);
+        if (response.data) {
+          dispatch({
+            type: GET_PARENT,
+            payload: response.data.data.parentEvent
+          });
+        } else {
+          console.log('Unable to fetch data from the API BASE URL!');
+        }
+      };
+    } catch (error) {
+      // Add custom logic to handle errors
+      console.log(error);
+    }
+  };
+*/
+  

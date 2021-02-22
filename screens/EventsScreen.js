@@ -7,7 +7,7 @@ import {ListItem,} from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, addFavourite, removeFavourite} from '../redux/actions';
+import { getEvents, addFavourite, removeFavourite, getParent} from '../redux/actions';
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -19,12 +19,14 @@ export default function EventsScreen({navigation}) {
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
+  //const fetchParent = () => dispatch(getParent());
 
   useEffect(() => {
+    //fetchParent();
     fetchEvents();
   }, []);
   console.log(events)
-
+  
   const addToFavouriteList = event => dispatch(addFavourite(event));
   const removeFromFavouriteList = event => dispatch(removeFavourite(event));
 
