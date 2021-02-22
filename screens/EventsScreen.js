@@ -6,6 +6,8 @@ import { Icon } from 'react-native-elements';
 import {ListItem,} from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
+import { useSelector, useDispatch } from 'react-redux';
+import { getEvents, addFavourite, removeFavourite} from '../redux/actions';
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -13,17 +15,42 @@ const { width } = Dimensions.get("screen");
 export default function EventsScreen({navigation}) {
 
   //constants
-  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events';
-  const [mainEvent, setMainEvent] = useState({});
-  const [allEvents, setAllEvents] = useState([]);
-  const [venue, setVenue] = useState('');
+  const { events, favourites, parent } = useSelector(state => state.eventsReducer);
+  const dispatch = useDispatch();
+
+  const fetchEvents = () => dispatch(getEvents());
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+  console.log(events)
+
+  const addToFavouriteList = event => dispatch(addFavourite(event));
+  const removeFromFavouriteList = event => dispatch(removeFavourite(event));
+
+  const handleAddFavourite = event => {
+    addToFavouriteList(event);
+    Alert.alert("The event is saved in Favourites")
+  };
+
+  const handleRemoveFavourite = event => {
+    removeFromFavouriteList(event);
+    Alert.alert("The event is removed from Favourites")
+  };
+
+  const ifExists = event => {
+    if (favourites.filter(item => item.eventId === event.eventId).length > 0) {
+      return true;
+    }
+    return false;
+  };
   
   //header component 
   const LogoTitle = () => {
     return (
         <View style={{alignItems: 'flex-start'}}>
-          <Text style={{fontSize: 32, fontFamily: 'System', color: Colors.whiteColor}}>{mainEvent.title}</Text>
-          <Text style={{fontSize: 16, fontFamily: 'System', color: Colors.whiteColor}}>{venue}, {moment(mainEvent.startDate).format("MMM Do")} - {moment(mainEvent.endDate).format("Do YYYY")}</Text>
+          <Text style={{fontSize: 32, fontFamily: 'System', color: Colors.whiteColor}}>{parent.title}</Text>
+          <Text style={{fontSize: 16, fontFamily: 'System', color: Colors.whiteColor}}>{parent.venue}, {moment(parent.startDate).format("MMM Do")} - {moment(parent.endDate).format("Do YYYY")}</Text>
         </View>
     );
   }
@@ -40,51 +67,6 @@ export default function EventsScreen({navigation}) {
     });
   }, [navigation]);
   
-  //hooks
-  useEffect(() => {
-    getAllEvents();
-  }, []);
-
-  // get all events
-  const getAllEvents = () => {
-    const url = dataUrl;
-    fetch(url)
-    .then((response) => response.json())
-    .then((jsondata) => {
-        setAllEvents(jsondata.data.subEvents);
-        setMainEvent(jsondata.data.parentEvent)
-        setVenue(jsondata.data.parentEvent.eventVenues[0].venue.name)
-      }
-    )
-    .catch((error) => { 
-        Alert.alert('Error', error); 
-    });
-  };
-
-// store data in Favourites || to be moved to functions
-const storeData = async (key, value) => {
-  const keyStr = key.toString()
-  try {
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.setItem(keyStr, jsonValue)
-    Alert.alert("The event is saved in Favourites")
-  } catch (e) {
-    Alert.alert("Error in saving data");
-  }
-}
-
-// remove data from Favorites || to be moved to functions
-const removeData = async(key)=>{
-  const keyStr = key.toString()
-  try {
-      await AsyncStorage.removeItem(keyStr);
-      Alert.alert("The event is removed from Favourites")
-    }
-    catch (e) {
-      Alert.alert("Error in removing data");
-    }
-};
-
 
 //render the event
 const Event = ({item}) => {
@@ -104,19 +86,6 @@ const Event = ({item}) => {
     passed = true;
   }
     
-  const [favourite, setFavourite] = useState(false) 
-
-  //handle saving/unsaving the event to Favourites 
-  const handleFavouriteClick = () => {
-    setFavourite(!favourite)
-      if (!favourite) {
-        storeData(id, { id, title, stage, venue, time, duration, favourite });
-      }
-      else if (favourite) {
-        removeData(id)
-      }
-  }
-
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
@@ -124,16 +93,22 @@ const Event = ({item}) => {
       }
     >
       <ListItem bottomDivider >
-        <Icon 
-          name={!favourite ? 'star-outline' : 'star-sharp'}
-          type='ionicon'
-          onPress={handleFavouriteClick}
-        /> 
+        <TouchableOpacity
+          onPress={() =>
+            ifExists(item) ? handleRemoveFavourite(item) : handleAddFavourite(item)
+          }
+        >
+          <Icon
+            size={24}
+            name={ifExists(item) ? 'star-sharp' : 'star-outline'}
+            type='ionicon'
+          />
+        </TouchableOpacity>
         <ListItem.Content>
           <ListItem.Title>{title}</ListItem.Title>
           <ListItem.Subtitle>{stage}</ListItem.Subtitle>
         </ListItem.Content>
-        <ListItem.Content style={{ alignItems: 'flex-end', }}> 
+        <ListItem.Content style={{ alignItems: 'flex-end' }}> 
             <ListItem.Subtitle style={{ color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
             <ListItem.Subtitle style={{ color: passed ? Colors.blueColor : Colors.blackColor }}>{duration} min</ListItem.Subtitle>
           </ListItem.Content>
@@ -145,15 +120,13 @@ const Event = ({item}) => {
 
 //return flatlist
   return (
-      <SafeAreaView style={styles.screen}>
+      <SafeAreaView style={styles.container}>
           <View style={{ }}>
             <FlatList 
-                data={allEvents}
-                keyExtractor={(item, index) => item + index} 
-                //renderItem={({item}) => <Text>text</Text>}
+                data={events.subEvents}
+                keyExtractor={item => item.eventId.toString()} 
                 renderItem={({item}) => <Event item={item}/>}
             />
-            
           </View>
       </SafeAreaView> 
     );
@@ -162,12 +135,8 @@ const Event = ({item}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: Colors.backwhite,
     paddingTop: StatusBar.currentHeight,
-  },
-  
+  }, 
 }
 );

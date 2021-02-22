@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://qvik.herokuapp.com/api/v1/events';

@@ -1,4 +1,4 @@
-mport { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet, View,FlatList, Pressable, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList  } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';

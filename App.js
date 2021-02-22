@@ -1,10 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import AppNav from "./navigation/AppNavigation";
 import { NavigationContainer } from '@react-navigation/native';
-import * as Font from "expo-font";
-import  AppLoading from "expo-app-loading";
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { store, persistor } from './redux/store';
+//import * as Font from "expo-font";
+//import  AppLoading from "expo-app-loading";
 
 /*const customFonts = () => {
   Font.loadAsync({
@@ -26,9 +30,13 @@ export default function App() {
   }*/
   
   return (
-      < NavigationContainer >
-          <AppNav headerMode="none" headerShown="false" />
-      </NavigationContainer >
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        < NavigationContainer >
+            <AppNav headerMode="none" headerShown="false" />
+        </NavigationContainer >
+      </PersistGate>
+    </Provider>
   );
 };
 
