@@ -8,15 +8,15 @@ import {
 const initialState = {
   events: [],
   favourites: [],
-  parent: {title: "Night of art", venue: "Suvilahti", startDate: "2021-02-20", endDate: "2021-02-22"}
+  parent: {}
 };
 
 function eventsReducer(state = initialState, action) {
   switch (action.type) { 
     case GET_EVENTS:
         return { ...state, events: action.payload };
-    //case GET_PARENT:
-        //return { ...state, parent: action.payload };
+    case GET_PARENT:
+        return { ...state, parent: action.payload };
     case ADD_TO_FAVOURITE_LIST:
         return { ...state, favourites: [...state.favourites, action.payload] };
     case REMOVE_FROM_FAVOURITE_LIST:

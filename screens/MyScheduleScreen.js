@@ -23,25 +23,21 @@ export default function MyScheduleScreen({navigation}) {
     Alert.alert("The event is removed from Favourites")
   };
 
-  //header component 
-  const LogoTitle = () => {
-    return (
-        <View style={{alignItems: 'flex-start'}}>
-          <Text style={{fontSize: 32, fontFamily: 'System', color: Colors.whiteColor}}>My schedule</Text>
-          <Text style={{fontSize: 16, fontFamily: 'System', color: Colors.whiteColor}}>{parent.venue}, {moment(parent.startDate).format("MMM Do")} - {moment(parent.endDate).format("Do YYYY")}</Text>
-        </View>
-    );
-  }
+  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
 
+  //header component 
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <LogoTitle/>,
-      headerBackground: () => (
-        <Image
-          style={{ width: width, height: 150,}}
-          source={require('../assets/mainPic.jpg')}
-        />
-      ),
+      header: () => 
+        <AppHeader 
+          tags={tags}
+          img={require('../assets/mainPic.jpg')}
+          title="My schedule" 
+          subTitle={parent.eventVenues[0].venue.name + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          backButton={false}
+          adminButton={true} 
+        />,
     });
   }, [navigation]);
 

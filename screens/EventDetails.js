@@ -7,69 +7,45 @@ import Colors from "../constants/colors";
 import moment from "moment";
 import AppHeader from "../components/header";
 
+import { useSelector } from 'react-redux';
+
 export default function EventDetailsScreen({ route, navigation }) {
+   
   //get the width of the screen
   const { width } = Dimensions.get("screen");
 
   const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params;
   const [event, setEvent] = useState('');
 
+ //React.useLayoutEffect(() => {
+ //   navigation.setOptions({ 
+   //   headerShown: false});
+ // }, [navigation]);
+
   useEffect(() => {
     getEvent();
   }, []);
 
+  const { parent } = useSelector(state => state.eventsReducer);
+
+  //header component 
   React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false});
+    navigation.setOptions({
+      header: () => 
+        <AppHeader 
+          tags={tags}
+          img={require('../assets/eventPic.jpg')}
+          title={event.title} /// Problem with loading
+          subTitle={parent.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
+          backButton={true}
+          adminButton={true}
+          navigation={navigation}
+        />,
+    });
   }, [navigation]);
 
-  // //header component 
-  // function LogoTitle() {
-  //   return (
-  //     <View style={{ alignItems: 'flex-start' }}>
-  //       <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor }}>{event.title}</Text>
-  //       <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor }}> {moment(event.startDate).format("MMM Do")} - {moment(event.endDate).format("Do YYYY")}</Text>
-  //       <SafeAreaView style={styles.screen}>
-  //         <ScrollView style={{}}
-  //           horizontal={true}
-  //           automaticallyAdjustContentInsets={true}>
-  //           <View style={styles.tag}>
-  //             <Text style={styles.tagText}>No smoking</Text>
-  //           </View>
-  //           <View style={styles.tag}>
-  //             <Text style={styles.tagText}>No smoking</Text>
-  //           </View>
-  //           <View style={styles.tag}>
-  //             <Text style={styles.tagText}>No smoking</Text>
-  //           </View>
-  //           <View style={styles.tag}>
-  //             <Text style={styles.tagText}>No smoking</Text>
-  //           </View>
 
-  //         </ScrollView>
-  //       </SafeAreaView>
-
-  //     </View>
-  //   );
-  // }
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerTitle: <LogoTitle />,
-  //     headerBackground: () => (
-  //       <Image
-  //         style={{ width: width, height: 150, }}
-  //         source={require('../assets/mainPic.jpg')}
-  //       />
-  //     ),
-  //     // headerRight: () => (
-  //     //     <Pressable onPress={filter}>
-  //     //         <Icon name='filter-variant' type='material-community' color='white' marginRight={20} />
-  //     //     </Pressable>
-  //     // ),
-  //   });
-  // }, 1000);
-
-  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
+  let tags = ["No smoking", "Hosted by ", "Suvilahti", "Stage"];
 
   const getEvent = () => {
     const url = dataUrl;
@@ -93,18 +69,11 @@ export default function EventDetailsScreen({ route, navigation }) {
   else {
     return (
       <SafeAreaView style={styles.screen}>
-        <AppHeader 
-          tags={tags}
-          img={null}
-          title={event.title} 
-          subTitle={event.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
-          backButton={true}
-          adminButton={true}
-          navigation={navigation}
-        />
+          
         <View style={{}}>
-          <ScrollView >
-            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: 'white' }}>{event.fullDescription}</Text>
+          <ScrollView showsHorizontalScrollIndicator={true} >
+            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
+            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -117,7 +86,7 @@ export default function EventDetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.backwhite,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -182,4 +151,62 @@ const styles = StyleSheet.create({
         </ImageBackground>
         </View>
 
+
+        <StatusBar hidden={true} /> 
+        <AppHeader 
+            tags={tags}
+            img={require('../assets/eventPic.jpg')}
+            title={event.title} 
+            subTitle={event.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
+            backButton={true}
+            adminButton={true}
+            navigation={navigation}
+          />
+
+        // //header component 
+  // function LogoTitle() {
+  //   return (
+  //     <View style={{ alignItems: 'flex-start' }}>
+  //       <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor }}>{event.title}</Text>
+  //       <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor }}> {moment(event.startDate).format("MMM Do")} - {moment(event.endDate).format("Do YYYY")}</Text>
+  //       <SafeAreaView style={styles.screen}>
+  //         <ScrollView style={{}}
+  //           horizontal={true}
+  //           automaticallyAdjustContentInsets={true}>
+  //           <View style={styles.tag}>
+  //             <Text style={styles.tagText}>No smoking</Text>
+  //           </View>
+  //           <View style={styles.tag}>
+  //             <Text style={styles.tagText}>No smoking</Text>
+  //           </View>
+  //           <View style={styles.tag}>
+  //             <Text style={styles.tagText}>No smoking</Text>
+  //           </View>
+  //           <View style={styles.tag}>
+  //             <Text style={styles.tagText}>No smoking</Text>
+  //           </View>
+
+  //         </ScrollView>
+  //       </SafeAreaView>
+
+  //     </View>
+  //   );
+  // }
+
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerTitle: <LogoTitle />,
+  //     headerBackground: () => (
+  //       <Image
+  //         style={{ width: width, height: 150, }}
+  //         source={require('../assets/mainPic.jpg')}
+  //       />
+  //     ),
+  //     // headerRight: () => (
+  //     //     <Pressable onPress={filter}>
+  //     //         <Icon name='filter-variant' type='material-community' color='white' marginRight={20} />
+  //     //     </Pressable>
+  //     // ),
+  //   });
+  // }, 1000);
   */

@@ -5,7 +5,7 @@ import { BASE_URL } from '../config';
 export const GET_EVENTS = 'GET_EVENTS';
 export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
-//export const GET_PARENT = 'GET_PARENT';
+export const GET_PARENT = 'GET_PARENT';
 
 export const getEvents = () => {
     try {
@@ -39,9 +39,6 @@ export const getEvents = () => {
     });
   };
 
-  
-  /* ATTEMPT TO GET THE PARENT INFO 
-
   export const getParent = () => {
     try {
       return async dispatch => {
@@ -60,5 +57,5 @@ export const getEvents = () => {
       console.log(error);
     }
   };
-*/
+
   

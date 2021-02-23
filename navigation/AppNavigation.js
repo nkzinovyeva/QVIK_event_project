@@ -4,7 +4,7 @@ import { createStackNavigator} from '@react-navigation/stack';
 import EventsScreen from "../screens/EventsScreen";
 import EventsDetails from "../screens/EventDetails";
 //import EventsScreen from "../screens/EventsScreen_test";
-import Screen from "../screens/Screen";
+import Screen from "../screens/RestsScreen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
@@ -12,19 +12,16 @@ import Colors from "../constants/colors";
 //default options for the screens || check later if needed
 const defaultNavOptions =  {
   headerStyle: {
-    height: 150,
-    backgroundColor: Colors.backwhite,
-  },
+    height: 185,
+    //backgroundColor: Colors.backwhite,
+   },
   headerTintColor: Colors.whiteColor,
   headerTitleStyle: {
     fontSize: 32,  
     fontFamily: 'System', 
     color: Colors.whiteColor
-    //alignSelf: 'center',
-    //justifyContent: 'center',
   },
-  headerBackTitleStyle: {
-  }
+  headerLeft: null,
 }
 
 // main events stack 
@@ -32,7 +29,7 @@ const eventsStack = createStackNavigator();
 
 function EventsStackScreen() {
     return (
-      <eventsStack.Navigator screenOptions={() => (defaultNavOptions)}  >
+      <eventsStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
         <eventsStack.Screen name="Whole Schedule" component={EventsScreen} />
         <eventsStack.Screen name="Event" component={EventsDetails} /> 
       </eventsStack.Navigator>
@@ -44,7 +41,7 @@ const myScheduleStack = createStackNavigator();
 
 function MyScheduleStackScreen() {
     return (
-        <myScheduleStack.Navigator screenOptions={() => (defaultNavOptions)}  >
+        <myScheduleStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
             <myScheduleStack.Screen name="My Schedule" component={MySchedule} />
             <myScheduleStack.Screen name="Event" component={EventsDetails} /> 
       </myScheduleStack.Navigator>
@@ -106,10 +103,9 @@ export default function AppNav() {
             },
         }}
       >
-        <MainNav.Screen key="1" name="My Schedule" component={MyScheduleStackScreen} />
-        <MainNav.Screen key="2" name="Events" component={EventsStackScreen} />
+        <MainNav.Screen key="1" name="My Schedule" component={MyScheduleStackScreen}  options={{unmountOnBlur: true}} />
+        <MainNav.Screen key="2" name="Events" component={EventsStackScreen} options={{unmountOnBlur: true}} />
         <MainNav.Screen key="3" name="Late Bites" component={restorantsStackScreen} />
       </MainNav.Navigator>
   );
-
 }

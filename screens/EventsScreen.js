@@ -47,33 +47,27 @@ export default function EventsScreen({navigation}) {
     return false;
   };
   
-  
-  //header component 
-  const LogoTitle = () => {
-    return (
-        <View style={{alignItems: 'flex-start'}}>
-          <Text style={{fontSize: 32, fontFamily: 'System', color: Colors.whiteColor}}>{parent.title}</Text>
-          <Text style={{fontSize: 16, fontFamily: 'System', color: Colors.whiteColor}}>{parent.venue}, {moment(parent.startDate).format("MMM Do")} - {moment(parent.endDate).format("Do YYYY")}</Text>
-        </View>
-    );
-  }
+  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
 
+  //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <LogoTitle/>,
-      headerBackground: () => (
-        <Image
-          style={{ width: width, height: 150,}}
-          source={require('../assets/mainPic.jpg')}
-        />
-      ),
+      header: () => 
+        <AppHeader 
+          tags={tags}
+          img={require('../assets/mainPic.jpg')}
+          title={parent.title} 
+          subTitle={parent.eventVenues[0].venue.name + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          backButton={false}
+          adminButton={true} 
+        />,
     });
   }, [navigation]);
 
-
-  
 //render the event
 const Event = ({item}) => {
+
+  console.log(parent)
 
   let nowTime = moment().format('HH:mm:ss');
   let nowDate = moment().format('YYYY-MM-DD');
@@ -140,16 +134,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backwhite,
-    paddingTop: StatusBar.currentHeight,
+    //paddingTop: StatusBar.currentHeight,
   }, 
   tag: {
-    backgroundColor: '#007AFF',
+    backgroundColor: Colors.blueColor,
     padding: 6,
     margin: 5,
     borderRadius: 10
   },
   tagText: {
-    color: 'white',
+    color: Colors.whiteColor,
   },
   image: {
     flex: 1,
