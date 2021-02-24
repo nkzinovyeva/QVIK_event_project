@@ -1,21 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Text, View, Pressable, Image, Dimensions } from 'react-native';
-import { Icon, ListItem } from 'react-native-elements';
+import React, { useEffect } from 'react';
+import { StyleSheet, FlatList, SafeAreaView, TouchableOpacity, View, Dimensions } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
-import AppHeader from "../components/header"
+import AppHeader from "../components/header";
+import { useSelector, useDispatch } from 'react-redux';
+import { getRestaurants} from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
 export default function Screen({ navigation }) {
 
   //constants
-  const [restaurants, setRestaurants] = useState([]);
-  const dataUrl = 'https://qvik.herokuapp.com/api/v1/restaurants';
+  const { restaurants } = useSelector(state => state.eventsReducer);
+  const dispatch = useDispatch();
+
+  const fetchRestaurants = () => dispatch(getRestaurants());
 
   useEffect(() => {
-    getRestaurants();
+    fetchRestaurants();
   }, []);
 
   let tags = ["Fine-dine", "Tag1", "Tag2", "Tag3", "Tag4", "Tag5", "Tag3", "Tag4", "Tag5"];
@@ -34,18 +38,6 @@ export default function Screen({ navigation }) {
         />,
     });
   }, [navigation]);
-
-  //get restaurants
-  const getRestaurants = () => {
-    fetch(dataUrl)
-      .then((response) => response.json())
-      .then((jsondata) => {
-        setRestaurants(jsondata.data);
-      })
-      .catch((error) => {
-        Alert.alert('Error', error);
-      });
-  }
 
   const renderItem = ({ item }) => {
 
@@ -98,7 +90,6 @@ export default function Screen({ navigation }) {
         />
       </View>
     </SafeAreaView>
-
   );
 }
 

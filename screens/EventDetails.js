@@ -53,6 +53,7 @@ export default function EventDetailsScreen({ route, navigation }) {
       .then((response) => response.json())
       .then((jsondata) => {
         setEvent(jsondata.data);
+        console.log(jsondata.data)
       })
       .catch((error) => {
         Alert.alert('Error', error);
@@ -72,7 +73,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           
         <View style={{}}>
           <ScrollView showsHorizontalScrollIndicator={true} >
-            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
+            <Text style={{ fontSize: 24, padding: 16, lineHeight: 30, color: Colors.blueColor, backgroundColor: Colors.backwhite }}>{event.title}</Text>
             <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
           </ScrollView>
         </View>

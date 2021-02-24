@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { BASE_URL } from '../config';
+import { BASE_URL, RESTAURANT_URL } from '../config';
+
 
 // Define action types
 export const GET_EVENTS = 'GET_EVENTS';
 export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const GET_PARENT = 'GET_PARENT';
+export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 
 export const getEvents = () => {
     try {
@@ -58,4 +60,21 @@ export const getEvents = () => {
     }
   };
 
-  
+  export const getRestaurants = () => {
+    try {
+      return async dispatch => {
+        const response = await axios.get(`${RESTAURANT_URL}`);
+        if (response.data) {
+          dispatch({
+            type: GET_RESTAURANTS,
+            payload: response.data.data
+          });
+        } else {
+          console.log('Unable to fetch data from the API BASE URL!');
+        }
+      };
+    } catch (error) {
+      // Add custom logic to handle errors
+      console.log(error);
+    }
+  };
