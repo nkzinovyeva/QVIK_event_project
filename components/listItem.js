@@ -6,15 +6,8 @@ import theme from '../constants/theme';
 
 
 export default AppList = (props) => {
-
-    const leftIcon = props.leftIcon;
-    const iconName = props.iconName;
-    const iconAction = props.iconAction;
-    const title = props.title;
-    const subtitle = props.subtitle;
-    const rightTopSubtitle = props.rightTopSubtitle;
-    const rightBottomSubtitle = props.rightBottomSubtitle;
-    const passed = props.passed;
+    
+    const { leftIcon, iconName, iconAction, title, subtitle, rightTopSubtitle, rightBottomSubtitle, passed } = props;
 
     return (
         <ListItem bottomDivider >
@@ -34,11 +27,11 @@ export default AppList = (props) => {
                 <ListItem.Subtitle style={styles.subtitle} >{subtitle}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Content style={styles.rightContent}>
-                <ListItem.Subtitle style={{ fontSize: theme.fontSizes.listSubtitle, color: passed ? theme.colors.blueColor : theme.colors.redColor}}>{rightTopSubtitle}</ListItem.Subtitle>
-                <ListItem.Subtitle style={{ fontSize: theme.fontSizes.listSubtitle, color: passed ? theme.colors.blueColor : theme.colors.redColor }}>{rightBottomSubtitle}</ListItem.Subtitle>
+                <ListItem.Subtitle style={{ fontSize: theme.fontSizes.listSubtitle, color: !passed ? theme.colors.blueColor : theme.colors.redColor}}>{rightTopSubtitle}</ListItem.Subtitle>
+                <ListItem.Subtitle style={{ fontSize: theme.fontSizes.listSubtitle, color: !passed ? theme.colors.blueColor : theme.colors.redColor }}>{rightBottomSubtitle}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron
-                color={passed ? theme.colors.blueColor : theme.colors.redColor} />
+                color={!passed ? theme.colors.blueColor : theme.colors.redColor} />
         </ListItem>
     )
 

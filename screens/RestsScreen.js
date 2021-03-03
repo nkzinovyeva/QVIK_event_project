@@ -7,6 +7,7 @@ import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector, useDispatch } from 'react-redux';
 import { getRestaurants } from '../redux/actions';
+import AppList from "../components/listItem";
 
 const { width } = Dimensions.get("screen");
 
@@ -33,8 +34,8 @@ export default function Screen({ navigation }) {
           img={require('../assets/restPic.jpg')}
           title="Late Bites"
           subTitle="@Helsinki region"
-          backButton={false}
-          adminButton={true}
+          leftButton={false}
+          rightButton={false}  
         />,
     });
   }, [navigation]);
@@ -49,12 +50,12 @@ export default function Screen({ navigation }) {
     var closed = "";
 
     if (item.closeTime > now && now > item.openTime) {
-      closed = false;
+      closed = true;
       status = "Open till";
       time = moment(item.closeTime, "HH:mm:ss").format('LT');
     }
     else {
-      closed = true;
+      closed = false;
       status = "Closed till";
       time = moment(item.openTime, "HH:mm:ss").format('LT');
     }

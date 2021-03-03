@@ -7,12 +7,10 @@ import Colors from "../constants/colors";
 import moment from "moment";
 import AppHeader from "../components/header";
 
-import { useSelector } from 'react-redux';
-
 export default function EventDetailsScreen({ route, navigation }) {
   
-  //console.log('props', props)
-  const {id, title, subTitle, tags } = route.params;
+  const { title, subTitle, tags } = route.params;
+
   //get the width of the screen
   const { width } = Dimensions.get("screen");
 
@@ -28,8 +26,6 @@ export default function EventDetailsScreen({ route, navigation }) {
     getEvent();
   }, []);
 
-  const { parent } = useSelector(state => state.eventsReducer);
-
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -37,18 +33,14 @@ export default function EventDetailsScreen({ route, navigation }) {
         <AppHeader 
           tags={tags}
           img={require('../assets/eventPic.jpg')}
-          title={title} /// Problem with loading
+          title={title} 
           subTitle={subTitle}
-          //subTitle={parent.venue + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
-          backButton={true}
-          adminButton={true}
+          leftButton={false}
+          rightButton={true} 
           navigation={navigation}
         />,
     });
   }, [navigation]);
-
-
-  //let tags = ["No smoking", "Hosted by ", "Suvilahti", "Stage"];
 
   const getEvent = () => {
     const url = dataUrl;
@@ -56,7 +48,7 @@ export default function EventDetailsScreen({ route, navigation }) {
       .then((response) => response.json())
       .then((jsondata) => {
         setEvent(jsondata.data);
-        console.log(jsondata.data)
+        //console.log(jsondata.data)
       })
       .catch((error) => {
         Alert.alert('Error', error);

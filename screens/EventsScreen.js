@@ -23,7 +23,6 @@ export default function EventsScreen({ navigation }) {
 
   useEffect(() => {
     fetchEvents();
-    console.log("events ", events)
   }, []);
 
   const addToFavouriteList = event => dispatch(addFavourite(event));
@@ -43,10 +42,8 @@ export default function EventsScreen({ navigation }) {
     if (favourites.filter(item => item.eventId === event.eventId).length > 0) {
       return true;
     }
-    return false;
+      return false;
   };
-
-  //let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
 
   //header component 
   React.useLayoutEffect(() => {
@@ -55,18 +52,16 @@ export default function EventsScreen({ navigation }) {
         <AppHeader
           tags={parent.allTags}
           img={require('../assets/mainPic.jpg')}
-          title={parent.title}
-          subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") + " - " + moment(parent.endDate).format("Do YYYY"))}
-          backButton={false}
-          adminButton={true}
+          title={parent.title} 
+          subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          leftButton={false}
+          rightButton={false}  
         />,
     });
   }, [navigation]);
 
   //render the event
   const Event = ({ item }) => {
-
-    console.log('item', item)
 
     //variables to pass to the event-page
     let date = moment(item.startDate, "YYYY-MM-DD")
@@ -76,7 +71,7 @@ export default function EventsScreen({ navigation }) {
     let title = item.title
     let stage = item.stage
     let id = item.eventId
-    let tags = item.tags
+    let tags = [...item.tags, `Hosted by ${item.presenters}`, `${venue}, ${stage}`, item.inheritedTags ]
 
     //code-block to check the passed/future events
     let nowTime = moment().format('HH:mm:ss');
@@ -91,10 +86,16 @@ export default function EventsScreen({ navigation }) {
 
     let rightBottomSubtitle = duration + " min";
 
-    return ( // passed should be !passed (to change after tests!)
+    return ( 
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("Event", { id: id, title: title, subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, tags: tags }) // TO PASS TO THE EVENT PAGE
+          navigation.navigate("Event", 
+            { 
+              id: id,
+              title: title, 
+              subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
+              tags: tags,
+            }) // TO PASS TO THE EVENT PAGE
         }
       >
         <AppList

@@ -7,6 +7,7 @@ import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFavourite } from '../redux/actions';
+import AppList from "../components/listItem";
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -23,8 +24,6 @@ export default function MyScheduleScreen({navigation}) {
     Alert.alert("The event is removed from Favourites")
   };
 
-  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
-
   //header component 
   
   React.useLayoutEffect(() => {
@@ -35,8 +34,8 @@ export default function MyScheduleScreen({navigation}) {
           img={require('../assets/mainPic.jpg')}
           title="My schedule" 
           subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
-          backButton={false}
-          adminButton={true} 
+          leftButton={false}
+          rightButton={false}
         />,
     });
   }, [navigation]);
@@ -44,7 +43,6 @@ export default function MyScheduleScreen({navigation}) {
 //render the event
 const Event = ({item}) => {
 
-  
   //variables to pass to the event-page
   let date = moment(item.startDate, "YYYY-MM-DD")
   let time = moment(item.startTime, "HH:mm:ss").format('LT');
@@ -65,8 +63,6 @@ const Event = ({item}) => {
     passed = true;
   }
     
-  let rightBottomSubtitle = duration + " min";
-
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
@@ -79,8 +75,8 @@ const Event = ({item}) => {
           iconAction={() => handleRemoveFavourite(item)}
           title={title}
           subtitle={stage}
-          rightTopSubtitle={time}
-          rightBottomSubtitle={rightBottomSubtitle}
+          rightTopSubtitle={date.format('ll')}
+          rightBottomSubtitle={time}
           passed={passed}
         />
       {/* <ListItem bottomDivider >
