@@ -46,7 +46,7 @@ const Event = ({item}) => {
 
   
   //variables to pass to the event-page
-  let date = moment(item.startDate, "YYYY-MM-DD").format('ddd')
+  let date = moment(item.startDate, "YYYY-MM-DD")
   let time = moment(item.startTime, "HH:mm:ss").format('LT');
   let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
   let venue = parent.venue
@@ -68,7 +68,7 @@ const Event = ({item}) => {
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event", {id:id, title:title, subTitle:`@${venue}, ${date}, ${time}, ${duration} min`, tags:tags } ) // TO PASS TO THE EVENT PAGE
+        navigation.navigate("Event", {id:id, title:title, subTitle:`@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, tags:tags } ) // TO PASS TO THE EVENT PAGE
       }
     >
       <ListItem bottomDivider >
