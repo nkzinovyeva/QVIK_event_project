@@ -6,7 +6,7 @@ import Colors from "../constants/colors";
 import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector, useDispatch } from 'react-redux';
-import { getRestaurants} from '../redux/actions';
+import { getRestaurants } from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
@@ -27,22 +27,22 @@ export default function Screen({ navigation }) {
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => 
-        <AppHeader 
+      header: () =>
+        <AppHeader
           tags={tags}
           img={require('../assets/restPic.jpg')}
-          title="Late Bites" 
+          title="Late Bites"
           subTitle="@Helsinki region"
           backButton={false}
-          adminButton={true} 
+          adminButton={true}
         />,
     });
   }, [navigation]);
 
   const renderItem = ({ item }) => {
 
-    //const now = moment().format('HH:mm:ss');
-    const now = "20:00:00";
+    const now = moment().format('HH:mm:ss');
+    //const now = "20:00:00";
 
     var time = "";
     var status = "";
@@ -60,10 +60,19 @@ export default function Screen({ navigation }) {
     }
 
     return (
+
       <TouchableOpacity
         onPress={() => { }}
       >
-        <ListItem bottomDivider >
+        <AppList
+          leftIcon={false}
+          title={item.name}
+          subtitle={item.venue.address}
+          rightTopSubtitle={status}
+          rightBottomSubtitle={time}
+          passed={!closed}
+        />
+        {/* <ListItem bottomDivider >
           <ListItem.Content>
             <ListItem.Title style={{ color: Colors.blackColor, fontSize: 16 }}>{item.name}</ListItem.Title>
             <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }} >{item.venue.address}</ListItem.Subtitle>
@@ -74,7 +83,7 @@ export default function Screen({ navigation }) {
           </ListItem.Content>
           <ListItem.Chevron
             color={closed ? "red" : "#007AFF"} />
-        </ListItem>
+        </ListItem> */}
       </TouchableOpacity>
     )
 

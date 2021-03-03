@@ -65,13 +65,25 @@ const Event = ({item}) => {
     passed = true;
   }
     
+  let rightBottomSubtitle = duration + " min";
+
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("Event", {id:id, title:title, subTitle:`@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, tags:tags } ) // TO PASS TO THE EVENT PAGE
       }
     >
-      <ListItem bottomDivider >
+      <AppList
+          leftIcon={true}
+          iconName='star-sharp'
+          iconAction={() => handleRemoveFavourite(item)}
+          title={title}
+          subtitle={stage}
+          rightTopSubtitle={time}
+          rightBottomSubtitle={rightBottomSubtitle}
+          passed={passed}
+        />
+      {/* <ListItem bottomDivider >
       <TouchableOpacity
         onPress={() => handleRemoveFavourite(item)}
       >
@@ -90,7 +102,7 @@ const Event = ({item}) => {
             <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
           </ListItem.Content>
         <ListItem.Chevron />
-      </ListItem>
+      </ListItem> */}
     </TouchableOpacity>
   );
 }
