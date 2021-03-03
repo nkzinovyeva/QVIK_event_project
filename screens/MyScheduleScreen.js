@@ -46,7 +46,7 @@ const Event = ({item}) => {
 
   
   //variables to pass to the event-page
-  let date = moment(item.startDate, "YYYY-MM-DD").format('dddd')
+  let date = moment(item.startDate, "YYYY-MM-DD").format('ddd')
   let time = moment(item.startTime, "HH:mm:ss").format('LT');
   let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
   let venue = parent.venue
@@ -86,8 +86,8 @@ const Event = ({item}) => {
           <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }}>{stage}</ListItem.Subtitle>
         </ListItem.Content>
         <ListItem.Content style={{ alignItems: 'flex-end'}}> 
+            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{moment(item.startDate, "YYYY-MM-DD").format('ll')}</ListItem.Subtitle>
             <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
-            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{duration} min</ListItem.Subtitle>
           </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
