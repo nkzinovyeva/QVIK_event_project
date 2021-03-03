@@ -10,11 +10,13 @@ import AppHeader from "../components/header";
 import { useSelector } from 'react-redux';
 
 export default function EventDetailsScreen({ route, navigation }) {
-   
+  
+  //console.log('props', props)
+  const {id, title, subTitle, tags } = route.params;
   //get the width of the screen
   const { width } = Dimensions.get("screen");
 
-  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params;
+  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.id;
   const [event, setEvent] = useState('');
 
  //React.useLayoutEffect(() => {
@@ -35,8 +37,9 @@ export default function EventDetailsScreen({ route, navigation }) {
         <AppHeader 
           tags={tags}
           img={require('../assets/eventPic.jpg')}
-          title={event.title} /// Problem with loading
-          subTitle={parent.eventVenues[0].venue.name + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
+          title={title} /// Problem with loading
+          subTitle={subTitle}
+          //subTitle={parent.venue + ", " + moment(event.startDate).format("MMM Do") + "-" + moment(event.endDate).format("Do YYYY")}
           backButton={true}
           adminButton={true}
           navigation={navigation}
@@ -45,7 +48,7 @@ export default function EventDetailsScreen({ route, navigation }) {
   }, [navigation]);
 
 
-  let tags = ["No smoking", "Hosted by ", "Suvilahti", "Stage"];
+  //let tags = ["No smoking", "Hosted by ", "Suvilahti", "Stage"];
 
   const getEvent = () => {
     const url = dataUrl;
@@ -73,7 +76,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           
         <View style={{}}>
           <ScrollView showsHorizontalScrollIndicator={true} >
-            <Text style={{ fontSize: 24, padding: 16, lineHeight: 30, color: Colors.blueColor, backgroundColor: Colors.backwhite }}>{event.title}</Text>
+            <Text style={{ fontSize: 24, padding: 16, lineHeight: 30, color: Colors.blueColor, backgroundColor: Colors.backwhite }}>{event.shortDescription}</Text>
             <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
           </ScrollView>
         </View>

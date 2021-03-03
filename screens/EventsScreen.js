@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, View,FlatList, ImageBackground, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList, ScrollView  } from 'react-native';
+import { Alert, StyleSheet, View, FlatList, ImageBackground, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList, ScrollView  } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {ListItem,} from 'react-native-elements';
 import Colors from "../constants/colors";
@@ -22,6 +22,7 @@ export default function EventsScreen({navigation}) {
 
   useEffect(() => {
     fetchEvents();
+    console.log("events ",events)
   }, []);
   
   const addToFavouriteList = event => dispatch(addFavourite(event));
@@ -44,17 +45,17 @@ export default function EventsScreen({navigation}) {
     return false;
   };
   
-  let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
+  //let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
 
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () => 
         <AppHeader 
-          tags={tags}
+          tags={parent.allTags}
           img={require('../assets/mainPic.jpg')}
           title={parent.title} 
-          subTitle={parent.eventVenues[0].venue.name + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
           backButton={false}
           adminButton={true} 
         />,
@@ -63,17 +64,23 @@ export default function EventsScreen({navigation}) {
 
 //render the event
 const Event = ({item}) => {
+  
+    console.log('item', item)
 
-  console.log(parent)
-
-  let nowTime = moment().format('HH:mm:ss');
-  let nowDate = moment().format('YYYY-MM-DD');
+  //variables to pass to the event-page
+  let date = moment(item.startDate, "YYYY-MM-DD").format('dddd')
   let time = moment(item.startTime, "HH:mm:ss").format('LT');
   let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
-  let stage = item.eventStages[0].stage['name']
+  let venue = parent.venue
   let title = item.title
+  let stage = item.stage
   let id = item.eventId
+  let tags = item.tags
   
+  //code-block to check the passed/future events
+  let nowTime = moment().format('HH:mm:ss');
+  let nowDate = moment().format('YYYY-MM-DD');
+
   var passed = "";
   if (item.startTime > nowTime && item.startDate > nowDate) {
     passed = false;
@@ -84,7 +91,7 @@ const Event = ({item}) => {
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event", id) // TO PASS TO THE EVENT PAGE
+        navigation.navigate("Event", {id:id, title:title, subTitle:`@${venue}, ${date}, ${time}, ${duration} min`, tags:tags } ) // TO PASS TO THE EVENT PAGE
       }
     >
       <ListItem bottomDivider >
@@ -94,18 +101,18 @@ const Event = ({item}) => {
           }
         >
           <Icon
-            size={24}
+            size={22}
             name={ifExists(item) ? 'star-sharp' : 'star-outline'}
             type='ionicon'
           />
         </TouchableOpacity>
-        <ListItem.Content>
-          <ListItem.Title>{title}</ListItem.Title>
-          <ListItem.Subtitle>{stage}</ListItem.Subtitle>
+        <ListItem.Content style={{ alignItems: 'flex-start' }}>
+          <ListItem.Title style={{ color: Colors.blackColor, fontSize: 16 }}>{title}</ListItem.Title>
+          <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }}>{stage}</ListItem.Subtitle>
         </ListItem.Content>
-        <ListItem.Content style={{ alignItems: 'flex-end' }}> 
-            <ListItem.Subtitle style={{ color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
-            <ListItem.Subtitle style={{ color: passed ? Colors.blueColor : Colors.blackColor }}>{duration} min</ListItem.Subtitle>
+        <ListItem.Content style={{ alignItems: 'flex-end'}}> 
+            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
+            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{duration} min</ListItem.Subtitle>
           </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
@@ -116,13 +123,14 @@ const Event = ({item}) => {
 //return flatlist
   return (
       <SafeAreaView style={styles.container}>
-          <View style={{ }}>
-            <FlatList 
-                data={events.subEvents}
-                keyExtractor={item => item.eventId.toString()} 
-                renderItem={({item}) => <Event item={item}/>}
+            <SectionList 
+                sections={events.subEvents}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({item}) => <Event item={item} />}
+                renderSectionHeader={({ section: { dateAsTitle } }) => (
+                  <Text style={{ fontSize: 20, color: Colors.grayColor, backgroundColor: Colors.backwhite }}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd')}</Text>
+                )}
             />
-          </View>
       </SafeAreaView> 
     );
 }

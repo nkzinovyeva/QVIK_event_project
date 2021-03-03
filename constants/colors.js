@@ -4,4 +4,5 @@ export default {
     blueColor: '#007AFF',
     backwhite: '#FAFAFA',
     whiteColor: '#FFFFFF',
+    redColor: '#FF0055'
 }

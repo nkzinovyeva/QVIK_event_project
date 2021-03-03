@@ -72,11 +72,12 @@ export default AppHeader = (props) => {
     tag: {
       backgroundColor: Colors.blueColor,
       padding: 6,
-      margin: 5,
-      borderRadius: 10
+      margin: 8,
+      borderRadius: 16,
     },
     tagText: {
       color: Colors.whiteColor,
+      fontSize: 16
     },
     image: {
       flex: 1,

@@ -65,12 +65,12 @@ export default function Screen({ navigation }) {
       >
         <ListItem bottomDivider >
           <ListItem.Content>
-            <ListItem.Title>{item.name}</ListItem.Title>
-            <ListItem.Subtitle>{item.location}</ListItem.Subtitle>
+            <ListItem.Title style={{ color: Colors.blackColor, fontSize: 16 }}>{item.name}</ListItem.Title>
+            <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }} >{item.venue.address}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Content style={{ alignItems: 'flex-end', }}>
-            <ListItem.Subtitle style={{ color: closed ? "red" : "#007AFF" }}>{status}</ListItem.Subtitle>
-            <ListItem.Subtitle style={{ color: closed ? "red" : "#007AFF" }}>{time}</ListItem.Subtitle>
+            <ListItem.Subtitle style={{ fontSize: 14, color: closed ? Colors.redColor : Colors.blueColor }}>{status}</ListItem.Subtitle>
+            <ListItem.Subtitle style={{ fontSize: 14, color: closed ? Colors.redColor : Colors.blueColor }}>{time}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron
             color={closed ? "red" : "#007AFF"} />
