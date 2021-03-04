@@ -8,6 +8,7 @@ export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const GET_PARENT = 'GET_PARENT';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
+export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 
 export const getEvents = () => {
     try {
@@ -78,3 +79,17 @@ export const getEvents = () => {
       console.log(error);
     }
   };
+
+
+ /*----CODE_BLOCK FOR FILTER TESTS---*/ 
+ 
+  export const filterEvents = (events, tag) => dispatch => {
+    return dispatch({
+      type: FILTER_EVENTS_BY_TAG,
+      payload: {
+        tag: tag,
+        items:tag ==='' ? events : events.filter(events => events.data.map(event => event.tags.indexOf(tag) >= 0))
+    }
+    });
+  };
+  

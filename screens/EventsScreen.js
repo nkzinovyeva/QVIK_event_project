@@ -6,7 +6,7 @@ import { ListItem, } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, addFavourite, removeFavourite } from '../redux/actions';
+import { getEvents, addFavourite, removeFavourite, filterEvents } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 
@@ -16,7 +16,7 @@ const { width } = Dimensions.get("screen");
 export default function EventsScreen({ navigation }) {
 
   //constants
-  const { events, favourites, parent } = useSelector(state => state.eventsReducer);
+  const { events, favourites, parent, filteredEvents, tag } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
@@ -44,6 +44,19 @@ export default function EventsScreen({ navigation }) {
     }
       return false;
   };
+
+  /*----CODE_BLOCK FOR FILTER TESTS---*/ 
+  const filter = (events,tag) => dispatch(filterEvents(events, tag));
+
+  const handleFiltering = (events, tag) => {
+    filter(events, tag);
+  };
+
+  //console.log('filter', handleFiltering(events.subEvents, "English speaker") )
+  console.log('filtered', filteredEvents)
+
+ /*----CODE_BLOCK FOR FILTER TESTS---*/ 
+
 
   //header component 
   React.useLayoutEffect(() => {
@@ -78,7 +91,7 @@ export default function EventsScreen({ navigation }) {
     let nowDate = moment().format('YYYY-MM-DD');
 
     var passed = "";
-    if (item.startTime > nowTime && item.startDate > nowDate) {
+    if (item.startDate > nowDate || item.startTime > nowTime ) {
       passed = false;
     } else {
       passed = true;
@@ -134,18 +147,39 @@ export default function EventsScreen({ navigation }) {
     );
   }
 
-  //return flatlist
-  return (
-    <SafeAreaView style={styles.container}>
+  let tags = parent.allTags
+
+  const Tag = () =>  {
+    return (
+      tags.map((item, index)=> 
+          <View key={index + item} style={styles.tag}>
+            <Text style={styles.tagText}>{item}</Text>
+          </View>)
+      )
+  }
+  //return flatlist// 
+
+  /*----VIEW ADDED FOR FILTER TESTS---*/ 
+  return ( 
+    <ScrollView style={styles.container}>
+      <View style={{flex: 4, justifyContent: 'center', flexDirection: "row" }}>
+        <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+        >
+            <Tag />
+        </ScrollView>
+      </View>
       <SectionList
         sections={events.subEvents}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => <Event item={item} />}
         renderSectionHeader={({ section: { dateAsTitle } }) => (
-          <Text style={{ fontSize: 20, color: Colors.grayColor, backgroundColor: Colors.backwhite }}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd')}</Text>
+          <Text style={{ fontSize: 20, color: Colors.grayColor, backgroundColor: Colors.backwhite, marginLeft: 35, padding: 16 }}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
         )}
       />
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -156,10 +190,10 @@ const styles = StyleSheet.create({
     //paddingTop: StatusBar.currentHeight,
   },
   tag: {
-    backgroundColor: Colors.blueColor,
-    padding: 6,
-    margin: 5,
-    borderRadius: 10
+   backgroundColor: Colors.blueColor,
+   padding: 6,
+   margin: 5,
+   borderRadius: 10
   },
   tagText: {
     color: Colors.whiteColor,

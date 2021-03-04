@@ -51,23 +51,29 @@ const Event = ({item}) => {
   let title = item.title
   let stage = item.stage
   let id = item.eventId
-  let tags = item.tags
+  let tags = [...item.tags, `Hosted by ${item.presenters}`, `${venue}, ${stage}`, item.inheritedTags ]
+
 
   //code-block to check the passed/future events
   let nowTime = moment().format('HH:mm:ss');
   let nowDate = moment().format('YYYY-MM-DD');
   var passed = "";
-  if (item.startTime > nowTime && item.startDate > nowDate) {
-    passed = false;
-  } else {
-    passed = true;
-  }
-    
+    if (item.startDate > nowDate || item.startTime > nowTime ) {
+      passed = false;
+    } else {
+      passed = true;
+    }
   return ( // passed should be !passed (to change after tests!)
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Event", {id:id, title:title, subTitle:`@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, tags:tags } ) // TO PASS TO THE EVENT PAGE
-      }
+        navigation.navigate("Event", 
+          { 
+            id: id,
+            title: title, 
+            subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
+            tags: tags,
+          })
+        }
     >
       <AppList
           leftIcon={true}
