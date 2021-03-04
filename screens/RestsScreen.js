@@ -35,7 +35,8 @@ export default function Screen({ navigation }) {
           title="Late Bites"
           subTitle="@Helsinki region"
           leftButton={false}
-          rightButton={false}  
+          rightButton={false}
+          clickableTag={false}  
         />,
     });
   }, [navigation]);

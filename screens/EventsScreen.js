@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, View, FlatList, ImageBackground, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList, ScrollView } from 'react-native';
+import { Alert, StyleSheet, View, FlatList, ImageBackground, TouchableOpacity, Image, Dimensions, SafeAreaView, Text, SectionList, ScrollView, Button} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { ListItem, } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, addFavourite, removeFavourite, filterEvents } from '../redux/actions';
+import { getEvents, addFavourite, removeFavourite, filterEvents, addTag, removeTag } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 
@@ -24,6 +24,8 @@ export default function EventsScreen({ navigation }) {
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  /*-----code-block for handling favourites-------------*/
 
   const addToFavouriteList = event => dispatch(addFavourite(event));
   const removeFromFavouriteList = event => dispatch(removeFavourite(event));
@@ -45,15 +47,17 @@ export default function EventsScreen({ navigation }) {
       return false;
   };
 
-  /*----CODE_BLOCK FOR FILTER TESTS---*/ 
-  const filter = (events,tag) => dispatch(filterEvents(events, tag));
+  /*-----code-block for filtering-------------*/
+
+  const filter = (events, tag) => dispatch(filterEvents(events, tag));
 
   const handleFiltering = (events, tag) => {
     filter(events, tag);
   };
 
-  //console.log('filter', handleFiltering(events.subEvents, "English speaker") )
-  console.log('filtered', filteredEvents)
+  //console.log('filter',  handleFiltering(filteredEvents.subEvents, tag) )
+  //console.log('filtered', filteredEvents)
+
 
  /*----CODE_BLOCK FOR FILTER TESTS---*/ 
 
@@ -68,7 +72,8 @@ export default function EventsScreen({ navigation }) {
           title={parent.title} 
           subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
           leftButton={false}
-          rightButton={false}  
+          rightButton={false}
+          clickableTag={true}
         />,
     });
   }, [navigation]);
@@ -108,6 +113,7 @@ export default function EventsScreen({ navigation }) {
               title: title, 
               subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
               tags: tags,
+              item: item
             }) // TO PASS TO THE EVENT PAGE
         }
       >
@@ -146,40 +152,18 @@ export default function EventsScreen({ navigation }) {
       </TouchableOpacity>
     );
   }
-
-  let tags = parent.allTags
-
-  const Tag = () =>  {
-    return (
-      tags.map((item, index)=> 
-          <View key={index + item} style={styles.tag}>
-            <Text style={styles.tagText}>{item}</Text>
-          </View>)
-      )
-  }
-  //return flatlist// 
-
-  /*----VIEW ADDED FOR FILTER TESTS---*/ 
+ 
   return ( 
-    <ScrollView style={styles.container}>
-      <View style={{flex: 4, justifyContent: 'center', flexDirection: "row" }}>
-        <ScrollView
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-        >
-            <Tag />
-        </ScrollView>
-      </View>
+    <SafeAreaView style={styles.container}>
       <SectionList
-        sections={events.subEvents}
+        sections={filteredEvents.subEvents}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => <Event item={item} />}
         renderSectionHeader={({ section: { dateAsTitle } }) => (
           <Text style={{ fontSize: 20, color: Colors.grayColor, backgroundColor: Colors.backwhite, marginLeft: 35, padding: 16 }}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
         )}
       />
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -187,7 +171,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backwhite,
-    //paddingTop: StatusBar.currentHeight,
+    
   },
   tag: {
    backgroundColor: Colors.blueColor,
@@ -233,4 +217,56 @@ const styles = StyleSheet.create({
           </View>
       </SafeAreaView>
     );
+
+
+//------block for tags -------
+
+const addTheTag = tag => dispatch(addTag(tag));
+  const removeTheTag = tag => dispatch(removeTag(tag));
+
+  const handleAddTag = tag => {
+    addTheTag(tag);
+  };
+
+  const handleRemoveTag = tag => {
+    removeTheTag(tag);
+  };
+
+  const ifExistsTag = t => {
+    if (tag.filter(tag => tag === t).length > 0) {
+      return true;
+    }
+      return false;
+  };
+
+  console.log('tag', tag)
+
+  let tags = parent.allTags
+
+  const Tag = () =>  {
+    return (
+      tags.map((item, index)=> 
+      <TouchableOpacity
+          key={index + item}
+          onPress={() =>
+            ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
+          } >
+          <View  style={{backgroundColor: ifExistsTag(item) ? Colors.blueColor : Colors.whiteColor, padding: 6, margin: 8, borderRadius: 16, borderColor: Colors.blueColor, borderWidth: 1 }}>
+            <Text style={{color: ifExistsTag(item) ? Colors.whiteColor : Colors.blueColor}}>{item}</Text>
+          </View></TouchableOpacity>)
+      )
+  }
+
+
+/*----VIEW FOR FILTER TESTS---
+        <View style={{flex: 4, justifyContent: 'center', flexDirection: "row" }}>
+          <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+              <Tag />
+          </ScrollView>
+        </View>
+
 */

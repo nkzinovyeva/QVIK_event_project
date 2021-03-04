@@ -4,7 +4,9 @@ import {
     REMOVE_FROM_FAVOURITE_LIST,
     GET_PARENT,
     GET_RESTAURANTS,
-    FILTER_EVENTS_BY_TAG
+    FILTER_EVENTS_BY_TAG,
+    ADD_TAG,
+    REMOVE_TAG
   } from './actions';
 
 const initialState = {
@@ -13,7 +15,7 @@ const initialState = {
   parent: {},
   restaurants: [],
   filteredEvents: [],
-  tag: ''
+  tag: []
 };
 
 function eventsReducer(state = initialState, action) {
@@ -33,6 +35,13 @@ function eventsReducer(state = initialState, action) {
         };
     case FILTER_EVENTS_BY_TAG:
           return { ...state, filteredEvents: action.payload.items, tag: action.payload.tag  };
+    case ADD_TAG:
+        return { ...state, tag: [...state.tag, action.payload] };
+    case REMOVE_TAG:
+      return {
+        ...state,
+        tag: state.tag.filter(tag => tag !== action.payload)
+      };
     default:
         return state;
     }

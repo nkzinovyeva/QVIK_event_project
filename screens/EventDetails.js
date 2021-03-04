@@ -9,18 +9,13 @@ import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
   
-  const { title, subTitle, tags } = route.params;
+  const { title, subTitle, tags, item } = route.params;
 
   //get the width of the screen
   const { width } = Dimensions.get("screen");
 
   const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.id;
   const [event, setEvent] = useState('');
-
- //React.useLayoutEffect(() => {
- //   navigation.setOptions({ 
-   //   headerShown: false});
- // }, [navigation]);
 
   useEffect(() => {
     getEvent();
@@ -30,14 +25,16 @@ export default function EventDetailsScreen({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () => 
-        <AppHeader 
+        <AppHeader
+          item={item}
           tags={tags}
           img={require('../assets/eventPic.jpg')}
           title={title} 
           subTitle={subTitle}
-          leftButton={false}
+          leftButton={true}
           rightButton={true} 
           navigation={navigation}
+          clickableTag={false}
         />,
     });
   }, [navigation]);
@@ -75,8 +72,6 @@ export default function EventDetailsScreen({ route, navigation }) {
       </SafeAreaView>
     );
   }
-
-
 }
 
 const styles = StyleSheet.create({
@@ -158,6 +153,11 @@ const styles = StyleSheet.create({
             adminButton={true}
             navigation={navigation}
           />
+
+ //React.useLayoutEffect(() => {
+ //   navigation.setOptions({ 
+   //   headerShown: false});
+ // }, [navigation]);
 
         // //header component 
   // function LogoTitle() {

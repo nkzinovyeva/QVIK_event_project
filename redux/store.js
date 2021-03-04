@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import eventsReducer from './reducers';
+import { purgeStoredState } from 'redux-persist'
 
 const persistConfig = {
     key: 'root',
@@ -14,5 +15,7 @@ const rootReducer = combineReducers({
     eventsReducer: persistReducer(persistConfig, eventsReducer)
   });
 
+
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 export const persistor = persistStore(store);
+//persistor.purge()

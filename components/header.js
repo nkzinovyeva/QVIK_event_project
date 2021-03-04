@@ -1,17 +1,21 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity  } from 'react-native';
+import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
+
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavourite, removeFavourite, addTag, removeTag } from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
 export default AppHeader = (props) => {
 
-  console.log('header props', props)
+  //console.log('header props', props)
 
-  const { title, subTitle, img, tags, navigation } = props;
+  const { title, subTitle, img, tags, navigation, clickableTag, item } = props;
 
+  //ordinary tag bar
   const Tag = () =>  {
     return (
       tags.map((item, index)=> 
@@ -21,13 +25,93 @@ export default AppHeader = (props) => {
       )
   }
 
+  /*-----code-block for the clickable tag bar-------------*/
+
+  const { tag, favourites } = useSelector(state => state.eventsReducer);
+  const dispatch = useDispatch();
+
+  const addTheTag = tag => dispatch(addTag(tag));
+  const removeTheTag = tag => dispatch(removeTag(tag));
+
+  const handleAddTag = tag => {
+    addTheTag(tag);
+  };
+
+  const handleRemoveTag = tag => {
+    removeTheTag(tag);
+  };
+
+  const ifExistsTag = t => {
+    if (tag.filter(tag => tag === t).length > 0) {
+      return true;
+    }
+      return false;
+  };
+
+  const ClickableTag = () =>  {
+    return (
+      tags.map((item, index)=> 
+      <TouchableOpacity
+          key={index + item}
+          onPress={() =>
+            ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
+          } >
+          <View  style={{backgroundColor: ifExistsTag(item) ? Colors.blueColor : null, padding: 4, margin: 8, borderRadius: 16, borderColor:  ifExistsTag(item) ? Colors.blueColor : Colors.whiteColor, borderWidth: 1.5 }}>
+            <Text style={{color: Colors.whiteColor, fontSize: 16}}>{item}</Text>
+          </View></TouchableOpacity>)
+      )
+  }
+  
+  /*-----end of clickable tag------- */
+
+  /*-----code-block for handling favourites-------- NEED TO BE REFACTORED!!! -----*/
+
+  const addToFavouriteList = event => dispatch(addFavourite(event));
+  const removeFromFavouriteList = event => dispatch(removeFavourite(event));
+
+  const handleAddFavourite = event => {
+    addToFavouriteList(event);
+    Alert.alert("The event is saved in Favourites")
+  };
+
+  const handleRemoveFavourite = event => {
+    removeFromFavouriteList(event);
+    Alert.alert("The event is removed from Favourites")
+  };
+
+  const ifExists = event => {
+    if (favourites.filter(item => item.eventId === event.eventId).length > 0) {
+      return true;
+    }
+      return false;
+  };
+
+  const FavButton = () => {
+    return (
+      <TouchableOpacity
+        style={{ justifyContent: 'space-between', flexDirection: "row", }}
+          onPress={() =>
+            ifExists(item) ? handleRemoveFavourite(item) : handleAddFavourite(item)
+          }
+        >
+          <Icon
+            size={22}
+            name={ifExists(item) ? 'star-sharp' : 'star-outline'}
+            type='ionicon'
+            color={Colors.whiteColor}
+          />
+          <Text style={{color: Colors.whiteColor, fontSize: 16, paddingTop: 4, paddingLeft: 5}}>My Schedule</Text>
+        </TouchableOpacity>
+    )
+  } 
+
   return (
     <View style={{ height: 185 }}>
       <ImageBackground source={img} style={{ width: width, height: 185}}  >
           
         <View style={{ justifyContent: 'space-between', flexDirection: "row", paddingLeft: 10, paddingRight: 10, paddingTop: 50 }}>
           {!props.leftButton ? (<Text></Text> ) 
-          : ( <Text></Text>
+          : ( <FavButton />
           )}
           {!props.rightButton ? (<Text></Text> ) 
           : ( <Icon
@@ -38,6 +122,7 @@ export default AppHeader = (props) => {
               />
           )}
         </View>
+
         <View style={{ flex: 4, justifyContent: 'center', flexDirection: "column" }}>
           <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{title}</Text>
           <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{subTitle}</Text>
@@ -46,9 +131,10 @@ export default AppHeader = (props) => {
               horizontal={true}
               contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
             >
-            <Tag />
+            {clickableTag ? <ClickableTag/> : <Tag /> } 
             </ScrollView>
         </View>
+
       </ImageBackground>
   </View>
   )

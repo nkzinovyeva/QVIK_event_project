@@ -36,6 +36,7 @@ export default function MyScheduleScreen({navigation}) {
           subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
           leftButton={false}
           rightButton={false}
+          clickableTag={false}
         />,
     });
   }, [navigation]);
@@ -64,17 +65,18 @@ const Event = ({item}) => {
       passed = true;
     }
   return ( // passed should be !passed (to change after tests!)
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Event", 
-          { 
-            id: id,
-            title: title, 
-            subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
-            tags: tags,
-          })
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Event", 
+            { 
+              id: id,
+              title: title, 
+              subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
+              tags: tags,
+              item: item
+            }) // TO PASS TO THE EVENT PAGE
         }
-    >
+      >
       <AppList
           leftIcon={true}
           iconName='star-sharp'
