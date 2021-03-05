@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addFavourite, removeFavourite, addTag, removeTag } from '../redux/actions';
+import { addFavourite, removeFavourite, addTag, removeTag, filterEvents } from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
@@ -27,18 +27,38 @@ export default AppHeader = (props) => {
 
   /*-----code-block for the clickable tag bar-------------*/
 
-  const { tag, favourites } = useSelector(state => state.eventsReducer);
+  const { tag, favourites,events } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
+
+  const filter = (events, tag) => dispatch(filterEvents(events, tag));
 
   const addTheTag = tag => dispatch(addTag(tag));
   const removeTheTag = tag => dispatch(removeTag(tag));
 
-  const handleAddTag = tag => {
-    addTheTag(tag);
+  const handleAddTag = t => {
+    addTheTag(t);
+    //Here with the logs you can see that the first time you press a tag
+    //The events are normal but the tags are empty
+
+    //If you press another tag events are modified like filteredEvents and tags are the same
+    //That what you pass in the filter function below
+    console.log("---------EVENTS-----------");
+    console.log(events);
+    console.log("---------TAGS-----------");
+    console.log(tag);
+    //Here it works once and only if its hard coded
+    //filter(events, ["Child-friendly","Online event"]);
+
+    //Here the tag array is empty for some reason
+    //filter(events, tag);
+    
+    //Here it works but only with one tag
+    filter(events, [t]);
   };
 
-  const handleRemoveTag = tag => {
-    removeTheTag(tag);
+  const handleRemoveTag = t => {
+    removeTheTag(t);
+    filter(events, tag);
   };
 
   const ifExistsTag = t => {

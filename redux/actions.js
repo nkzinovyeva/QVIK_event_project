@@ -104,30 +104,89 @@ export const getEvents = () => {
  /*----CODE_BLOCK FOR FILTER TESTS---*/ 
  
   export const filterEvents = (events, tag) => dispatch => {
+    console.log("---------LENTGH OF TAG ARRAY--------------");
+    console.log(tag.length);
+    // console.log("-------EVENTS BEFORE FILTER-------");
+    // console.log(events);
+    if(tag.length >0){
+      
+      events.subEvents.map((events)=>{
+        let temp=[];
+        events.data.map((event)=>{
+          tag.map((tag)=>{
+            if(event.tags.includes(tag)){
+              temp = [...temp, event];
+            }
+          })
+          
+        });
+        events.data = temp;
+      })
 
-    events.map((events)=>{
-      let temp=[];
-      events.data.map((event)=>{
-        if(event.tags.includes(tag)){
-          temp = [...temp, event];
-        }
-      });
-      events.data = temp;
-    })
+      // console.log("-------EVENTS AFTER FILTER-------");
+      // console.log(events);
+
+
+      // events.map((events)=>{
+      //   let temp=[];
+      //   events.data.map((event)=>{
+      //     console.log("-------ONE EVENT-------");
+      //     console.log(event);
+      //     let containTag = false;
+      //     console.log("-------TAGS-------");
+      //     console.log(tag);
+      //     tag.map((oneTag)=>{
+      //       console.log("-------ONE TAG-------");
+      //       console.log(oneTag);
+      //       console.log("-------TAG IN EVENT-------");
+      //       console.log(event.tags);
+      //       if(event.tags.includes(oneTag))
+      //         containTag=true;
+      //     });
+      //     if(containTag){
+      //       temp = [...temp, event];
+      //     }
+      //   });
+      //   events.data = temp;
+      //   console.log("------TEMP------------");
+      //   console.log(temp);
+      //   console.log("------EVENTS------------");
+      //   console.log(events);
+      // })
+    }
+
+    
 
     return dispatch({
       type: FILTER_EVENTS_BY_TAG,
       payload: {
         tag: tag,
-        items:tag === '' ? events : events.map((events)=>{
-          let temp=[];
-          events.data.map((event)=>{
-            if(event.tags.includes(tag)){
-              temp = [...temp, event];
-            }
-          });
-          events.data = temp;
-        })
+
+        items : events
+
+        //I tried with that but it doesn't work
+        // items : tag === '' ? events : events.subEvents.map((events)=>{
+        //   let temp=[];
+        //   events.data.map((event)=>{
+        //     tag.map((tag)=>{
+        //       if(event.tags.includes(tag)){
+        //         temp = [...temp, event];
+        //       }
+        //     })
+            
+        //   });
+        //   events.data = temp;
+        // })
+
+        // items:tag === '' ? events : events.map((events)=>{
+        //   let temp=[];
+        //   events.data.map((event)=>{
+        //     if(event.tags.includes(tag)){
+        //       temp = [...temp, event];
+        //     }
+        //   });
+        //   events.data = temp;
+        // })
         
         //items:tag === '' ? events : events.filter(a => a.tags.indexOf(tag) >= 0)
     }
