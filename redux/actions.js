@@ -12,6 +12,8 @@ export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 export const ADD_TAG = 'ADD_TAG';
 export const REMOVE_TAG = 'REMOVE_TAG';
 
+export const UPDATE_TAG = 'UPDATE_TAG';
+
 //get events action
 export const getEvents = () => {
     try {
@@ -190,6 +192,33 @@ export const getEvents = () => {
         
         //items:tag === '' ? events : events.filter(a => a.tags.indexOf(tag) >= 0)
     }
+    });
+  };
+
+  export const updateTag = (tag, filteredEvents) => dispatch => {
+
+    if(tag.length >0){
+      
+      filteredEvents.subEvents.map((events)=>{
+        let temp=[];
+        events.data.map((event)=>{
+          tag.map((tag)=>{
+            if(event.tags.includes(tag)){
+              temp = [...temp, event];
+            }
+          })
+          
+        });
+        events.data = temp;
+      })
+    }
+
+    dispatch({
+      type: UPDATE_TAG,
+      payload: {
+        tag: tag,
+        items: filteredEvents
+      }
     });
   };
 

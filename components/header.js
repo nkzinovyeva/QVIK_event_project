@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addFavourite, removeFavourite, addTag, removeTag, filterEvents } from '../redux/actions';
+import { addFavourite, removeFavourite, addTag, removeTag, filterEvents, updateTag } from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
@@ -34,31 +34,20 @@ export default AppHeader = (props) => {
 
   const addTheTag = tag => dispatch(addTag(tag));
   const removeTheTag = tag => dispatch(removeTag(tag));
+  const updateTags = (tag, filteredEvents) => dispatch(updateTag(tag,filteredEvents));
 
   const handleAddTag = t => {
-    addTheTag(t);
-    //Here with the logs you can see that the first time you press a tag
-    //The events are normal but the tags are empty
+    let temp = JSON.parse(JSON.stringify(events));
+    console.log(temp);
+    updateTags([...tag,t], temp);
 
-    //If you press another tag events are modified like filteredEvents and tags are the same
-    //That what you pass in the filter function below
-    console.log("---------EVENTS-----------");
-    console.log(events);
-    console.log("---------TAGS-----------");
-    console.log(tag);
-    //Here it works once and only if its hard coded
-    //filter(events, ["Child-friendly","Online event"]);
-
-    //Here the tag array is empty for some reason
-    //filter(events, tag);
-    
-    //Here it works but only with one tag
-    filter(events, [t]);
+    //addTheTag(t);
   };
 
   const handleRemoveTag = t => {
-    removeTheTag(t);
-    filter(events, tag);
+    let temp = JSON.parse(JSON.stringify(events));
+    updateTags(tag.filter((tag)=> tag!=t), temp);
+    //removeTheTag(t);
   };
 
   const ifExistsTag = t => {

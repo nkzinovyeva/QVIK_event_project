@@ -6,7 +6,8 @@ import {
     GET_RESTAURANTS,
     FILTER_EVENTS_BY_TAG,
     ADD_TAG,
-    REMOVE_TAG
+    REMOVE_TAG,
+    UPDATE_TAG
   } from './actions';
 
 const initialState = {
@@ -21,7 +22,7 @@ const initialState = {
 function eventsReducer(state = initialState, action) {
   switch (action.type) { 
     case GET_EVENTS:
-        return { ...state, events: action.payload, filteredEvents: action.payload  };
+        return { ...state, events: action.payload, filteredEvents:action.payload };
     case GET_PARENT:
         return { ...state, parent: action.payload };
     case GET_RESTAURANTS:
@@ -42,6 +43,8 @@ function eventsReducer(state = initialState, action) {
         ...state,
         tag: state.tag.filter(tag => tag !== action.payload)
       };
+      case UPDATE_TAG:
+        return { ...state, tag: action.payload.tag, filteredEvents: action.payload.items}
     default:
         return state;
     }
