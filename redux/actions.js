@@ -114,11 +114,19 @@ export const getEvents = () => {
       filteredEvents.subEvents.map((events)=>{
         let temp=[];
         events.data.map((event)=>{
+          let hasAllTags = true;
           tag.map((tag)=>{
             if(event.tags.includes(tag) || event.inheritedTags.includes(tag)  ){
-              temp = [...temp, event];
+              //temp = [...temp, event];
             }
-          })
+            else{
+              hasAllTags = false;
+            }
+          });
+          if(hasAllTags){
+            temp = [...temp, event];
+          }
+          
         });
         events.data = temp;
       })
