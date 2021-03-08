@@ -24,6 +24,12 @@ export default function MyScheduleScreen({navigation}) {
     Alert.alert("The event is removed from Favourites")
   };
 
+  favourites.sort((a, b) =>
+    a.startDate > b.startDate
+      ? 1
+      : -1
+  )
+
   //header component 
   
   React.useLayoutEffect(() => {
