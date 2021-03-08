@@ -87,6 +87,8 @@ export const getEvents = () => {
     }
   };
 
+  /*
+
   //add-remove tags actions
   export const addTag = tag => dispatch => {
     dispatch({
@@ -101,29 +103,82 @@ export const getEvents = () => {
       payload: tag
     });
   };
-
+*/
 
  /*----CODE_BLOCK FOR FILTER TESTS---*/ 
  
-  export const filterEvents = (events, tag) => dispatch => {
-    console.log("---------LENTGH OF TAG ARRAY--------------");
-    console.log(tag.length);
+  export const updateTag = (tag, filteredEvents) => dispatch => {
+
+    if(tag.length >0) {
+      
+      filteredEvents.subEvents.map((events)=>{
+        let temp=[];
+        events.data.map((event)=>{
+          tag.map((tag)=>{
+            if(event.tags.includes(tag) || event.inheritedTags.includes(tag)  ){
+              temp = [...temp, event];
+            }
+          })
+        });
+        events.data = temp;
+      })
+    }
+
+    return dispatch({
+      type: UPDATE_TAG,
+      payload: {
+        tag: tag,
+        items: filteredEvents 
+      }
+    });
+  };
+
+  /*
+
+
+
+  export const filterEvents = ( tag, filteredEvents, events) => dispatch => {
+    //console.log("---------LENTGH OF TAG ARRAY--------------");
+    //console.log(tag.length);
     // console.log("-------EVENTS BEFORE FILTER-------");
     // console.log(events);
-    if(tag.length >0){
-      
+    /*if(tag.length >0){
       events.subEvents.map((events)=>{
         let temp=[];
         events.data.map((event)=>{
           tag.map((tag)=>{
-            if(event.tags.includes(tag)){
+            if(event.tags.includes(tag) || event.inheritedTags.includes(tag) ){
               temp = [...temp, event];
             }
           })
           
         });
         events.data = temp;
-      })
+      }) 
+
+      //if(tag.length >0) {
+        
+      //}
+  
+      return dispatch({
+        type: FILTER_EVENTS_BY_TAG,
+        payload: {
+          tag: tag,
+          items : tag === [] ? events : filteredEvents.subEvents.filter((items)=> {
+            let temp=[];
+            items.data.map((event)=>{
+              tag.map((tag)=>{
+                if(event.tags.includes(tag) || event.inheritedTags.includes(tag) ){
+                  temp = [...temp, event];
+                }
+              })
+              items.data = temp;
+            });
+            
+          })
+      }
+    });
+  }
 
       // console.log("-------EVENTS AFTER FILTER-------");
       // console.log(events);
@@ -155,7 +210,7 @@ export const getEvents = () => {
       //   console.log("------EVENTS------------");
       //   console.log(events);
       // })
-    }
+   /* }
 
     
 
@@ -193,33 +248,6 @@ export const getEvents = () => {
         //items:tag === '' ? events : events.filter(a => a.tags.indexOf(tag) >= 0)
     }
     });
-  };
-
-  export const updateTag = (tag, filteredEvents) => dispatch => {
-
-    if(tag.length >0){
-      
-      filteredEvents.subEvents.map((events)=>{
-        let temp=[];
-        events.data.map((event)=>{
-          tag.map((tag)=>{
-            if(event.tags.includes(tag)){
-              temp = [...temp, event];
-            }
-          })
-          
-        });
-        events.data = temp;
-      })
-    }
-
-    dispatch({
-      type: UPDATE_TAG,
-      payload: {
-        tag: tag,
-        items: filteredEvents
-      }
-    });
-  };
+  }; */
 
   /*----end block for tests ---*/  

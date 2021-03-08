@@ -16,25 +16,29 @@ export default AppHeader = (props) => {
   const { title, subTitle, img, tags, navigation, clickableTag, item } = props;
 
   //ordinary tag bar
+  
   const Tag = () =>  {
     return (
-      tags.map((item, index)=> 
-          <View key={index + item} style={styles.tag}>
-            <Text style={styles.tagText}>{item}</Text>
-          </View>)
+      tags.map((item, index)=>
+        <View key={index + item} style={{paddingTop: 20}} >
+          <View style={styles.tag}>
+            <Text style={styles.tagText}>#{item}</Text>
+          </View>
+        </View>)
       )
   }
 
   /*-----code-block for the clickable tag bar-------------*/
 
-  const { tag, favourites,events } = useSelector(state => state.eventsReducer);
+  const { tag, favourites, events, parent } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
-  const filter = (events, tag) => dispatch(filterEvents(events, tag));
+  //const filter = (tag, filteredEvents, events) => dispatch(filterEvents(tag, filteredEvents, events ));
 
-  const addTheTag = tag => dispatch(addTag(tag));
-  const removeTheTag = tag => dispatch(removeTag(tag));
-  const updateTags = (tag, filteredEvents) => dispatch(updateTag(tag,filteredEvents));
+  //const addTheTag = tag => dispatch(addTag(tag));
+  //const removeTheTag = tag => dispatch(removeTag(tag));
+  
+  const updateTags = (tag, filteredEvents) => dispatch(updateTag(tag, filteredEvents));
 
   const handleAddTag = t => {
     let temp = JSON.parse(JSON.stringify(events));
@@ -51,7 +55,15 @@ export default AppHeader = (props) => {
   };
 
   const ifExistsTag = t => {
-    if (tag.filter(tag => tag === t).length > 0) {
+    if (tag.filter(item => item === t).length > 0) {
+      return true;
+    }
+      return false;
+  };
+
+  // !!!!!!!!  WORKS ONLY FOR VISUAL REPRESENTATION, STILL CLICKABLE AND AFFECTS THE FILTERING
+  const ifParentTag = t => {  
+    if (parent.tags.filter(tag => tag === t).length > 0) {
       return true;
     }
       return false;
@@ -60,15 +72,25 @@ export default AppHeader = (props) => {
   const ClickableTag = () =>  {
     return (
       tags.map((item, index)=> 
-      <TouchableOpacity
-          key={index + item}
-          onPress={() =>
-            ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
-          } >
-          <View  style={{backgroundColor: ifExistsTag(item) ? Colors.blueColor : null, padding: 4, margin: 8, borderRadius: 16, borderColor:  ifExistsTag(item) ? Colors.blueColor : Colors.whiteColor, borderWidth: 1.5 }}>
-            <Text style={{color: Colors.whiteColor, fontSize: 16}}>{item}</Text>
-          </View></TouchableOpacity>)
+        <TouchableOpacity
+            key={index + item}
+            onPress={() =>
+              ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
+            } >
+            <View style={{paddingTop: 20}} >
+              <View  style={{
+                backgroundColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : null, 
+                padding: 4, 
+                margin: 8, 
+                borderRadius: 16, 
+                borderColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : Colors.whiteColor, 
+                borderWidth: 1 }}>
+                <Text style={{color: Colors.whiteColor, fontSize: 16}}>{item}</Text>
+              </View>
+            </View>
+        </TouchableOpacity>
       )
+    )
   }
   
   /*-----end of clickable tag------- */
@@ -115,11 +137,11 @@ export default AppHeader = (props) => {
   } 
 
   return (
-    <View style={{ height: 185 }}>
-      <ImageBackground source={img} style={{ width: width, height: 185}}  >
+    <View style={{ height: 210 }}>
+      <ImageBackground source={img} style={{ width: width, height: 210}}  >
           
         <View style={{ justifyContent: 'space-between', flexDirection: "row", paddingLeft: 10, paddingRight: 10, paddingTop: 50 }}>
-          {!props.leftButton ? (<Text></Text> ) 
+          {!props.leftButton ? (<Text style={{ paddingTop: 10}}></Text> ) 
           : ( <FavButton />
           )}
           {!props.rightButton ? (<Text></Text> ) 
@@ -132,7 +154,7 @@ export default AppHeader = (props) => {
           )}
         </View>
 
-        <View style={{ flex: 4, justifyContent: 'center', flexDirection: "column" }}>
+        <View style={{  justifyContent: 'center', flexDirection: "column", paddingTop: 10 }}>
           <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{title}</Text>
           <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{subTitle}</Text>
             <ScrollView
@@ -140,7 +162,7 @@ export default AppHeader = (props) => {
               horizontal={true}
               contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
             >
-            {clickableTag ? <ClickableTag/> : <Tag /> } 
+            {clickableTag ? <ClickableTag /> : <Tag /> } 
             </ScrollView>
         </View>
 
@@ -156,10 +178,12 @@ export default AppHeader = (props) => {
       paddingTop: StatusBar.currentHeight,
     }, 
     tag: {
-      backgroundColor: Colors.blueColor,
-      padding: 6,
+      //backgroundColor: Colors.blueColor,
+      padding: 4,
       margin: 8,
       borderRadius: 16,
+      borderWidth: 1,
+      borderColor: Colors.whiteColor,
     },
     tagText: {
       color: Colors.whiteColor,
