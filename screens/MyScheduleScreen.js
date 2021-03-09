@@ -5,6 +5,7 @@ import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
+import theme from '../constants/theme';
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -92,7 +93,7 @@ export default function MyScheduleScreen({navigation}) {
       <SafeAreaView style={styles.container}>
           <View style={{ }}>
           {favourites.length === 0 ? (
-            <Text style={{ color: Colors.grayColor, fontSize: 18, alignSelf: "center", marginTop: 50 }}>
+            <Text style={styles.replacementText}>
               Add events to favourite list
             </Text>
           ) : (
@@ -110,8 +111,14 @@ export default function MyScheduleScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backwhite,
+    backgroundColor: theme.colors.backWhite,
     paddingTop: StatusBar.currentHeight,
-  }, 
+  },
+  replacementText: {
+    color: theme.colors.grayColor, 
+    fontSize: 18, 
+    alignSelf: "center", 
+    marginTop: 50
+  }
 }
 );

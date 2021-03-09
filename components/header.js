@@ -3,10 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
-import AppFavButton from "../components/favButton"
-
+import AppFavButton from "../components/favButton";
 import { useSelector, useDispatch } from 'react-redux';
 import { filterByTag } from '../redux/actions';
+import theme from '../constants/theme';
 
 const { width } = Dimensions.get("screen");
 
@@ -20,8 +20,8 @@ export default AppHeader = (props) => {
   const Tag = () =>  {
     return (
       tags.map((item, index)=>
-        <View key={index + item} style={{paddingTop: 20}} >
-          <View style={styles.tag}>
+        <View key={index + item} style={styles.tagContainer} >
+          <View style={{...styles.tag, ...{ borderColor: theme.colors.whiteColor }}}>
             <Text style={styles.tagText}>#{item}</Text>
           </View>
         </View>
@@ -43,7 +43,7 @@ export default AppHeader = (props) => {
 
   const handleRemoveTag = t => {
     let temp = JSON.parse(JSON.stringify(events));
-    filter(tag.filter((tag)=> tag !== t), temp);
+    filter(tag.filter((tag) => tag !== t), temp);
   };
 
   const ifExistsTag = t => {
@@ -68,16 +68,14 @@ export default AppHeader = (props) => {
             onPress={() =>
               ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
             } >
-            <View style={{paddingTop: 20}} >
+            <View style={styles.tagContainer} >
               <View  style={{
-                backgroundColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : null, 
-                borderColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : Colors.whiteColor, 
-                padding: 4, 
-                margin: 8, 
-                borderRadius: 16, 
-                borderWidth: 1 }}
-              >
-                <Text style={{color: Colors.whiteColor, fontSize: 16}}>{item}</Text>
+                ...styles.tag, 
+                ...{  backgroundColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : null, 
+                      borderColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : theme.colors.whiteColor
+                    }
+                }} >
+                <Text style={styles.tagText}>{item}</Text>
               </View>
             </View>
         </TouchableOpacity>
@@ -89,17 +87,17 @@ export default AppHeader = (props) => {
 
   
   return (
-    <View style={{ height: 210 }}>
-      <ImageBackground source={img} style={{ width: width, height: 210}}  >
+    <View style={styles.mainContainer}>
+      <ImageBackground source={img} style={styles.image} >
           
-        <View style={{ justifyContent: 'space-between', flexDirection: "row", paddingLeft: 10, paddingRight: 10, paddingTop: 50 }}>
+        <View style={styles.upperContainer}>
           {!props.leftButton 
-            ? <Text style={{ paddingTop: 10}}></Text>
+            ? <Text style={styles.replacementText}></Text>
             : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
           }
 
           {!props.rightButton 
-            ? <Text></Text>
+            ? <Text style={styles.replacementText}></Text>
             : <Icon
                   name='close'
                   type='ionicon'
@@ -110,13 +108,13 @@ export default AppHeader = (props) => {
 
         </View>
 
-        <View style={{  justifyContent: 'center', flexDirection: "column", paddingTop: 10 }}>
-          <Text style={{ fontSize: 32, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{title}</Text>
-          <Text style={{ fontSize: 16, fontFamily: 'System', color: Colors.whiteColor, marginLeft: 15 }}>{subTitle}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>{subTitle}</Text>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}
-              contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+              //contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
             >
               {clickableTag 
                 ? <ClickableTag /> 
@@ -131,28 +129,50 @@ export default AppHeader = (props) => {
 } 
 
  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: Colors.backwhite,
+    mainContainer: {
+      height: 210,
       paddingTop: StatusBar.currentHeight,
-    }, 
-    tag: {
-      //backgroundColor: Colors.blueColor,
-      padding: 4,
-      margin: 8,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: Colors.whiteColor,
-    },
-    tagText: {
-      color: Colors.whiteColor,
-      fontSize: 16
     },
     image: {
-      flex: 1,
       width: width,
-      height: 160,
-      resizeMode: "cover",
-      paddingTop: 10,
+      height: 210,
+    },
+    upperContainer: {
+      justifyContent: 'space-between',
+      flexDirection: "row", 
+      paddingLeft: 10, 
+      paddingRight: 10, 
+      paddingTop: 50
+    },
+    textContainer: {
+      justifyContent: 'center', 
+      flexDirection: "column", 
+      paddingTop: 10, 
+    },
+    title: {
+      color: theme.colors.whiteColor,
+      fontSize: theme.fontSizes.headerTitle,
+      marginLeft: 15
+    },
+    subtitle: {
+      color: theme.colors.whiteColor,
+      fontSize: theme.fontSizes.headerSubtitle,
+      marginLeft: 15
+    },
+    replacementText: {
+      paddingTop: 10
+    },
+    tagContainer: {
+      paddingTop: 20
+    },
+    tag: { 
+      padding: 4, 
+      margin: 8, 
+      borderRadius: 16, 
+      borderWidth: 1
+    },
+    tagText: {
+      color: theme.colors.whiteColor,
+      fontSize: theme.fontSizes.tagText
     },
 });

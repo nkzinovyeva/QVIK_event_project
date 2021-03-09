@@ -95,7 +95,7 @@ export const filterByTag = (tag, eventsArray) => dispatch => {
         let hasAllTags = true;
         tag.map((tag) => {
           if (event.tags.includes(tag) || event.inheritedTags.includes(tag)) {
-            hasAllTags = true;
+            //hasAllTags = true;
           } else {
             hasAllTags = false;
           }

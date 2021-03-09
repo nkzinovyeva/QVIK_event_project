@@ -78,31 +78,12 @@ export default function Screen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <View style={{}}>
+    <SafeAreaView >
         <FlatList
           data={restaurants}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => index + item}
         />
-      </View>
     </SafeAreaView>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.backwhite,
-  },
-  screen: {
-    flex: 1,
-    //justifyContent: "center",
-    alignContent: "center",
-    backgroundColor: 'white',
-  },
-});

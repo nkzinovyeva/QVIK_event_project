@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getEvents } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
+import theme from '../constants/theme';
 
 //get the width of the screen
 const { width } = Dimensions.get("screen");
@@ -97,9 +98,9 @@ export default function EventsScreen({ navigation }) {
       <SectionList
         sections={filteredEvents.subEvents && filteredEvents.subEvents.length > 0 ? filteredEvents.subEvents : events.subEvents}
         keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => <Event item={item} />}
+        renderItem={({item}) => <Event item={item} />}
         renderSectionHeader={({ section: { dateAsTitle } }) => (
-          <Text style={{ fontSize: 20, color: Colors.grayColor, backgroundColor: Colors.backwhite, marginLeft: 35, padding: 16 }}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
+          <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
         )}
       />
     </SafeAreaView>
@@ -109,22 +110,14 @@ export default function EventsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backwhite,
-    
+    backgroundColor: theme.colors.backWhite, 
   },
-  tag: {
-   backgroundColor: Colors.blueColor,
-   padding: 6,
-   margin: 5,
-   borderRadius: 10
-  },
-  tagText: {
-    color: Colors.whiteColor,
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    padding: 10,
-  },
+  listTitle: {
+    fontSize: theme.fontSizes.eventTitle,
+    color: theme.colors.grayColor, 
+    backgroundColor: theme.colors.backWhite, 
+    marginLeft: 35, 
+    padding: 16
+  }
 }
 );

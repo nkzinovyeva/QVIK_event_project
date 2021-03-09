@@ -1,10 +1,9 @@
 import React from 'react';
-import { Text, TouchableOpacity, Alert } from 'react-native';
+import { Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-import Colors from "../constants/colors";
 import { useSelector, useDispatch } from 'react-redux';
 import { addFavourite, removeFavourite } from '../redux/actions';
-
+import theme from '../constants/theme';
 
 const AppFavButton = ({item, text, color}) => {
 
@@ -34,7 +33,7 @@ const AppFavButton = ({item, text, color}) => {
 
     return (
         <TouchableOpacity
-            style={{ justifyContent: 'space-between', flexDirection: "row", }}
+            style={styles.mainContainer}
             onPress={() =>
                 ifExists(item) ? handleRemoveFavourite(item) : handleAddFavourite(item)
             }
@@ -45,9 +44,22 @@ const AppFavButton = ({item, text, color}) => {
                 type='ionicon'
                 color={color}
             />
-            {text ? <Text style={{color: Colors.whiteColor, fontSize: 16, paddingTop: 4, paddingLeft: 5}}>{text}</Text> : null }
+            {text ? <Text style={styles.text}>{text}</Text> : null }
         </TouchableOpacity>
     )
     
 }
 export default AppFavButton;
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        justifyContent: 'space-between', 
+        flexDirection: "row",
+    },
+    text: {
+        color: theme.colors.whiteColor, 
+        fontSize: theme.fontSizes.headerSubtitle, 
+        paddingTop: 4, 
+        paddingLeft: 5
+    },
+});
