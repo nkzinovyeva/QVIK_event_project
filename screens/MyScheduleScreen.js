@@ -1,12 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Alert, StyleSheet, View,FlatList, TouchableOpacity, Image, Dimensions, SafeAreaView, Text  } from 'react-native';
-import { Icon } from 'react-native-elements';
-import {ListItem} from 'react-native-elements';
+import { StyleSheet, View,FlatList, TouchableOpacity, Dimensions, SafeAreaView, Text  } from 'react-native';
 import Colors from "../constants/colors";
 import moment from "moment";
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFavourite } from '../redux/actions';
+import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
 
 //get the width of the screen
@@ -17,7 +14,7 @@ export default function MyScheduleScreen({navigation}) {
   const { parent, favourites } = useSelector(state => state.eventsReducer);
 
   favourites.sort((a, b) =>
-    a.startDate > b.startDate
+    a.startDate > b.startDate || a.startTime > b.startTime
       ? 1
       : -1
   )
