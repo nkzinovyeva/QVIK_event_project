@@ -15,14 +15,6 @@ const { width } = Dimensions.get("screen");
 export default function MyScheduleScreen({navigation}) {
 
   const { parent, favourites } = useSelector(state => state.eventsReducer);
-  const dispatch = useDispatch();
-
-  const removeFromFavouriteList = event => dispatch(removeFavourite(event));
-
-  const handleRemoveFavourite = event => {
-    removeFromFavouriteList(event);
-    Alert.alert("The event is removed from Favourites")
-  };
 
   favourites.sort((a, b) =>
     a.startDate > b.startDate
@@ -43,81 +35,62 @@ export default function MyScheduleScreen({navigation}) {
           leftButton={false}
           rightButton={false}
           clickableTag={false}
-        />,
+        />
     });
   }, [navigation]);
 
 //render the event
-const Event = ({item}) => {
+  const Event = ({item}) => {
 
-  //variables to pass to the event-page
-  let date = moment(item.startDate, "YYYY-MM-DD")
-  let time = moment(item.startTime, "HH:mm:ss").format('LT');
-  let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
-  let venue = parent.venue
-  let title = item.title
-  let stage = item.stage
-  let id = item.eventId
-  let tags = [...item.tags, `Hosted by ${item.presenters}`, `${venue}, ${stage}`, item.inheritedTags ]
+    //variables to pass to the event-page
+    let date = moment(item.startDate, "YYYY-MM-DD")
+    let time = moment(item.startTime, "HH:mm:ss").format('LT');
+    let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
+    let venue = parent.venue
+    let title = item.title
+    let stage = item.stage
+    let id = item.eventId
+    let tags = [...item.tags, `Hosted by ${item.presenters}`, `${venue}, ${stage}`, item.inheritedTags ]
 
 
-  //code-block to check the passed/future events
-  let nowTime = moment().format('HH:mm:ss');
-  let nowDate = moment().format('YYYY-MM-DD');
-  var passed = "";
-    if (item.startDate > nowDate || item.startTime > nowTime ) {
-      passed = false;
-    } else {
-      passed = true;
-    }
-  return ( // passed should be !passed (to change after tests!)
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Event", 
-            { 
-              id: id,
-              title: title, 
-              subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
-              tags: tags,
-              item: item
-            }) // TO PASS TO THE EVENT PAGE
-        }
-      >
-      <AppList
-          leftIcon={true}
-          iconName='star-sharp'
-          iconAction={() => handleRemoveFavourite(item)}
-          title={title}
-          subtitle={stage}
-          rightTopSubtitle={date.format('ll')}
-          rightBottomSubtitle={time}
-          passed={passed}
-        />
-      {/* <ListItem bottomDivider >
-      <TouchableOpacity
-        onPress={() => handleRemoveFavourite(item)}
-      >
-        <Icon
-            size={22}
-            name='star-sharp'
-            type='ionicon'
+    //code-block to check the passed/future events
+    let nowTime = moment().format('HH:mm:ss');
+    let nowDate = moment().format('YYYY-MM-DD');
+    var passed = "";
+      if (item.startDate > nowDate || item.startTime > nowTime ) {
+        passed = false;
+      } else {
+        passed = true;
+      }
+    return (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Event", 
+              { 
+                id: id,
+                title: title, 
+                subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
+                tags: tags,
+                item: item
+              }) // TO PASS TO THE EVENT PAGE
+          }
+        >
+        <AppList
+            leftIcon={true}
+            iconColor={Colors.blackColor}
+            title={title}
+            subtitle={stage}
+            rightTopSubtitle={date.format('ll')}
+            rightBottomSubtitle={time}
+            passed={passed}
+            item={item}
+
           />
-        </TouchableOpacity>
-        <ListItem.Content style={{ alignItems: 'flex-start' }}>
-          <ListItem.Title style={{ color: Colors.blackColor, fontSize: 16 }}>{title}</ListItem.Title>
-          <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }}>{stage}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ListItem.Content style={{ alignItems: 'flex-end'}}> 
-            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{moment(item.startDate, "YYYY-MM-DD").format('ll')}</ListItem.Subtitle>
-            <ListItem.Subtitle style={{ fontSize: 14, color: passed ? Colors.blueColor : Colors.blackColor }}>{time}</ListItem.Subtitle>
-          </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem> */}
-    </TouchableOpacity>
-  );
-}
+      </TouchableOpacity>
+    );
+  }
 
-//return flatlist
+  //return flatlist
   return (
       <SafeAreaView style={styles.container}>
           <View style={{ }}>

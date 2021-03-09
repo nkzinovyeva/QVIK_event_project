@@ -1,27 +1,24 @@
 import React from 'react';
 import { ListItem } from 'react-native-elements';
-import { Icon } from 'react-native-elements';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import theme from '../constants/theme';
-
+import AppFavButton from "../components/favButton"
 
 export default AppList = (props) => {
     
-    const { leftIcon, iconName, iconAction, title, subtitle, rightTopSubtitle, rightBottomSubtitle, passed } = props;
+    const { 
+        leftIcon, 
+        iconColor,
+        title, 
+        subtitle, 
+        rightTopSubtitle, 
+        rightBottomSubtitle, 
+        passed,
+        item } = props;
 
     return (
         <ListItem bottomDivider >
-            {leftIcon && (
-                <TouchableOpacity
-                    onPress={() => { iconAction() }}
-                >
-                    <Icon
-                        size={22}
-                        name={iconName}
-                        type='ionicon'
-                    />
-                </TouchableOpacity>
-            )}
+            {leftIcon && <AppFavButton item={item} color={iconColor} /> }
             <ListItem.Content>
                 <ListItem.Title style={styles.title}>{title}</ListItem.Title>
                 <ListItem.Subtitle style={styles.subtitle} >{subtitle}</ListItem.Subtitle>

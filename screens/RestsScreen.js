@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { StyleSheet, FlatList, SafeAreaView, TouchableOpacity, View, Dimensions } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import Colors from "../constants/colors";
 import moment from "moment";
 import AppHeader from "../components/header";
@@ -44,8 +43,7 @@ export default function Screen({ navigation }) {
   const renderItem = ({ item }) => {
 
     const now = moment().format('HH:mm:ss');
-    //const now = "20:00:00";
-
+    
     var time = "";
     var status = "";
     var closed = "";
@@ -69,23 +67,11 @@ export default function Screen({ navigation }) {
         <AppList
           leftIcon={false}
           title={item.name}
-          subtitle={item.venue.address}
+          subtitle={`${item.location}, ${item.venue.name}`}
           rightTopSubtitle={status}
           rightBottomSubtitle={time}
           passed={!closed}
         />
-        {/* <ListItem bottomDivider >
-          <ListItem.Content>
-            <ListItem.Title style={{ color: Colors.blackColor, fontSize: 16 }}>{item.name}</ListItem.Title>
-            <ListItem.Subtitle style={{ color: Colors.grayColor, fontSize: 14 }} >{item.venue.address}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem.Content style={{ alignItems: 'flex-end', }}>
-            <ListItem.Subtitle style={{ fontSize: 14, color: closed ? Colors.redColor : Colors.blueColor }}>{status}</ListItem.Subtitle>
-            <ListItem.Subtitle style={{ fontSize: 14, color: closed ? Colors.redColor : Colors.blueColor }}>{time}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem.Chevron
-            color={closed ? "red" : "#007AFF"} />
-        </ListItem> */}
       </TouchableOpacity>
     )
 

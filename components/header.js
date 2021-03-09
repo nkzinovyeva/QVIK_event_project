@@ -3,9 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
+import AppFavButton from "../components/favButton"
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addFavourite, removeFavourite, addTag, removeTag, filterEvents, updateTag } from '../redux/actions';
+import { filterByTag } from '../redux/actions';
 
 const { width } = Dimensions.get("screen");
 
@@ -16,7 +17,6 @@ export default AppHeader = (props) => {
   const { title, subTitle, img, tags, navigation, clickableTag, item } = props;
 
   //ordinary tag bar
-  
   const Tag = () =>  {
     return (
       tags.map((item, index)=>
@@ -24,34 +24,26 @@ export default AppHeader = (props) => {
           <View style={styles.tag}>
             <Text style={styles.tagText}>#{item}</Text>
           </View>
-        </View>)
+        </View>
+        )
       )
   }
 
-  /*-----code-block for the clickable tag bar-------------*/
+  /*-----code-block for filtering with clickable tag bar -------------*/
 
-  const { tag, favourites, events, parent } = useSelector(state => state.eventsReducer);
+  const { tag, events, parent } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
-  //const filter = (tag, filteredEvents, events) => dispatch(filterEvents(tag, filteredEvents, events ));
-
-  //const addTheTag = tag => dispatch(addTag(tag));
-  //const removeTheTag = tag => dispatch(removeTag(tag));
-  
-  const updateTags = (tag, filteredEvents) => dispatch(updateTag(tag, filteredEvents));
+  const filter = (tag, eventsArray) => dispatch(filterByTag(tag, eventsArray));
 
   const handleAddTag = t => {
     let temp = JSON.parse(JSON.stringify(events));
-    console.log(temp);
-    updateTags([...tag,t], temp);
-
-    //addTheTag(t);
+    filter([...tag, t], temp);
   };
 
   const handleRemoveTag = t => {
     let temp = JSON.parse(JSON.stringify(events));
-    updateTags(tag.filter((tag)=> tag!=t), temp);
-    //removeTheTag(t);
+    filter(tag.filter((tag)=> tag !== t), temp);
   };
 
   const ifExistsTag = t => {
@@ -61,7 +53,6 @@ export default AppHeader = (props) => {
       return false;
   };
 
-  // !!!!!!!!  WORKS ONLY FOR VISUAL REPRESENTATION, STILL CLICKABLE AND AFFECTS THE FILTERING
   const ifParentTag = t => {  
     if (parent.tags.filter(tag => tag === t).length > 0) {
       return true;
@@ -80,11 +71,12 @@ export default AppHeader = (props) => {
             <View style={{paddingTop: 20}} >
               <View  style={{
                 backgroundColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : null, 
+                borderColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : Colors.whiteColor, 
                 padding: 4, 
                 margin: 8, 
                 borderRadius: 16, 
-                borderColor: ifExistsTag(item) || ifParentTag(item) ? Colors.blueColor : Colors.whiteColor, 
-                borderWidth: 1 }}>
+                borderWidth: 1 }}
+              >
                 <Text style={{color: Colors.whiteColor, fontSize: 16}}>{item}</Text>
               </View>
             </View>
@@ -93,65 +85,29 @@ export default AppHeader = (props) => {
     )
   }
   
-  /*-----end of clickable tag------- */
+  /*-----end of filtering with clickable tag bar ------- */
 
-  /*-----code-block for handling favourites-------- NEED TO BE REFACTORED!!! -----*/
-
-  const addToFavouriteList = event => dispatch(addFavourite(event));
-  const removeFromFavouriteList = event => dispatch(removeFavourite(event));
-
-  const handleAddFavourite = event => {
-    addToFavouriteList(event);
-    Alert.alert("The event is saved in Favourites")
-  };
-
-  const handleRemoveFavourite = event => {
-    removeFromFavouriteList(event);
-    Alert.alert("The event is removed from Favourites")
-  };
-
-  const ifExists = event => {
-    if (favourites.filter(item => item.eventId === event.eventId).length > 0) {
-      return true;
-    }
-      return false;
-  };
-
-  const FavButton = () => {
-    return (
-      <TouchableOpacity
-        style={{ justifyContent: 'space-between', flexDirection: "row", }}
-          onPress={() =>
-            ifExists(item) ? handleRemoveFavourite(item) : handleAddFavourite(item)
-          }
-        >
-          <Icon
-            size={22}
-            name={ifExists(item) ? 'star-sharp' : 'star-outline'}
-            type='ionicon'
-            color={Colors.whiteColor}
-          />
-          <Text style={{color: Colors.whiteColor, fontSize: 16, paddingTop: 4, paddingLeft: 5}}>My Schedule</Text>
-        </TouchableOpacity>
-    )
-  } 
-
+  
   return (
     <View style={{ height: 210 }}>
       <ImageBackground source={img} style={{ width: width, height: 210}}  >
           
         <View style={{ justifyContent: 'space-between', flexDirection: "row", paddingLeft: 10, paddingRight: 10, paddingTop: 50 }}>
-          {!props.leftButton ? (<Text style={{ paddingTop: 10}}></Text> ) 
-          : ( <FavButton />
-          )}
-          {!props.rightButton ? (<Text></Text> ) 
-          : ( <Icon
-                name='close'
-                type='ionicon'
-                color='white'
-                onPress={props.rightButton ? () => navigation.goBack() : {} }
-              />
-          )}
+          {!props.leftButton 
+            ? <Text style={{ paddingTop: 10}}></Text>
+            : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
+          }
+
+          {!props.rightButton 
+            ? <Text></Text>
+            : <Icon
+                  name='close'
+                  type='ionicon'
+                  color='white'
+                  onPress={props.rightButton ? () => navigation.goBack() : {} }
+                />
+          }
+
         </View>
 
         <View style={{  justifyContent: 'center', flexDirection: "column", paddingTop: 10 }}>
@@ -162,7 +118,10 @@ export default AppHeader = (props) => {
               horizontal={true}
               contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
             >
-            {clickableTag ? <ClickableTag /> : <Tag /> } 
+              {clickableTag 
+                ? <ClickableTag /> 
+                : <Tag /> 
+              } 
             </ScrollView>
         </View>
 
@@ -196,25 +155,4 @@ export default AppHeader = (props) => {
       resizeMode: "cover",
       paddingTop: 10,
     },
-  }
-  );
-
-
-  /* how to use: 
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false});
-  }, [navigation]);
-
-
-    let tags = ["No smoking", "No smoking", "No smoking", "No smoking", "No smoking", "No smoking"];
-
-        <AppHeader 
-          tags={tags}
-          img={null}
-          title={events.parentEvent.title} 
-          subTitle={events.parentEvent.eventVenues[0].venue.name + ', ' + (moment(events.parentEvent.startDate).format("MMM Do") +  " - " + moment(events.parentEvent.endDate).format("Do YYYY"))}
-          backButton={false}
-          adminButton={true}
-        />
-  */
+});
