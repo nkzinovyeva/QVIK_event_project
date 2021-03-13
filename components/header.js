@@ -142,7 +142,7 @@ export default AppHeader = (props) => {
       flexDirection: "row", 
       paddingLeft: 10, 
       paddingRight: 10, 
-      paddingTop: 50
+      paddingTop: 50,
     },
     textContainer: {
       justifyContent: 'center', 

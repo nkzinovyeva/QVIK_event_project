@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Text, SectionLi
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents } from '../redux/actions';
+import { getEvents, getRestaurants } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
@@ -19,9 +19,11 @@ export default function EventsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
+  const fetchRestaurants = () => dispatch(getRestaurants());
 
   useEffect(() => {
     fetchEvents();
+    fetchRestaurants();
   }, []);
 
   //header component 

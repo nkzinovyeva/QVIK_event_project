@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity, View, Dimensions } from 'react-native';
+import { FlatList, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +20,7 @@ export default function Screen({ navigation }) {
     console.log(restaurants);
   }, []);
 
+  
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -31,7 +32,7 @@ export default function Screen({ navigation }) {
           subTitle="@Helsinki region"
           leftButton={false}
           rightButton={false}
-          clickableTag={false}
+          clickableTag={true}  
         />,
     });
   }, [navigation]);
@@ -73,11 +74,11 @@ export default function Screen({ navigation }) {
 
   return (
     <SafeAreaView >
-      <FlatList
-        data={restaurants.restaurants}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index + item}
-      />
+        <FlatList
+          data={restaurants.restaurants}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index + item}
+        />
     </SafeAreaView>
   );
 }
