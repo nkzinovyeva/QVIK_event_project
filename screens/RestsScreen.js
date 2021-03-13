@@ -20,14 +20,12 @@ export default function Screen({ navigation }) {
     console.log(restaurants);
   }, []);
 
-  let tags = ["Fine-dine", "Tag1", "Tag2", "Tag3", "Tag4", "Tag5", "Tag3", "Tag4", "Tag5"];
-
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         <AppHeader
-          tags={tags}
+          tags={restaurants.allTags}
           img={require('../assets/restPic.jpg')}
           title="Late Bites"
           subTitle="@Helsinki region"
@@ -58,7 +56,6 @@ export default function Screen({ navigation }) {
     }
 
     return (
-
       <TouchableOpacity
         onPress={() => { navigation.navigate('Restaurant', item) }}
       >
@@ -72,7 +69,6 @@ export default function Screen({ navigation }) {
         />
       </TouchableOpacity>
     )
-
   }
 
   return (
