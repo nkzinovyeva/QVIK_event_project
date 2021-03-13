@@ -1,14 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, TouchableOpacity, View, Dimensions } from 'react-native';
-import Colors from "../constants/colors";
+import { FlatList, SafeAreaView, TouchableOpacity, View, Dimensions } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector, useDispatch } from 'react-redux';
 import { getRestaurants } from '../redux/actions';
 import AppList from "../components/listItem";
-
-const { width } = Dimensions.get("screen");
 
 export default function Screen({ navigation }) {
 
@@ -20,6 +17,7 @@ export default function Screen({ navigation }) {
 
   useEffect(() => {
     fetchRestaurants();
+    console.log(restaurants);
   }, []);
 
   let tags = ["Fine-dine", "Tag1", "Tag2", "Tag3", "Tag4", "Tag5", "Tag3", "Tag4", "Tag5"];
@@ -35,7 +33,7 @@ export default function Screen({ navigation }) {
           subTitle="@Helsinki region"
           leftButton={false}
           rightButton={false}
-          clickableTag={false}  
+          clickableTag={false}
         />,
     });
   }, [navigation]);
@@ -43,7 +41,7 @@ export default function Screen({ navigation }) {
   const renderItem = ({ item }) => {
 
     const now = moment().format('HH:mm:ss');
-    
+
     var time = "";
     var status = "";
     var closed = "";
@@ -62,7 +60,7 @@ export default function Screen({ navigation }) {
     return (
 
       <TouchableOpacity
-        onPress={() => { }}
+        onPress={() => { navigation.navigate('Restaurant', item) }}
       >
         <AppList
           leftIcon={false}
@@ -79,11 +77,11 @@ export default function Screen({ navigation }) {
 
   return (
     <SafeAreaView >
-        <FlatList
-          data={restaurants}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index + item}
-        />
+      <FlatList
+        data={restaurants.restaurants}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index + item}
+      />
     </SafeAreaView>
   );
 }

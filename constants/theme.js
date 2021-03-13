@@ -13,7 +13,9 @@ const theme = {
         headerTitle: 32,
         headerSubtitle: 16,
         eventTitle: 22,
-        tagText: 16
+        tagText: 16,
+        detailsTitle: 24,
+        detailsText: 16
     },
     fonts: {
         fontFamily: 'System',

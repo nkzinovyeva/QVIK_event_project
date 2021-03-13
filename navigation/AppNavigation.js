@@ -8,6 +8,7 @@ import Screen from "../screens/RestsScreen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
+import RestDetails from '../screens/RestDetails';
 
 //default options for the screens || check later if needed
 const defaultNavOptions =  {
@@ -53,8 +54,9 @@ const restStack = createStackNavigator();
 
 function restorantsStackScreen() {
     return (
-      <restStack.Navigator screenOptions={() => (defaultNavOptions)}  >
+      <restStack.Navigator  screenOptions={() => (defaultNavOptions)}  >
         <restStack.Screen name="Late Bites" component={Screen}  />
+        <restStack.Screen name="Restaurant" component={RestDetails}  />
       </restStack.Navigator>
     );
 }
