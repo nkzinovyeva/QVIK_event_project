@@ -10,7 +10,7 @@ import AppList from "../components/listItem";
 export default function Screen({ navigation }) {
 
   //constants
-  const { restaurants } = useSelector(state => state.eventsReducer);
+  const { restaurants, filteredRests } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
   const fetchRestaurants = () => dispatch(getRestaurants());
@@ -20,7 +20,7 @@ export default function Screen({ navigation }) {
     console.log(restaurants);
   }, []);
 
-  
+
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -32,7 +32,8 @@ export default function Screen({ navigation }) {
           subTitle="@Helsinki region"
           leftButton={false}
           rightButton={false}
-          clickableTag={true}  
+          clickableTag={true}
+          rests={true}
         />,
     });
   }, [navigation]);
@@ -74,11 +75,11 @@ export default function Screen({ navigation }) {
 
   return (
     <SafeAreaView >
-        <FlatList
-          data={restaurants.restaurants}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index + item}
-        />
+      <FlatList
+        data={filteredRests.restaurants && filteredRests.restaurants.length > 0 ? filteredRests.restaurants : restaurants.restaurants}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index + item}
+      />
     </SafeAreaView>
   );
 }

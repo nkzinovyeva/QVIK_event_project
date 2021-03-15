@@ -11,6 +11,7 @@ export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const GET_PARENT = 'GET_PARENT';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 export const FILTER_BY_TAG = 'FILTER_BY_TAG';
+export const FILTER_RESTS_BY_TAG = 'FILTER_RESTS_BY_TAG';
 
 //get events action
 export const getEvents = () => {
@@ -83,6 +84,34 @@ export const getRestaurants = () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+//filtering restaurants by tag action
+export const filterRestsByTag = (tag, restaurantsArray) => dispatch => {
+
+  if (tag.length > 0) {
+    let temp = [];
+    restaurantsArray.restaurants.filter((restaurant) => {
+      let hasAllTags = true;
+      tag.map((tag) => {
+        if (!restaurant.allTags.includes(tag)) {
+          hasAllTags = false;
+        }
+      });
+      if (hasAllTags) {
+        temp = [...temp, restaurant];
+      }
+    });
+    restaurantsArray.restaurants = temp;
+  }
+
+  return dispatch({
+    type: FILTER_RESTS_BY_TAG,
+    payload: {
+      tag: tag,
+      items: restaurantsArray
+    }
+  });
 };
 
 //filtering by tag action
