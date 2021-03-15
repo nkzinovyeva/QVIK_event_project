@@ -18,7 +18,7 @@ export default function RestDetails({ route, navigation }) {
                     item={restaurant}
                     tags={restaurant.allTags}
                     img={require('../assets/eventPic.jpg')}
-                    title={restaurant.venue.name}
+                    title={restaurant.name}
                     subTitle={restaurant.location}
                     leftButton={false}
                     rightButton={true}
