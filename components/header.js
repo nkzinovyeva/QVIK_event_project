@@ -1,11 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
 import AppFavButton from "../components/favButton";
-import { useSelector, useDispatch } from 'react-redux';
-import { filterByTag, filterRestsByTag } from '../redux/actions';
+import AppFilter from "../components/filter"
 import theme from '../constants/theme';
 
 const { width } = Dimensions.get("screen");
@@ -28,85 +27,6 @@ export default AppHeader = (props) => {
       )
     )
   }
-
-  /*-----code-block for filtering with clickable tag bar -------------*/
-
-  const { tag, events, parent, restsTags, restaurants } = useSelector(state => state.eventsReducer);
-  const dispatch = useDispatch();
-
-  const filter = (tag, eventsArray) => dispatch(filterByTag(tag, eventsArray));
-  const restFilter = (tag, restaurantsArray) => dispatch(filterRestsByTag(tag, restaurantsArray));
-
-  const handleAddTag = t => {
-    if (rests) {
-      let temp = JSON.parse(JSON.stringify(restaurants));
-      restFilter([...restsTags, t], temp);
-    }
-    else {
-      let temp = JSON.parse(JSON.stringify(events));
-      filter([...tag, t], temp);
-    }
-  };
-
-  const handleRemoveTag = t => {
-    if (rests) {
-      let temp = JSON.parse(JSON.stringify(restaurants));
-      restFilter(restsTags.filter((tag) => tag !== t), temp);
-    }
-    else {
-      let temp = JSON.parse(JSON.stringify(events));
-      filter(tag.filter((tag) => tag !== t), temp);
-    }
-  };
-
-  const ifExistsTag = t => {
-    if (rests) {
-      if (restsTags.filter(item => item === t).length > 0) {
-        return true;
-      }
-      return false;
-    }
-    else {
-      if (tag.filter(item => item === t).length > 0) {
-        return true;
-      }
-      return false;
-    }
-  };
-
-  const ifParentTag = t => {
-    if (parent.tags.filter(tag => tag === t).length > 0) {
-      return true;
-    }
-    return false;
-  };
-
-  const ClickableTag = () => {
-    return (
-      tags.map((item, index) =>
-        <TouchableOpacity
-          key={index + item}
-          onPress={() =>
-            ifExistsTag(item) ? handleRemoveTag(item) : handleAddTag(item)
-          } >
-          <View style={styles.tagContainer} >
-            <View style={{
-              ...styles.tag,
-              ...{
-                backgroundColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : null,
-                borderColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : theme.colors.whiteColor
-              }
-            }} >
-              <Text style={styles.tagText}>{item}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      )
-    )
-  }
-
-  /*-----end of filtering with clickable tag bar ------- */
-
 
   return (
     <View style={styles.mainContainer}>
@@ -139,7 +59,7 @@ export default AppHeader = (props) => {
           //contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
           >
             {clickableTag
-              ? <ClickableTag />
+              ? <AppFilter tags={tags} rests={rests} />
               : <Tag />
             }
           </ScrollView>
