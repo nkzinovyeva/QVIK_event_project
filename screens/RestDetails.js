@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ScrollView, StyleSheet, View, SafeAreaView, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import Colors from "../constants/colors";
-import { Icon } from 'react-native-elements';
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
+import ButtonTag from '../components/buttonTag';
+import moment from "moment";
 
 export default function RestDetails({ route, navigation }) {
 
@@ -31,26 +31,21 @@ export default function RestDetails({ route, navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.tagContainer}>
-                <View style={styles.tag}>
-                    <Icon
-                        name='compass'
-                        type='ionicon'
-                        color='white'
-                    />
-                    <Text style={styles.tagText}>{restaurant.location}</Text>
-                </View>
+                <ButtonTag
+                    onPress={() => { console.log('I dont know what to do with that') }}
+                    isButton={true}
+                    icon='compass'
+                    text={restaurant.location}
+                />
             </View>
             <View style={styles.tagContainer}>
                 <ScrollView
                     horizontal={true}>
-                    <View style={styles.tag}>
-                        <Icon
-                            name='time'
-                            type='ionicon'
-                            color='white'
-                        />
-                        <Text style={styles.tagText}>Fri 10:00-22:00</Text>
-                    </View>
+                    <ButtonTag
+                        isButton={false}
+                        icon='time'
+                        text={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
+                    />
                 </ScrollView>
             </View>
             <ScrollView style={{ backgroundColor: 'white', width: '100%' }}
@@ -87,18 +82,5 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         width: '100%',
         backgroundColor: 'white'
-    },
-    tag: {
-        flexDirection: 'row',
-        backgroundColor: theme.colors.blueColor,
-        alignItems: 'center',
-        padding: 4,
-        margin: 5,
-        borderRadius: 16
-    },
-    tagText: {
-        color: 'white',
-        fontFamily: theme.fonts.fontFamily,
-        fontSize: theme.fontSizes.tagText,
     }
 });
