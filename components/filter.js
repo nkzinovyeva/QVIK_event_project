@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterByTag, filterRestsByTag } from '../redux/actions';
+import { filterEventsByTag, filterRestsByTag } from '../redux/actions';
 import theme from '../constants/theme';
 
 export default AppFilter = (props) => {
 
-    let {rests, tags} = props
+    let {rests, tags} = props;
     
-    const { tag, events, parent, restsTags, restaurants } = useSelector(state => state.eventsReducer);
+    const { eventTags, events, parent, restsTags, restaurants } = useSelector(state => state.eventsReducer);
     const dispatch = useDispatch();
     
-    const filter = (tag, eventsArray) => dispatch(filterByTag(tag, eventsArray));
+    const eventfilter = (tag, eventsArray) => dispatch(filterEventsByTag(tag, eventsArray));
     const restFilter = (tag, restaurantsArray) => dispatch(filterRestsByTag(tag, restaurantsArray));
     
     const handleAddTag = t => {
@@ -21,7 +21,7 @@ export default AppFilter = (props) => {
         }
         else {
             let temp = JSON.parse(JSON.stringify(events));
-            filter([...tag, t], temp);
+            eventfilter([...eventTags, t], temp);
         }
     };
 
@@ -32,7 +32,7 @@ export default AppFilter = (props) => {
         }
         else {
             let temp = JSON.parse(JSON.stringify(events));
-            filter(tag.filter((tag) => tag !== t), temp);
+            eventfilter(eventTags.filter((tag) => tag !== t), temp);
         }
     };
     
@@ -44,7 +44,7 @@ export default AppFilter = (props) => {
             return false;
             }
         else {
-            if (tag.filter(item => item === t).length > 0) {
+            if (eventTags.filter(item => item === t).length > 0) {
                 return true;
             }
             return false;
@@ -58,7 +58,7 @@ export default AppFilter = (props) => {
         return false;
     };
 
-  //const ClickableTag = () => {
+  
     return (
       tags.map((item, index) =>
         <TouchableOpacity
@@ -81,7 +81,6 @@ export default AppFilter = (props) => {
       )
     )
   }
-//}
 
 
 const styles = StyleSheet.create({

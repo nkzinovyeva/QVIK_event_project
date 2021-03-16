@@ -6,7 +6,7 @@ import AppHeader from "../components/header";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
 
-export default function Screen({ navigation }) {
+export default function RestsScreen({ navigation }) {
 
   //constants
   const { restaurants, filteredRests } = useSelector(state => state.eventsReducer);

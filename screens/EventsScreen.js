@@ -1,30 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Text, SectionList } from 'react-native';
+import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList } from 'react-native';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, getRestaurants } from '../redux/actions';
+import { getEvents, getRestaurants, getPresenters, getStages } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
 
-//get the width of the screen
-const { width } = Dimensions.get("screen");
 
 export default function EventsScreen({ navigation }) {
 
-  //constants
+  //loading the data
   const { events, parent, filteredEvents } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
   const fetchRestaurants = () => dispatch(getRestaurants());
+  const fetchPresenters = () => dispatch(getPresenters());
+  const fetchStages = () => dispatch(getStages());
 
   useEffect(() => {
     fetchEvents();
     fetchRestaurants();
-    
+    fetchPresenters();
+    fetchStages();
   }, []);
 
   //header component 

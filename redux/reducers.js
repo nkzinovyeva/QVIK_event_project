@@ -1,32 +1,40 @@
 import {
+  GET_PARENT,
   GET_EVENTS,
+  GET_RESTAURANTS,
+  GET_PRESENTERS,
+  GET_STAGES,
   ADD_TO_FAVOURITE_LIST,
   REMOVE_FROM_FAVOURITE_LIST,
-  GET_PARENT,
-  GET_RESTAURANTS,
-  FILTER_BY_TAG,
+  FILTER_EVENTS_BY_TAG,
   FILTER_RESTS_BY_TAG
 } from './actions';
 
 const initialState = {
-  events: [],
-  favourites: [],
   parent: {},
-  restaurants: [],
+  events: [],
+  eventTags: [],
   filteredEvents: [],
-  tag: [],
+  restaurants: [],
   restsTags: [],
-  filteredRests: []
+  filteredRests: [],
+  favourites: [],
+  stages: [],
+  presenters: []
 };
 
 function eventsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_EVENTS:
-      return { ...state, events: action.payload };
     case GET_PARENT:
       return { ...state, parent: action.payload };
+    case GET_EVENTS:
+      return { ...state, events: action.payload };
     case GET_RESTAURANTS:
       return { ...state, restaurants: action.payload };
+    case GET_PRESENTERS:
+      return { ...state, presenters: action.payload };
+    case GET_STAGES:
+      return { ...state, stages: action.payload };
     case ADD_TO_FAVOURITE_LIST:
       return { ...state, favourites: [...state.favourites, action.payload] };
     case REMOVE_FROM_FAVOURITE_LIST:
@@ -34,9 +42,8 @@ function eventsReducer(state = initialState, action) {
         ...state,
         favourites: state.favourites.filter(event => event.eventId !== action.payload.eventId)
       };
-    case FILTER_BY_TAG:
-      return { ...state, tag: action.payload.tag, filteredEvents: action.payload.items }
-
+    case FILTER_EVENTS_BY_TAG:
+      return { ...state, eventTags: action.payload.tag, filteredEvents: action.payload.items }
     case FILTER_RESTS_BY_TAG:
       return { ...state, restsTags: action.payload.tag, filteredRests: action.payload.items }
     default:

@@ -59,7 +59,9 @@ const loadResourcesAsync = async () => {
     Asset.loadAsync([
       require("./assets/mainPic.jpg"),
       require("./assets/eventPic.jpg"),
-      require("./assets/restPic.jpg")
+      require("./assets/restPic.jpg"),
+      require("./assets/stagePic.jpg"),
+      require("./assets/presenterPic.jpg"),
     ]),
   ]);
 

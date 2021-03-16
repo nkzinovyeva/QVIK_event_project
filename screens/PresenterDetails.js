@@ -3,26 +3,24 @@ import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
 import Colors from "../constants/colors";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
-import ButtonTag from '../components/buttonTag';
-import moment from "moment";
 import { useSelector } from 'react-redux';
 
-export default function RestDetails({ route, navigation }) {
+export default function PresenterDetails({ route, navigation }) {
 
-    const { restaurants } = useSelector(state => state.eventsReducer);
-    const restaurantId = route.params;
-    const restaurant = restaurants.restaurants.filter((rest) => rest.restaurantId === restaurantId)[0]
+    const { presenters, parent } = useSelector(state => state.eventsReducer);
+    const presenter_id = route.params;
+    const presenter = presenters.filter((presenter) => presenter.presenter_id === presenter_id)[0];
   
     //header component 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             header: () =>
                 <AppHeader
-                    item={restaurant}
-                    tags={restaurant.allTags}
-                    img={require('../assets/eventPic.jpg')}
-                    title={restaurant.name}
-                    subTitle={restaurant.location}
+                    item={presenter}
+                    tags={parent.tags}
+                    img={require('../assets/presenterPic.jpg')}
+                    title={presenter.name}
+                    subTitle={presenter.contact}
                     leftButton={false}
                     rightButton={true}
                     navigation={navigation}
@@ -34,18 +32,8 @@ export default function RestDetails({ route, navigation }) {
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>
-                <ButtonTag
-                    isButton={true}
-                    name={'ios-location'}
-                    data={restaurant.location}
-                />
-                <ButtonTag
-                    isButton={false}
-                    name={'time'}
-                    data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
-                />
-                <Text style={styles.title}>{restaurant.shortDescription.toUpperCase()}</Text>
-                <Text style={styles.text}>{restaurant.fullDescription}</Text>
+                <Text style={styles.title}>{presenter.shortDescription.toUpperCase()}</Text>
+                <Text style={styles.text}>{presenter.fullDescription}</Text>
             </ScrollView>
         </SafeAreaView>
     );
