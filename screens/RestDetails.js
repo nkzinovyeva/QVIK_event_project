@@ -20,7 +20,7 @@ export default function RestDetails({ route, navigation }) {
                 <AppHeader
                     item={restaurant}
                     tags={restaurant.allTags}
-                    img={require('../assets/eventPic.jpg')}
+                    img={require('../assets/foodPic.jpg')}
                     title={restaurant.name}
                     subTitle={restaurant.location}
                     leftButton={false}

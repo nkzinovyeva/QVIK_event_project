@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Colors from "../constants/colors";
 import AppFavButton from "../components/favButton";
@@ -30,8 +30,9 @@ export default AppHeader = (props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <ImageBackground source={img} style={styles.image} >
+      <Image source={img} style={styles.image} />
 
+        <View style={styles.overlay} />
         <View style={styles.upperContainer}>
           {!props.leftButton
             ? <Text style={styles.replacementText}></Text>
@@ -65,7 +66,7 @@ export default AppHeader = (props) => {
           </ScrollView>
         </View>
 
-      </ImageBackground>
+      
     </View>
   )
 }
@@ -78,6 +79,12 @@ const styles = StyleSheet.create({
   image: {
     width: width,
     height: 210,
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(50,50,50, 0.4)',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(50,50,50, 0.4)',
   },
   upperContainer: {
     justifyContent: 'space-between',
