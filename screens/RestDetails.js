@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
 import Colors from "../constants/colors";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
@@ -8,7 +8,7 @@ import moment from "moment";
 
 export default function RestDetails({ route, navigation }) {
 
-    const restaurant = route.params;
+    const restaurantId = route.params;
 
     //header component 
     React.useLayoutEffect(() => {
@@ -29,36 +29,27 @@ export default function RestDetails({ route, navigation }) {
     }, [navigation]);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.tagContainer}>
+        <SafeAreaView style={styles.screen}>
+            <ScrollView showsHorizontalScrollIndicator={true}>
                 <ButtonTag
-                    onPress={() => { console.log('I dont know what to do with that') }}
                     isButton={true}
-                    icon='compass'
-                    text={restaurant.location}
+                    name={'ios-location'}
+                    data={restaurant.location}
                 />
-            </View>
-            <View style={styles.tagContainer}>
-                <ScrollView
-                    horizontal={true}>
-                    <ButtonTag
-                        isButton={false}
-                        icon='time'
-                        text={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
-                    />
-                </ScrollView>
-            </View>
-            <ScrollView style={{ backgroundColor: 'white', width: '100%' }}
-                showsHorizontalScrollIndicator={true}>
+                <ButtonTag
+                    isButton={false}
+                    name={'time'}
+                    data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
+                />
                 <Text style={styles.title}>{restaurant.shortDescription.toUpperCase()}</Text>
                 <Text style={styles.text}>{restaurant.fullDescription}</Text>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    screen: {
         flex: 1,
         backgroundColor: Colors.backwhite,
         alignItems: 'flex-start',
@@ -75,12 +66,5 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         margin: 16,
         marginTop: 0,
-    },
-    tagContainer: {
-        flexDirection: 'row',
-        borderBottomWidth: 0.5,
-        borderColor: 'grey',
-        width: '100%',
-        backgroundColor: 'white'
     }
 });

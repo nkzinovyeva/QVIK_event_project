@@ -2,33 +2,57 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
 import Colors from "../constants/colors";
+import moment from "moment";
+import theme from '../constants/theme';
+
+import { useSelector } from 'react-redux';
 
 import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
   
-  const { title, subTitle, tags, item } = route.params;
+  const { parent } = useSelector(state => state.eventsReducer);
 
-  //get the width of the screen
-  const { width } = Dimensions.get("screen");
+  const event = route.params;
 
-  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.id;
-  const [event, setEvent] = useState('');
+  let date = moment(event.startDate, "YYYY-MM-DD")
+  let time = moment(event.startTime, "HH:mm:ss").format('LT');
+  let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
+
+  /*----- TO CHANGE TO REDUX LATER------*/
+
+  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.eventId;
+  const [eventData, setEventData] = useState(null);
 
   useEffect(() => {
-    getEvent();
+    getEventData();
   }, []);
+
+  const getEventData = () => {
+    const url = dataUrl;
+    fetch(url)
+      .then((response) => response.json())
+      .then((jsondata) => {
+        setEventData(jsondata.data);
+        //console.log(jsondata.data)
+      })
+      .catch((error) => {
+        Alert.alert('Error', error);
+      });
+  };
+
+  /*----- TO CHANGE TO REDUX LATER------*/
 
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () => 
         <AppHeader
-          item={item}
-          tags={tags}
+          item={event}
+          tags={event.inheritedTags.concat(event.tags)}
           img={require('../assets/eventPic.jpg')}
-          title={title} 
-          subTitle={subTitle}
+          title={event.title} 
+          subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}
           rightButton={true} 
           navigation={navigation}
@@ -37,20 +61,7 @@ export default function EventDetailsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
-  const getEvent = () => {
-    const url = dataUrl;
-    fetch(url)
-      .then((response) => response.json())
-      .then((jsondata) => {
-        setEvent(jsondata.data);
-        //console.log(jsondata.data)
-      })
-      .catch((error) => {
-        Alert.alert('Error', error);
-      });
-  };
-
-  if (!event) {
+  if (!eventData) {
     return (
       <View>
         <Text>Loading..</Text>
@@ -60,38 +71,57 @@ export default function EventDetailsScreen({ route, navigation }) {
   else {
     return (
       <SafeAreaView style={styles.screen}>
-          
-        <View style={{}}>
-          <ScrollView showsHorizontalScrollIndicator={true} >
-            <Text style={{ fontSize: 24, padding: 16, lineHeight: 30, color: Colors.blueColor, backgroundColor: Colors.backwhite }}>{event.shortDescription}</Text>
-            <Text style={{ fontSize: 16, padding: 16, lineHeight: 30, backgroundColor: Colors.backwhite }}>{event.fullDescription}</Text>
-          </ScrollView>
-        </View>
+        <ScrollView showsHorizontalScrollIndicator={true} >
+            <ButtonTag
+              isButton={true}
+              name={'ios-location'}
+              onPress={() => navigation.navigate("Stage", eventData.stage.stage_id) }
+              data={eventData.stage.name}
+              subData = {parent.venue}
+            />
+          {eventData.presenters.map((item, index) =>
+              <ButtonTag
+                key={index + item}
+                isButton={true}
+                name={'volume-high'}
+                onPress={() => navigation.navigate("Presenter", item.presenter_id) }
+                data={item.name}
+              />
+          )}
+          {eventData.restaurants.map((item, index) =>
+              <ButtonTag
+                key={index + item}
+                isButton={true}
+                name={'ios-restaurant'}
+                onPress={() => navigation.navigate('Restaurant', item.restaurantId) }
+                data={item.name}
+              />
+          )}
+          <Text style={styles.title}>{eventData.shortDescription}</Text>
+          <Text style={styles.text}>{eventData.fullDescription}</Text>
+        </ScrollView>
       </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     backgroundColor: Colors.backwhite,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tag: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    margin: 5,
-    borderRadius: 16
+  title: {
+      fontSize: theme.fontSizes.detailsTitle,
+      fontFamily: theme.fonts.fontFamily,
+      margin: 16
   },
-  tagText: {
-    color: 'white',
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-    flexDirection: 'row',
+  text: {
+      fontSize: theme.fontSizes.detailsText,
+      fontFamily: theme.fonts.fontFamily,
+      lineHeight: 30,
+      margin: 16,
+      marginTop: 0,
   },
 });

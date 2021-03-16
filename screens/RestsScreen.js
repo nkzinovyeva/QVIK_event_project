@@ -1,25 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import React from 'react';
+import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
-import { useSelector, useDispatch } from 'react-redux';
-import { getRestaurants } from '../redux/actions';
+import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
 
 export default function Screen({ navigation }) {
 
   //constants
   const { restaurants, filteredRests } = useSelector(state => state.eventsReducer);
-  const dispatch = useDispatch();
-
-  const fetchRestaurants = () => dispatch(getRestaurants());
-
-  useEffect(() => {
-    fetchRestaurants();
-    console.log(restaurants);
-  }, []);
-
 
   //header component 
   React.useLayoutEffect(() => {
@@ -59,7 +49,7 @@ export default function Screen({ navigation }) {
 
     return (
       <TouchableOpacity
-        onPress={() => { navigation.navigate('Restaurant', item) }}
+        onPress={() => { navigation.navigate('Restaurant', item.restaurantId) }}
       >
         <AppList
           leftIcon={false}

@@ -54,7 +54,7 @@ const restStack = createStackNavigator();
 
 function restorantsStackScreen() {
     return (
-      <restStack.Navigator   headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
+      <restStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
         <restStack.Screen name="Late Bites" component={Screen}  />
         <restStack.Screen name="Restaurant" component={RestDetails}  />
       </restStack.Navigator>

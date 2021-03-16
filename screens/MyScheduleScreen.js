@@ -40,20 +40,10 @@ export default function MyScheduleScreen({navigation}) {
 //render the event
   const Event = ({item}) => {
 
-    //variables to pass to the event-page
-    let date = moment(item.startDate, "YYYY-MM-DD")
-    let time = moment(item.startTime, "HH:mm:ss").format('LT');
-    let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
-    let venue = parent.venue
-    let title = item.title
-    let stage = item.stage
-    let id = item.eventId
-    let tags = [...item.tags, `Hosted by ${item.presenters}`, `${venue}, ${stage}`, item.inheritedTags ]
-
-
     //code-block to check the passed/future events
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
+    
     var passed = "";
       if (item.startDate > nowDate || item.startTime > nowTime ) {
         passed = false;
@@ -63,27 +53,18 @@ export default function MyScheduleScreen({navigation}) {
     return (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Event", 
-              { 
-                id: id,
-                title: title, 
-                subTitle: `@${venue}, ${date.format('ddd')}, ${date.format("MMM Do")}, ${time}, ${duration} min`, 
-                tags: tags,
-                item: item
-              }) // TO PASS TO THE EVENT PAGE
-          }
+            navigation.navigate("Event", item )}
         >
         <AppList
             leftIcon={true}
             iconColor={Colors.blackColor}
-            title={title}
-            subtitle={stage}
-            rightTopSubtitle={date.format('ll')}
-            rightBottomSubtitle={time}
+            title={item.title}
+            subtitle={item.stage}
+            rightTopSubtitle={moment(item.startDate, "YYYY-MM-DD").format('ll')}
+            rightBottomSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}
             passed={passed}
             item={item}
-
-          />
+        />
       </TouchableOpacity>
     );
   }
