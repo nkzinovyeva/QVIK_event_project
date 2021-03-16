@@ -24,6 +24,7 @@ export default function EventsScreen({ navigation }) {
   useEffect(() => {
     fetchEvents();
     fetchRestaurants();
+    
   }, []);
 
   //header component 

@@ -1,15 +1,18 @@
-import React from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, SafeAreaView, Text, View } from 'react-native';
 import Colors from "../constants/colors";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
 import ButtonTag from '../components/buttonTag';
 import moment from "moment";
+import { useSelector } from 'react-redux';
 
 export default function RestDetails({ route, navigation }) {
 
+    const { restaurants } = useSelector(state => state.eventsReducer);
     const restaurantId = route.params;
-
+    const restaurant = restaurants.restaurants.filter((rest) => rest.restaurantId === restaurantId)[0]
+  
     //header component 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -26,7 +29,7 @@ export default function RestDetails({ route, navigation }) {
                     clickableTag={false}
                 />,
         });
-    }, [navigation]);
+    }, [navigation]); 
 
     return (
         <SafeAreaView style={styles.screen}>

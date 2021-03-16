@@ -11,6 +11,8 @@ export default function Screen({ navigation }) {
   //constants
   const { restaurants, filteredRests } = useSelector(state => state.eventsReducer);
 
+  console.log('rests', restaurants)
+
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({

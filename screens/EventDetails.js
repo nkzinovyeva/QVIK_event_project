@@ -93,7 +93,7 @@ export default function EventDetailsScreen({ route, navigation }) {
                 key={index + item}
                 isButton={true}
                 name={'ios-restaurant'}
-                onPress={() => navigation.navigate('Restaurant', item.restaurantId) }
+                onPress={() => navigation.push('Restaurant', item.restaurantId) }
                 data={item.name}
               />
           )}

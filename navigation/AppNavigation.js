@@ -32,7 +32,8 @@ function EventsStackScreen() {
     return (
       <eventsStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
         <eventsStack.Screen name="Whole Schedule" component={EventsScreen} />
-        <eventsStack.Screen name="Event" component={EventsDetails} /> 
+        <eventsStack.Screen name="Event" component={EventsDetails} />
+        <eventsStack.Screen name="Restaurant" component={RestDetails} />
       </eventsStack.Navigator>
     );
 }
