@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 export default function PresenterDetails({ route, navigation }) {
 
     const { presenters, parent } = useSelector(state => state.eventsReducer);
-    const presenter_id = route.params;
-    const presenter = presenters.filter((presenter) => presenter.presenter_id === presenter_id)[0];
+    const presenterId = route.params;
+    const presenter = presenters.filter((presenter) => presenter.presenterId === presenterId)[0];
   
     //header component 
     React.useLayoutEffect(() => {

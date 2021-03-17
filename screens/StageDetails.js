@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 
 export default function StagesDetails({ route, navigation }) {
 
-    const { stages, parent } = useSelector(state => state.eventsReducer);
-    const stage_id = route.params;
-    const stage = stages.filter((stage) => stage.stage_id === stage_id)[0];
+    const { stages } = useSelector(state => state.eventsReducer);
+    const stageId = route.params;
+    const stage = stages.filter((stage) => stage.stageId === stageId)[0];
   
     //header component 
     React.useLayoutEffect(() => {
@@ -17,10 +17,9 @@ export default function StagesDetails({ route, navigation }) {
             header: () =>
                 <AppHeader
                     item={stage}
-                    //tags={parent.tags}
                     img={require('../assets/stagePic.jpg')}
                     title={`${stage.venue.name}, ${stage.name}`}
-                    subTitle={stage.venue.city}
+                    subTitle={stage.location}
                     leftButton={false}
                     rightButton={true}
                     navigation={navigation}
