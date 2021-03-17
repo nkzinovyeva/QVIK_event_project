@@ -11,7 +11,7 @@ import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
   
-  const { parent } = useSelector(state => state.eventsReducer);
+  const { setupData } = useSelector(state => state.eventsReducer);
 
   const event = route.params;
 
@@ -20,7 +20,7 @@ export default function EventDetailsScreen({ route, navigation }) {
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
 
   /*----- TO CHANGE TO REDUX LATER------*/
-
+/*
   const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.eventId;
   const [eventData, setEventData] = useState(null);
 
@@ -40,7 +40,7 @@ export default function EventDetailsScreen({ route, navigation }) {
         Alert.alert('Error', error);
       });
   };
-
+*/
   /*----- TO CHANGE TO REDUX LATER------*/
 
   //header component 
@@ -49,7 +49,7 @@ export default function EventDetailsScreen({ route, navigation }) {
       header: () => 
         <AppHeader
           item={event}
-          tags={event.inheritedTags.concat(event.tags)}
+          tags={event.inheritedTags.concat(event.eventTags)}
           img={require('../assets/eventPic.jpg')}
           title={event.title} 
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
@@ -61,7 +61,7 @@ export default function EventDetailsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
-  if (!eventData) {
+  if (!event) {
     return (
       <View>
         <Text>Loading..</Text>
@@ -75,20 +75,20 @@ export default function EventDetailsScreen({ route, navigation }) {
             <ButtonTag
               isButton={true}
               name={'ios-location'}
-              onPress={() => navigation.navigate("Stage", eventData.stage.stage_id) }
-              data={eventData.stage.name}
-              subData = {parent.venue}
+              onPress={() => navigation.navigate("Stage", event.stage.stageId) }
+              data={event.stage.name}
+              subData = {setupData.venue}
             />
-          {eventData.presenters.map((item, index) =>
+          {event.presenters.map((item, index) =>
               <ButtonTag
                 key={index + item}
                 isButton={true}
                 name={'volume-high'}
-                onPress={() => navigation.navigate("Presenter", item.presenter_id) }
+                onPress={() => navigation.navigate("Presenter", item.presenterId) }
                 data={item.name}
               />
           )}
-          {eventData.restaurants.map((item, index) =>
+          {event.restaurants.map((item, index) =>
               <ButtonTag
                 key={index + item}
                 isButton={true}
@@ -97,8 +97,8 @@ export default function EventDetailsScreen({ route, navigation }) {
                 data={item.name}
               />
           )}
-          <Text style={styles.title}>{eventData.shortDescription}</Text>
-          <Text style={styles.text}>{eventData.fullDescription}</Text>
+          <Text style={styles.title}>{event.shortDescription}</Text>
+          <Text style={styles.text}>{event.fullDescription}</Text>
         </ScrollView>
       </SafeAreaView>
     );

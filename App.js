@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import AppNav from "./navigation/AppNavigation";
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
@@ -9,7 +9,7 @@ import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
 //import * as Font from "expo-font";
 import  AppLoading from "expo-app-loading";
-import { getParent} from './redux/actions';
+import { getSetUp} from './redux/actions';
 
 /*const customFonts = () => {
   Font.loadAsync({
@@ -65,8 +65,7 @@ const loadResourcesAsync = async () => {
       require("./assets/foodPic.jpg"),
     ]),
   ]);
-
-  await store.dispatch(getParent());
+  await store.dispatch(getSetUp());
 }
 
 

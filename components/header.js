@@ -16,16 +16,21 @@ export default AppHeader = (props) => {
   const { title, subTitle, img, tags, navigation, clickableTag, item, rests } = props;
 
   //ordinary tag bar
+  
   const Tag = () => {
-    return (
-      tags.map((item, index) =>
-        <View key={index + item} style={styles.tagContainer} >
-          <View style={{ ...styles.tag, ...{ borderColor: theme.colors.whiteColor } }}>
-            <Text style={styles.tagText}>#{item}</Text>
+    if (Array.isArray(tags)) {
+      return (
+        tags.map((item, index) =>
+          <View key={index + item} style={styles.tagContainer} >
+            <View style={{ ...styles.tag, ...{ borderColor: theme.colors.whiteColor } }}>
+              <Text style={styles.tagText}>#{item}</Text>
+            </View>
           </View>
-        </View>
+        )
       )
-    )
+    } else {
+        return (<Text style={styles.replacementText}></Text>)
+      }
   }
 
   return (
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
     width: width,
     height: 210,
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(50,50,50, 0.4)',
+    backgroundColor: 'rgba(123,147,185, 0.4)',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

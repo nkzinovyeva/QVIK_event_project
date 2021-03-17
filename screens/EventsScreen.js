@@ -11,9 +11,9 @@ import theme from '../constants/theme';
 
 
 export default function EventsScreen({ navigation }) {
-
+  
   //loading the data
-  const { events, parent, filteredEvents } = useSelector(state => state.eventsReducer);
+  const { events, setupData, filteredEvents } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
@@ -33,10 +33,11 @@ export default function EventsScreen({ navigation }) {
     navigation.setOptions({
       header: () =>
         <AppHeader
-          tags={parent.allTags}
-          img={require('../assets/mainPic.jpg')}
-          title={parent.title} 
-          subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          tags={setupData.allEventTags}
+          //img={require('../assets/mainPic.jpg')}
+          img={{uri: setupData.eventImage}}
+          title={setupData.title} 
+          subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}
           rightButton={false}
           clickableTag={true}
@@ -71,7 +72,7 @@ export default function EventsScreen({ navigation }) {
           leftIcon={true}
           iconColor={Colors.blackColor}
           title={item.title}
-          subtitle={item.stage}
+          subtitle={item.stage.name}
           rightTopSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}
           rightBottomSubtitle={rightBottomSubtitle}
           passed={passed}
@@ -84,7 +85,7 @@ export default function EventsScreen({ navigation }) {
   return ( 
     <SafeAreaView style={styles.container}>
       <SectionList
-        sections={filteredEvents.subEvents && filteredEvents.subEvents.length > 0 ? filteredEvents.subEvents : events.subEvents}
+        sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
         keyExtractor={(item, index) => item + index}
         renderItem={({item}) => <Event item={item} />}
         renderSectionHeader={({ section: { dateAsTitle } }) => (

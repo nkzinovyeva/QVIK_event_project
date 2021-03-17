@@ -17,7 +17,7 @@ export default function PresenterDetails({ route, navigation }) {
             header: () =>
                 <AppHeader
                     item={presenter}
-                    tags={parent.tags}
+                    //tags={parent.tags}
                     img={require('../assets/presenterPic.jpg')}
                     title={presenter.name}
                     subTitle={presenter.contact}

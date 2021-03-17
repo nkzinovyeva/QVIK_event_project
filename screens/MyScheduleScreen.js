@@ -12,7 +12,7 @@ const { width } = Dimensions.get("screen");
 
 export default function MyScheduleScreen({navigation}) {
 
-  const { parent, favourites } = useSelector(state => state.eventsReducer);
+  const { setupData, favourites } = useSelector(state => state.eventsReducer);
 
   favourites.sort((a, b) =>
     a.startDate > b.startDate || a.startTime > b.startTime
@@ -26,10 +26,11 @@ export default function MyScheduleScreen({navigation}) {
     navigation.setOptions({
       header: () => 
         <AppHeader 
-          tags={parent.allTags}
-          img={require('../assets/mainPic.jpg')}
+          tags={setupData.allEventTags}
+          //img={require('../assets/mainPic.jpg')}
+          img={{uri: setupData.eventImage}}
           title="My schedule" 
-          subTitle={parent.venue + ', ' + (moment(parent.startDate).format("MMM Do") +  " - " + moment(parent.endDate).format("Do YYYY"))}
+          subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}
           rightButton={false}
           clickableTag={false}
@@ -59,7 +60,7 @@ export default function MyScheduleScreen({navigation}) {
             leftIcon={true}
             iconColor={Colors.blackColor}
             title={item.title}
-            subtitle={item.stage}
+            subtitle={item.stage.name}
             rightTopSubtitle={moment(item.startDate, "YYYY-MM-DD").format('ll')}
             rightBottomSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}
             passed={passed}

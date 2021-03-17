@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {
-  BASE_URL,
+  SETUP_URL,
+  EVENTS_URL,
   RESTAURANT_URL,
   PRESENTERS_URL,
   STAGES_URL
 } from '../config';
 
 // Define action types
-export const GET_PARENT = 'GET_PARENT';
+export const GET_SETUP = 'GET_SETUP';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 export const GET_PRESENTERS = 'GET_PRESENTERS';
@@ -18,14 +19,15 @@ export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 export const FILTER_RESTS_BY_TAG = 'FILTER_RESTS_BY_TAG';
 
 //"parent" event get info action
-export const getParent = () => {
+export const getSetUp = () => {
   try {
     return async dispatch => {
-      const response = await axios.get(`${BASE_URL}`);
+      const response = await axios.get(`${SETUP_URL}`);
       if (response.data) {
+        console.log('data', response.data.data)
         dispatch({
-          type: GET_PARENT,
-          payload: response.data.data.parentEvent
+          type: GET_SETUP,
+          payload: response.data.data
         });
       } else {
         console.log('Unable to fetch data from the API BASE URL!');
@@ -41,7 +43,7 @@ export const getParent = () => {
 export const getEvents = () => {
   try {
     return async dispatch => {
-      const response = await axios.get(`${BASE_URL}`);
+      const response = await axios.get(`${EVENTS_URL}`);
       if (response.data) {
         dispatch({
           type: GET_EVENTS,
@@ -160,12 +162,12 @@ export const filterRestsByTag = (tag, restaurantsArray) => dispatch => {
 export const filterEventsByTag = (tag, eventsArray) => dispatch => {
 
   if (tag.length > 0) {
-    eventsArray.subEvents.filter((events) => {
+    eventsArray.filter((events) => {
       let temp = [];
       events.data.filter((event) => {
         let hasAllTags = true;
         tag.map((tag) => {
-          if (event.tags.includes(tag) || event.inheritedTags.includes(tag)) {
+          if (event.eventTags.includes(tag) || event.inheritedTags.includes(tag)) {
             //hasAllTags = true;
           } else {
             hasAllTags = false;

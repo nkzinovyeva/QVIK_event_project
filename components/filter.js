@@ -8,7 +8,7 @@ export default AppFilter = (props) => {
 
     let {rests, tags} = props;
     
-    const { eventTags, events, parent, restsTags, restaurants } = useSelector(state => state.eventsReducer);
+    const { eventTags, events, setupData, restsTags, restaurants } = useSelector(state => state.eventsReducer);
     const dispatch = useDispatch();
     
     const eventfilter = (tag, eventsArray) => dispatch(filterEventsByTag(tag, eventsArray));
@@ -52,7 +52,7 @@ export default AppFilter = (props) => {
     };
     
     const ifParentTag = t => {
-        if (parent.tags.filter(tag => tag === t).length > 0) {
+        if (setupData.eventTags.filter(tag => tag === t).length > 0) {
         return true;
         }
         return false;

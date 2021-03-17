@@ -9,7 +9,7 @@ import AppList from "../components/listItem";
 export default function RestsScreen({ navigation }) {
 
   //constants
-  const { restaurants, filteredRests } = useSelector(state => state.eventsReducer);
+  const { restaurants, filteredRests, setupData } = useSelector(state => state.eventsReducer);
 
   console.log('rests', restaurants)
 
@@ -18,8 +18,9 @@ export default function RestsScreen({ navigation }) {
     navigation.setOptions({
       header: () =>
         <AppHeader
-          tags={restaurants.allTags}
-          img={require('../assets/restPic.jpg')}
+          tags={setupData.allRestaurantTags}
+          //img={require('../assets/restPic.jpg')}
+          img={{uri: setupData.restaurantImage}}
           title="Late Bites"
           subTitle="@Helsinki region"
           leftButton={false}

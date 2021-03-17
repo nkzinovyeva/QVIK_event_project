@@ -1,5 +1,5 @@
 import {
-  GET_PARENT,
+  GET_SETUP,
   GET_EVENTS,
   GET_RESTAURANTS,
   GET_PRESENTERS,
@@ -11,7 +11,7 @@ import {
 } from './actions';
 
 const initialState = {
-  parent: {},
+  setupData: {},
   events: [],
   eventTags: [],
   filteredEvents: [],
@@ -25,8 +25,8 @@ const initialState = {
 
 function eventsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_PARENT:
-      return { ...state, parent: action.payload };
+    case GET_SETUP:
+      return { ...state, setupData: action.payload };
     case GET_EVENTS:
       return { ...state, events: action.payload };
     case GET_RESTAURANTS:
