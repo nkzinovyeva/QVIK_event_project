@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
 import Colors from "../constants/colors";
+import AppFavButton from "../components/favButton";
 import moment from "moment";
 import theme from '../constants/theme';
 import { useSelector } from 'react-redux';
@@ -116,6 +117,9 @@ export default function EventDetailsScreen({ route, navigation }) {
               )}
           </ScrollView>
           <Text style={styles.title}>{event.data[0].shortDescription}</Text>
+          <View style={styles.buttonContainer}>
+            <AppFavButton item={event.data[0]} text="My Schedule" color={theme.colors.blackColor} />
+          </View>
           <Text style={styles.text}>{event.data[0].fullDescription}</Text>
         </ScrollView>
       </SafeAreaView>
@@ -142,6 +146,11 @@ const styles = StyleSheet.create({
       margin: 16,
       marginTop: 0,
   },
+  buttonContainer: {
+    marginLeft: 16,
+    marginBottom: 16,
+    marginTop: 0,
+},
   tagContainer: {
     //flexDirection: 'row',
     borderBottomWidth: 0.5,

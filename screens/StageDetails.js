@@ -24,7 +24,7 @@ export default function StagesDetails({ route, navigation }) {
                     img={require('../assets/stagePic.jpg')}
                     title={`${stage.venue.name}, ${stage.name}`}
                     subTitle={stage.location}
-                    leftButton={false}
+                    leftButton={true}
                     rightButton={true}
                     navigation={navigation}
                     clickableTag={false}

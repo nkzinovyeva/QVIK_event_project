@@ -41,7 +41,13 @@ export default AppHeader = (props) => {
         <View style={styles.upperContainer}>
           {!props.leftButton
             ? <Text style={styles.replacementText}></Text>
-            : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
+           // : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
+           : <Icon
+                name='chevron-back'
+                type='ionicon'
+                color='white'
+                onPress={props.rightButton ? () => navigation.goBack() : {}}
+              />
           }
 
           {!props.rightButton
@@ -50,7 +56,7 @@ export default AppHeader = (props) => {
               name='close'
               type='ionicon'
               color='white'
-              onPress={props.rightButton ? () => navigation.goBack() : {}}
+              onPress={props.rightButton ? () => navigation.navigate("Whole Schedule") : {}}
             />
           }
 

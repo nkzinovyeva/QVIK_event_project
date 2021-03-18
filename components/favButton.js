@@ -53,11 +53,11 @@ export default AppFavButton;
 
 const styles = StyleSheet.create({
     mainContainer: {
-        justifyContent: 'space-between', 
+        justifyContent: "flex-start", 
         flexDirection: "row",
     },
     text: {
-        color: theme.colors.whiteColor, 
+        color: theme.colors.blackColor, 
         fontSize: theme.fontSizes.headerSubtitle, 
         paddingTop: 4, 
         paddingLeft: 5

@@ -25,7 +25,7 @@ export default function PresenterDetails({ route, navigation }) {
                     img={require('../assets/presenterPic.jpg')}
                     title={presenter.name}
                     subTitle={presenter.contact}
-                    leftButton={false}
+                    leftButton={true}
                     rightButton={true}
                     navigation={navigation}
                     clickableTag={false}
