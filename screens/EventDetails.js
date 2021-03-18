@@ -12,56 +12,65 @@ const { width } = Dimensions.get("screen");
 import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
-  
+
   const { events, setupData } = useSelector(state => state.eventsReducer);
 
   const eventId = route.params;
   console.log('eventId', eventId)
-  const event = events.filter((block) => block.data.filter((event) => event.eventId === eventId)[0])[0];
-  console.log('event', event)
+  //const event = events.filter((block) => block.data.filter((event) => event.eventId === eventId)[0])[0];
+  //console.log('event', event)
+
+  let event = {}
+  events.map((block) => {
+    block.data.map((ev) => {
+      if (ev.eventId === eventId) {
+        event = ev;
+      }
+    })
+  })
 
   //const event = route.params;
 
-  let date = moment(event.data[0].startDate, "YYYY-MM-DD")
-  let time = moment(event.data[0].startTime, "HH:mm:ss").format('LT');
-  let duration = moment(event.data[0].endTime, "HH:mm:ss").diff(moment(event.data[0].startTime, "HH:mm:ss"), 'minutes')
+  let date = moment(event.startDate, "YYYY-MM-DD")
+  let time = moment(event.startTime, "HH:mm:ss").format('LT');
+  let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
 
   /*----- TO CHANGE TO REDUX LATER------*/
-/*
-  const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.eventId;
-  const [eventData, setEventData] = useState(null);
-
-  useEffect(() => {
-    getEventData();
-  }, []);
-
-  const getEventData = () => {
-    const url = dataUrl;
-    fetch(url)
-      .then((response) => response.json())
-      .then((jsondata) => {
-        setEventData(jsondata.data);
-        //console.log(jsondata.data)
-      })
-      .catch((error) => {
-        Alert.alert('Error', error);
-      });
-  };
-*/
+  /*
+    const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.eventId;
+    const [eventData, setEventData] = useState(null);
+  
+    useEffect(() => {
+      getEventData();
+    }, []);
+  
+    const getEventData = () => {
+      const url = dataUrl;
+      fetch(url)
+        .then((response) => response.json())
+        .then((jsondata) => {
+          setEventData(jsondata.data);
+          //console.log(jsondata.data)
+        })
+        .catch((error) => {
+          Alert.alert('Error', error);
+        });
+    };
+  */
   /*----- TO CHANGE TO REDUX LATER------*/
 
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => 
+      header: () =>
         <AppHeader
-          item={event.data[0]}
-          tags={event.data[0].inheritedTags.concat(event.data[0].eventTags)}
+          item={event}
+          tags={event.inheritedTags.concat(event.eventTags)}
           img={require('../assets/eventPic.jpg')}
-          title={event.data[0].title} 
+          title={event.title}
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}
-          rightButton={true} 
+          rightButton={true}
           navigation={navigation}
           clickableTag={false}
         />,
@@ -82,45 +91,45 @@ export default function EventDetailsScreen({ route, navigation }) {
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
+            <ButtonTag
+              isButton={true}
+              name={'ios-location'}
+              onPress={() => navigation.push("Stage", event.stage.stageId)}
+              data={event.stage.name}
+              subData={setupData.venue}
+            />
+          </ScrollView>
+          <ScrollView
+            style={styles.tagContainer}
+            horizontal={true}>
+            {event.presenters.map((item, index) =>
               <ButtonTag
+                key={index + item}
                 isButton={true}
-                name={'ios-location'}
-                onPress={() => navigation.push("Stage", event.data[0].stage.stageId) }
-                data={event.data[0].stage.name}
-                subData = {setupData.venue}
+                name={'volume-high'}
+                onPress={() => navigation.push("Presenter", item.presenterId)}
+                data={item.name}
               />
+            )}
           </ScrollView>
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
-              {event.data[0].presenters.map((item, index) =>
-                  <ButtonTag
-                    key={index + item}
-                    isButton={true}
-                    name={'volume-high'}
-                    onPress={() => navigation.push("Presenter", item.presenterId) }
-                    data={item.name}
-                  />
-              )}
+            {event.restaurants.map((item, index) =>
+              <ButtonTag
+                key={index + item}
+                isButton={true}
+                name={'ios-restaurant'}
+                onPress={() => navigation.push('Restaurant', item.restaurantId)}
+                data={item.name}
+              />
+            )}
           </ScrollView>
-          <ScrollView
-            style={styles.tagContainer}
-            horizontal={true}>
-              {event.data[0].restaurants.map((item, index) =>
-                  <ButtonTag
-                    key={index + item}
-                    isButton={true}
-                    name={'ios-restaurant'}
-                    onPress={() => navigation.push('Restaurant', item.restaurantId) }
-                    data={item.name}
-                  />
-              )}
-          </ScrollView>
-          <Text style={styles.title}>{event.data[0].shortDescription}</Text>
+          <Text style={styles.title}>{event.shortDescription}</Text>
           <View style={styles.buttonContainer}>
-            <AppFavButton item={event.data[0]} text="My Schedule" color={theme.colors.blackColor} />
+            <AppFavButton item={event} text="My Schedule" color={theme.colors.blackColor} />
           </View>
-          <Text style={styles.text}>{event.data[0].fullDescription}</Text>
+          <Text style={styles.text}>{event.fullDescription}</Text>
         </ScrollView>
       </SafeAreaView>
     );
@@ -135,27 +144,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-      fontSize: theme.fontSizes.detailsTitle,
-      fontFamily: theme.fonts.fontFamily,
-      margin: 16
+    fontSize: theme.fontSizes.detailsTitle,
+    fontFamily: theme.fonts.fontFamily,
+    margin: 16
   },
   text: {
-      fontSize: theme.fontSizes.detailsText,
-      fontFamily: theme.fonts.fontFamily,
-      lineHeight: 30,
-      margin: 16,
-      marginTop: 0,
+    fontSize: theme.fontSizes.detailsText,
+    fontFamily: theme.fonts.fontFamily,
+    lineHeight: 30,
+    margin: 16,
+    marginTop: 0,
   },
   buttonContainer: {
     marginLeft: 16,
     marginBottom: 16,
     marginTop: 0,
-},
+  },
   tagContainer: {
     //flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: 'grey',
     width: width,
     backgroundColor: 'white'
-}
+  }
 });
