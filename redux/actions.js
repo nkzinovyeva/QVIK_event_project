@@ -24,7 +24,6 @@ export const getSetUp = () => {
     return async dispatch => {
       const response = await axios.get(`${SETUP_URL}`);
       if (response.data) {
-        console.log('data', response.data.data)
         dispatch({
           type: GET_SETUP,
           payload: response.data.data

@@ -8,25 +8,25 @@ export default ButtonTag = ( props ) => {
     const { subData, isButton, data, onPress, name } = props;
 
     return (
-        <TouchableOpacity 
-            onPress={onPress}
-        >
-            <View style={styles.tag}>
-                <Icon
-                    name={name}
-                    type='ionicon'
-                    color='white'
-                />
-                <Text style={styles.tagText}> {subData} {data}</Text>
-                {isButton && (
+            <TouchableOpacity 
+                onPress={onPress}
+            >
+                <View style={styles.tag}>
                     <Icon
-                        name='chevron-forward'
+                        name={name}
                         type='ionicon'
-                        color='white'
+                        color={theme.colors.whiteColor}
                     />
-                )}
-            </View>
-        </TouchableOpacity>
+                    <Text style={styles.tagText}> {subData} {data}</Text>
+                    {isButton && (
+                        <Icon
+                            name='chevron-forward'
+                            type='ionicon'
+                            color={theme.colors.whiteColor}
+                        />
+                    )}
+                </View>
+            </TouchableOpacity>
     )
 }
 

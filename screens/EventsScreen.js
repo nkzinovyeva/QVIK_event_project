@@ -65,7 +65,7 @@ export default function EventsScreen({ navigation }) {
     return ( 
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("Event", item) // TO PASS TO THE EVENT PAGE
+          navigation.navigate("Event", item.eventId) // TO PASS TO THE EVENT PAGE
         }
       >
         <AppList

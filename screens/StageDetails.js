@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
 import Colors from "../constants/colors";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
+import moment from "moment";
 import { useSelector } from 'react-redux';
+import { Dimensions } from 'react-native';
+
+const { width } = Dimensions.get("screen");
 
 export default function StagesDetails({ route, navigation }) {
 
@@ -31,6 +35,19 @@ export default function StagesDetails({ route, navigation }) {
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>
+                <ScrollView
+                    style={styles.tagContainer}
+                    horizontal={true}>
+                    {stage.events.map((item, index) =>
+                        <ButtonTag
+                            key={index + item}
+                            isButton={true}
+                            name={'attach-sharp'}
+                            onPress={() => navigation.push("Event", item.eventId) }
+                            data={`"${item.title}", ${moment(item.startDate).format("ddd")}, ${moment(item.startTime, "HH:mm:ss").format('LT')}`}
+                        />
+                    )}
+                </ScrollView>
                 <Text style={styles.title}>TRANSPORTATION</Text>
                 <Text style={styles.title}>FACILITIES</Text>
             </ScrollView>
@@ -56,5 +73,12 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         margin: 16,
         marginTop: 0,
-    }
+    },
+    tagContainer: {
+      //flexDirection: 'row',
+      borderBottomWidth: 0.5,
+      borderColor: 'grey',
+      width: width,
+      backgroundColor: 'white'
+  }
 });

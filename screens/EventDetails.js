@@ -4,20 +4,26 @@ import { Alert, ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } f
 import Colors from "../constants/colors";
 import moment from "moment";
 import theme from '../constants/theme';
-
 import { useSelector } from 'react-redux';
+
+const { width } = Dimensions.get("screen");
 
 import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
   
-  const { setupData } = useSelector(state => state.eventsReducer);
+  const { events, setupData } = useSelector(state => state.eventsReducer);
 
-  const event = route.params;
+  const eventId = route.params;
+  console.log('eventId', eventId)
+  const event = events.filter((block) => block.data.filter((event) => event.eventId === eventId)[0])[0];
+  console.log('event', event)
 
-  let date = moment(event.startDate, "YYYY-MM-DD")
-  let time = moment(event.startTime, "HH:mm:ss").format('LT');
-  let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
+  //const event = route.params;
+
+  let date = moment(event.data[0].startDate, "YYYY-MM-DD")
+  let time = moment(event.data[0].startTime, "HH:mm:ss").format('LT');
+  let duration = moment(event.data[0].endTime, "HH:mm:ss").diff(moment(event.data[0].startTime, "HH:mm:ss"), 'minutes')
 
   /*----- TO CHANGE TO REDUX LATER------*/
 /*
@@ -48,10 +54,10 @@ export default function EventDetailsScreen({ route, navigation }) {
     navigation.setOptions({
       header: () => 
         <AppHeader
-          item={event}
-          tags={event.inheritedTags.concat(event.eventTags)}
+          item={event.data[0]}
+          tags={event.data[0].inheritedTags.concat(event.data[0].eventTags)}
           img={require('../assets/eventPic.jpg')}
-          title={event.title} 
+          title={event.data[0].title} 
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}
           rightButton={true} 
@@ -78,20 +84,20 @@ export default function EventDetailsScreen({ route, navigation }) {
               <ButtonTag
                 isButton={true}
                 name={'ios-location'}
-                onPress={() => navigation.navigate("Stage", event.stage.stageId) }
-                data={event.stage.name}
+                onPress={() => navigation.push("Stage", event.data[0].stage.stageId) }
+                data={event.data[0].stage.name}
                 subData = {setupData.venue}
               />
           </ScrollView>
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
-              {event.presenters.map((item, index) =>
+              {event.data[0].presenters.map((item, index) =>
                   <ButtonTag
                     key={index + item}
                     isButton={true}
                     name={'volume-high'}
-                    onPress={() => navigation.navigate("Presenter", item.presenterId) }
+                    onPress={() => navigation.push("Presenter", item.presenterId) }
                     data={item.name}
                   />
               )}
@@ -99,7 +105,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
-              {event.restaurants.map((item, index) =>
+              {event.data[0].restaurants.map((item, index) =>
                   <ButtonTag
                     key={index + item}
                     isButton={true}
@@ -109,8 +115,8 @@ export default function EventDetailsScreen({ route, navigation }) {
                   />
               )}
           </ScrollView>
-          <Text style={styles.title}>{event.shortDescription}</Text>
-          <Text style={styles.text}>{event.fullDescription}</Text>
+          <Text style={styles.title}>{event.data[0].shortDescription}</Text>
+          <Text style={styles.text}>{event.data[0].fullDescription}</Text>
         </ScrollView>
       </SafeAreaView>
     );
@@ -137,10 +143,10 @@ const styles = StyleSheet.create({
       marginTop: 0,
   },
   tagContainer: {
-    flexDirection: 'row',
+    //flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: 'grey',
-    width: '100%',
+    width: width,
     backgroundColor: 'white'
 }
 });
