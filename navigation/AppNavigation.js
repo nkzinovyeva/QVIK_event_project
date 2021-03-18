@@ -32,7 +32,7 @@ const eventsStack = createStackNavigator();
 function EventsStackScreen() {
     return (
       <eventsStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
-        <eventsStack.Screen name="Whole Schedule" component={EventsScreen} />
+        <eventsStack.Screen name="Events" component={EventsScreen} />
         <eventsStack.Screen name="Event" component={EventsDetails} />
         <eventsStack.Screen name="Restaurant" component={RestDetails} />
         <eventsStack.Screen name="Presenter" component={PresenterDetails} />
@@ -51,7 +51,7 @@ function MyScheduleStackScreen() {
             <myScheduleStack.Screen name="Event" component={EventsDetails} />
             <myScheduleStack.Screen name="Restaurant" component={RestDetails} />
             <myScheduleStack.Screen name="Presenter" component={PresenterDetails} />
-            <myScheduleStack.Screen name="Stage" component={StageDetails} />  
+            <myScheduleStack.Screen name="Stage" component={StageDetails} />
       </myScheduleStack.Navigator>
     );
 }
@@ -64,7 +64,6 @@ function RestaurantsStackScreen() {
       <restStack.Navigator headerMode= "screen" screenOptions={() => (defaultNavOptions)}  >
         <restStack.Screen name="Late Bites" component={RestsScreen}  />
         <restStack.Screen name="Restaurant" component={RestDetails}  />
-        <restStack.Screen name="Whole Schedule" component={EventsScreen}  />
         <restStack.Screen name="Event" component={EventsDetails}  />
       </restStack.Navigator>
     );

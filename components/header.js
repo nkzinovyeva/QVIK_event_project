@@ -56,7 +56,8 @@ export default AppHeader = (props) => {
               name='close'
               type='ionicon'
               color='white'
-              onPress={props.rightButton ? () => navigation.navigate("Whole Schedule") : {}}
+              onPress={props.rightButton ? () => navigation.popToTop() : {}}
+              //onPress={props.rightButton ? () => navigation.navigate("Events") : {}}
             />
           }
 
