@@ -52,7 +52,7 @@ export default function MyScheduleScreen({navigation}) {
     return (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Event", item )}
+            navigation.navigate("Event", item.eventId )}
         >
         <AppList
             leftIcon={true}
