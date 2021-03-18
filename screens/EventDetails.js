@@ -72,31 +72,43 @@ export default function EventDetailsScreen({ route, navigation }) {
     return (
       <SafeAreaView style={styles.screen}>
         <ScrollView showsHorizontalScrollIndicator={true} >
-            <ButtonTag
-              isButton={true}
-              name={'ios-location'}
-              onPress={() => navigation.navigate("Stage", event.stage.stageId) }
-              data={event.stage.name}
-              subData = {setupData.venue}
-            />
-          {event.presenters.map((item, index) =>
+          <ScrollView
+            style={styles.tagContainer}
+            horizontal={true}>
               <ButtonTag
-                key={index + item}
                 isButton={true}
-                name={'volume-high'}
-                onPress={() => navigation.navigate("Presenter", item.presenterId) }
-                data={item.name}
+                name={'ios-location'}
+                onPress={() => navigation.navigate("Stage", event.stage.stageId) }
+                data={event.stage.name}
+                subData = {setupData.venue}
               />
-          )}
-          {event.restaurants.map((item, index) =>
-              <ButtonTag
-                key={index + item}
-                isButton={true}
-                name={'ios-restaurant'}
-                onPress={() => navigation.push('Restaurant', item.restaurantId) }
-                data={item.name}
-              />
-          )}
+          </ScrollView>
+          <ScrollView
+            style={styles.tagContainer}
+            horizontal={true}>
+              {event.presenters.map((item, index) =>
+                  <ButtonTag
+                    key={index + item}
+                    isButton={true}
+                    name={'volume-high'}
+                    onPress={() => navigation.navigate("Presenter", item.presenterId) }
+                    data={item.name}
+                  />
+              )}
+          </ScrollView>
+          <ScrollView
+            style={styles.tagContainer}
+            horizontal={true}>
+              {event.restaurants.map((item, index) =>
+                  <ButtonTag
+                    key={index + item}
+                    isButton={true}
+                    name={'ios-restaurant'}
+                    onPress={() => navigation.push('Restaurant', item.restaurantId) }
+                    data={item.name}
+                  />
+              )}
+          </ScrollView>
           <Text style={styles.title}>{event.shortDescription}</Text>
           <Text style={styles.text}>{event.fullDescription}</Text>
         </ScrollView>
@@ -124,4 +136,11 @@ const styles = StyleSheet.create({
       margin: 16,
       marginTop: 0,
   },
+  tagContainer: {
+    flexDirection: 'row',
+    borderBottomWidth: 0.5,
+    borderColor: 'grey',
+    width: '100%',
+    backgroundColor: 'white'
+}
 });

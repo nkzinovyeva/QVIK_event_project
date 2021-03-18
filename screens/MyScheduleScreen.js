@@ -1,14 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View,FlatList, TouchableOpacity, Dimensions, SafeAreaView, Text  } from 'react-native';
+import { StyleSheet, View,FlatList, TouchableOpacity, SafeAreaView, Text  } from 'react-native';
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
 
-//get the width of the screen
-const { width } = Dimensions.get("screen");
 
 export default function MyScheduleScreen({navigation}) {
 
