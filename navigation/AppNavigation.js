@@ -65,6 +65,7 @@ function RestaurantsStackScreen() {
         <restStack.Screen name="Late Bites" component={RestsScreen}  />
         <restStack.Screen name="Restaurant" component={RestDetails}  />
         <restStack.Screen name="Whole Schedule" component={EventsScreen}  />
+        <restStack.Screen name="Event" component={EventsDetails}  />
       </restStack.Navigator>
     );
 }
