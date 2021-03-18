@@ -11,16 +11,14 @@ export default function RestsScreen({ navigation }) {
   //constants
   const { restaurants, filteredRests, setupData } = useSelector(state => state.eventsReducer);
 
-  console.log('rests', restaurants)
-
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         <AppHeader
           tags={setupData.allRestaurantTags}
-          //img={require('../assets/restPic.jpg')}
-          img={{uri: setupData.restaurantImage}}
+          img={require('../assets/restPic.jpg')}
+          //img={{uri: setupData.restaurantImage}}
           title="Late Bites"
           subTitle="@Helsinki region"
           leftButton={false}

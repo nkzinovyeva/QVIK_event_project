@@ -2,14 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { StyleSheet } from 'react-native';
 import AppNav from "./navigation/AppNavigation";
+import  AppLoading from "expo-app-loading";
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
-//import * as Font from "expo-font";
-import  AppLoading from "expo-app-loading";
 import { getSetUp} from './redux/actions';
+
 
 /*const customFonts = () => {
   Font.loadAsync({

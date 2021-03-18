@@ -16,10 +16,7 @@ export default function EventDetailsScreen({ route, navigation }) {
   const { events, setupData } = useSelector(state => state.eventsReducer);
 
   const eventId = route.params;
-  console.log('eventId', eventId)
-  //const event = events.filter((block) => block.data.filter((event) => event.eventId === eventId)[0])[0];
-  //console.log('event', event)
-
+ 
   let event = {}
   events.map((block) => {
     block.data.map((ev) => {
@@ -29,35 +26,9 @@ export default function EventDetailsScreen({ route, navigation }) {
     })
   })
 
-  //const event = route.params;
-
   let date = moment(event.startDate, "YYYY-MM-DD")
   let time = moment(event.startTime, "HH:mm:ss").format('LT');
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
-
-  /*----- TO CHANGE TO REDUX LATER------*/
-  /*
-    const dataUrl = 'https://qvik.herokuapp.com/api/v1/events/' + route.params.eventId;
-    const [eventData, setEventData] = useState(null);
-  
-    useEffect(() => {
-      getEventData();
-    }, []);
-  
-    const getEventData = () => {
-      const url = dataUrl;
-      fetch(url)
-        .then((response) => response.json())
-        .then((jsondata) => {
-          setEventData(jsondata.data);
-          //console.log(jsondata.data)
-        })
-        .catch((error) => {
-          Alert.alert('Error', error);
-        });
-    };
-  */
-  /*----- TO CHANGE TO REDUX LATER------*/
 
   //header component 
   React.useLayoutEffect(() => {

@@ -25,8 +25,8 @@ export default function MyScheduleScreen({navigation}) {
       header: () => 
         <AppHeader 
           tags={setupData.allEventTags}
-          //img={require('../assets/mainPic.jpg')}
-          img={{uri: setupData.eventImage}}
+          img={require('../assets/mainPic.jpg')}
+          //img={{uri: setupData.eventImage}}
           title="My schedule" 
           subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}
