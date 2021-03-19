@@ -2,8 +2,6 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import Colors from "../constants/colors";
-import AppFavButton from "../components/favButton";
 import AppFilter from "../components/filter"
 import theme from '../constants/theme';
 import CacheImage from '../components/CacheImage';
@@ -38,49 +36,44 @@ export default AppHeader = (props) => {
     <View style={styles.mainContainer}>
       {/* <Image source={img} style={styles.image} /> */}
       <CacheImage uri={img} style={styles.image} />
-
-      <View style={styles.overlay} />
-      <View style={styles.upperContainer}>
-        {!props.leftButton
-          ? <Text style={styles.replacementText}></Text>
-          // : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
-          : <Icon
-            name='chevron-back'
-            type='ionicon'
-            color='white'
-            onPress={props.rightButton ? () => navigation.goBack() : {}}
-          />
-        }
-
-        {!props.rightButton
-          ? <Text style={styles.replacementText}></Text>
-          : <Icon
-            name='close'
-            type='ionicon'
-            color='white'
-            onPress={props.rightButton ? () => navigation.popToTop() : {}}
-          //onPress={props.rightButton ? () => navigation.navigate("Events") : {}}
-          />
-        }
-
-      </View>
-
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.subtitle}>{subTitle}</Text>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-        //contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-        >
-          {clickableTag
-            ? <AppFilter tags={tags} rests={rests} />
-            : <Tag />
+      <View style={styles.overlay}>
+        <View style={styles.upperContainer}>
+          {!props.leftButton
+            ? <Text style={styles.replacementText}></Text>
+            : <Icon
+              name='chevron-back'
+              type='ionicon'
+              color='white'
+              onPress={props.rightButton ? () => navigation.goBack() : {}}
+            />
           }
-        </ScrollView>
+
+          {!props.rightButton
+            ? <Text style={styles.replacementText}></Text>
+            : <Icon
+              name='close'
+              type='ionicon'
+              color='white'
+              onPress={props.rightButton ? () => navigation.popToTop() : {}}
+            />
+          }
+
+        </View>
+
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>{subTitle}</Text>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+          >
+            {clickableTag
+              ? <AppFilter tags={tags} rests={rests} />
+              : <Tag />
+            }
+          </ScrollView>
+        </View>
       </View>
-
-
     </View>
   )
 }
@@ -94,7 +87,6 @@ const styles = StyleSheet.create({
     width: width,
     height: 210,
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(123,147,185, 0.4)',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
