@@ -33,8 +33,8 @@ export default function EventsScreen({ navigation }) {
       header: () =>
         <AppHeader
           tags={setupData.allEventTags}
-          img={require('../assets/mainPic.jpg')}
-          //img={{uri: setupData.eventImage}}
+          //img={require('../assets/mainPic.jpg')}
+          img={setupData.eventImage}
           title={setupData.title} 
           subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}

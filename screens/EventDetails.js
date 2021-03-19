@@ -37,7 +37,8 @@ export default function EventDetailsScreen({ route, navigation }) {
         <AppHeader
           item={event}
           tags={event.inheritedTags.concat(event.eventTags)}
-          img={require('../assets/eventPic.jpg')}
+          //img={require('../assets/eventPic.jpg')}
+          img={event.image}
           title={event.title}
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}

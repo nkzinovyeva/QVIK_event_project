@@ -17,8 +17,8 @@ export default function RestsScreen({ navigation }) {
       header: () =>
         <AppHeader
           tags={setupData.allRestaurantTags}
-          img={require('../assets/restPic.jpg')}
-          //img={{uri: setupData.restaurantImage}}
+          //img={require('../assets/restPic.jpg')}
+          img={setupData.restaurantImage}
           title="Late Bites"
           subTitle="@Helsinki region"
           leftButton={false}

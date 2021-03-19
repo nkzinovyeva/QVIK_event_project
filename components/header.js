@@ -6,6 +6,7 @@ import Colors from "../constants/colors";
 import AppFavButton from "../components/favButton";
 import AppFilter from "../components/filter"
 import theme from '../constants/theme';
+import CacheImage from '../components/CacheImage';
 
 const { width } = Dimensions.get("screen");
 
@@ -16,7 +17,7 @@ export default AppHeader = (props) => {
   const { title, subTitle, img, tags, navigation, clickableTag, item, rests } = props;
 
   //ordinary tag bar
-  
+
   const Tag = () => {
     if (Array.isArray(tags)) {
       return (
@@ -29,56 +30,57 @@ export default AppHeader = (props) => {
         )
       )
     } else {
-        return (<Text style={styles.replacementText}></Text>)
-      }
+      return (<Text style={styles.replacementText}></Text>)
+    }
   }
 
   return (
     <View style={styles.mainContainer}>
-      <Image source={img} style={styles.image} />
+      {/* <Image source={img} style={styles.image} /> */}
+      <CacheImage uri={img} style={styles.image} />
 
-        <View style={styles.overlay} />
-        <View style={styles.upperContainer}>
-          {!props.leftButton
-            ? <Text style={styles.replacementText}></Text>
-           // : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
-           : <Icon
-                name='chevron-back'
-                type='ionicon'
-                color='white'
-                onPress={props.rightButton ? () => navigation.goBack() : {}}
-              />
+      <View style={styles.overlay} />
+      <View style={styles.upperContainer}>
+        {!props.leftButton
+          ? <Text style={styles.replacementText}></Text>
+          // : <AppFavButton item={item} text="My Schedule" color={Colors.whiteColor} />
+          : <Icon
+            name='chevron-back'
+            type='ionicon'
+            color='white'
+            onPress={props.rightButton ? () => navigation.goBack() : {}}
+          />
+        }
+
+        {!props.rightButton
+          ? <Text style={styles.replacementText}></Text>
+          : <Icon
+            name='close'
+            type='ionicon'
+            color='white'
+            onPress={props.rightButton ? () => navigation.popToTop() : {}}
+          //onPress={props.rightButton ? () => navigation.navigate("Events") : {}}
+          />
+        }
+
+      </View>
+
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{subTitle}</Text>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+        //contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+        >
+          {clickableTag
+            ? <AppFilter tags={tags} rests={rests} />
+            : <Tag />
           }
+        </ScrollView>
+      </View>
 
-          {!props.rightButton
-            ? <Text style={styles.replacementText}></Text>
-            : <Icon
-              name='close'
-              type='ionicon'
-              color='white'
-              onPress={props.rightButton ? () => navigation.popToTop() : {}}
-              //onPress={props.rightButton ? () => navigation.navigate("Events") : {}}
-            />
-          }
 
-        </View>
-
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subTitle}</Text>
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-          //contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            {clickableTag
-              ? <AppFilter tags={tags} rests={rests} />
-              : <Tag />
-            }
-          </ScrollView>
-        </View>
-
-      
     </View>
   )
 }
