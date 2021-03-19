@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
 import { getSetUp} from './redux/actions';
+//import * as Font from 'expo-font';
 
 
 /*const customFonts = () => {
