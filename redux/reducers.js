@@ -7,7 +7,8 @@ import {
   ADD_TO_FAVOURITE_LIST,
   REMOVE_FROM_FAVOURITE_LIST,
   FILTER_EVENTS_BY_TAG,
-  FILTER_RESTS_BY_TAG
+  FILTER_RESTS_BY_TAG,
+  SET_TIMESTAMP
 } from './actions';
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
   filteredRests: [],
   favourites: [],
   stages: [],
-  presenters: []
+  presenters: [],
+  timestamp: {}
 };
 
 function eventsReducer(state = initialState, action) {
@@ -46,6 +48,8 @@ function eventsReducer(state = initialState, action) {
       return { ...state, eventTags: action.payload.tag, filteredEvents: action.payload.items }
     case FILTER_RESTS_BY_TAG:
       return { ...state, restsTags: action.payload.tag, filteredRests: action.payload.items }
+    case SET_TIMESTAMP:
+        return { ...state, timestamp: action.payload  };
     default:
       return state;
   }

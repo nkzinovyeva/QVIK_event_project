@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
 import { getSetUp} from './redux/actions';
+import { NetworkProvider } from 'react-native-offline';
 //import * as Font from 'expo-font';
 
 
@@ -43,14 +44,16 @@ export default function App() {
   } else {
   
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <StatusBar style="light" />
-        < NavigationContainer >
-            <AppNav headerMode="none" headerShown="false" />
-        </NavigationContainer >
-      </PersistGate>
-    </Provider>
+    <NetworkProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <StatusBar style="light" />
+          < NavigationContainer >
+              <AppNav headerMode="none" headerShown="false" />
+          </NavigationContainer >
+        </PersistGate>
+      </Provider>
+    </NetworkProvider>
   );
   }
 };

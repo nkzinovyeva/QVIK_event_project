@@ -17,6 +17,7 @@ export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 export const FILTER_RESTS_BY_TAG = 'FILTER_RESTS_BY_TAG';
+export const SET_TIMESTAMP = 'SET_TIMESTAMP';
 
 //"parent" event get info action
 export const getSetUp = () => {
@@ -186,5 +187,13 @@ export const filterEventsByTag = (tag, eventsArray) => dispatch => {
       tag: tag,
       items: eventsArray
     }
+  });
+};
+
+export const addTimestamp = time => dispatch => {
+  console.log('time', time)
+  dispatch({
+    type: SET_TIMESTAMP,
+    payload: time
   });
 };

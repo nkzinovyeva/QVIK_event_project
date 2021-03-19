@@ -1,31 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList } from 'react-native';
+import React, { useEffect, useState, useCallback} from 'react';
+import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+
 import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, getRestaurants, getPresenters, getStages } from '../redux/actions';
+import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
+import { useIsConnected } from 'react-native-offline';
 
 export default function EventsScreen({ navigation }) {
   
+  const isConnected = useIsConnected();
+
   //loading the data
-  const { events, setupData, filteredEvents } = useSelector(state => state.eventsReducer);
+  const { events, setupData, filteredEvents, timestamp } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
   const fetchEvents = () => dispatch(getEvents());
   const fetchRestaurants = () => dispatch(getRestaurants());
   const fetchPresenters = () => dispatch(getPresenters());
   const fetchStages = () => dispatch(getStages());
+  const updateTimestamp = () => dispatch(addTimestamp(moment().format("MMM Do, h:mm a")));
 
   useEffect(() => {
     fetchEvents();
     fetchRestaurants();
     fetchPresenters();
     fetchStages();
+    {isConnected ? updateTimestamp() : {} }
   }, []);
+
 
   //header component 
   React.useLayoutEffect(() => {
@@ -83,14 +91,27 @@ export default function EventsScreen({ navigation }) {
  
   return ( 
     <SafeAreaView style={styles.container}>
-      <SectionList
-        sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({item}) => <Event item={item} />}
-        renderSectionHeader={({ section: { dateAsTitle } }) => (
-          <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
-        )}
-      />
+      {isConnected ? (
+        <Text></Text>
+      ) : (
+        <View style={styles.offlineContainer}>
+          <View style={{ flexDirection: "row",}}>
+            <Icon size={15} name={'exclamationcircle'} type={'antdesign'} color={theme.colors.blackColor}/>
+            <Text style={styles.offlineText}>  Offline</Text>
+          </View>
+          <Text style={styles.offlineText}>Last Update {timestamp}</Text>
+        </View>
+      )}
+      <View>
+        <SectionList
+          sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({item}) => <Event item={item} />}
+          renderSectionHeader={({ section: { dateAsTitle } }) => (
+            <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -106,6 +127,19 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backWhite, 
     marginLeft: 35, 
     padding: 16
-  }
+  },
+  offlineContainer: {
+    flexDirection: "row",
+    backgroundColor: theme.colors.lightgrayColor,
+    justifyContent: "space-between", 
+    padding: 16,
+    borderBottomWidth: 0.5,
+    borderColor: 'grey',
+  },
+  offlineText: {
+    fontSize: theme.fontSizes.listSubtitle,
+    color: theme.colors.blackColor,
+    fontWeight: "600", 
+  },
 }
 );
