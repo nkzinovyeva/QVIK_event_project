@@ -10,7 +10,7 @@ import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
 import { getSetUp} from './redux/actions';
 import { NetworkProvider } from 'react-native-offline';
-//import * as Font from 'expo-font';
+import * as Font from 'expo-font';
 
 
 /*const customFonts = () => {
@@ -62,12 +62,15 @@ const loadResourcesAsync = async () => {
   await Promise.all([
     Asset.loadAsync([
       require("./assets/mainPic.jpg"),
-      require("./assets/eventPic.jpg"),
-      require("./assets/restPic.jpg"),
-      require("./assets/stagePic.jpg"),
-      require("./assets/presenterPic.jpg"),
-      require("./assets/foodPic.jpg"),
+      //require("./assets/eventPic.jpg"),
+      //require("./assets/restPic.jpg"),
+      //require("./assets/stagePic.jpg"),
+      //require("./assets/presenterPic.jpg"),
+      //require("./assets/foodPic.jpg"),
     ]),
+    Font.loadAsync({
+      'custom-icons': require('./assets/fonts/icomoon.ttf'),
+    }),
   ]);
   await store.dispatch(getSetUp());
 }

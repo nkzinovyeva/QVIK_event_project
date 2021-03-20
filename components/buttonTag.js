@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import MyIcon from './icons/index';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
 
@@ -12,17 +13,18 @@ export default ButtonTag = ( props ) => {
                 onPress={onPress}
             >
                 <View style={styles.tag}>
-                    <Icon
+                    <MyIcon
                         name={name}
-                        type='ionicon'
                         color={theme.colors.whiteColor}
+                        size={24}
                     />
-                    <Text style={styles.tagText}> {subData} {data}</Text>
+                    <Text style={styles.tagText}>{subData} {data}</Text>
                     {isButton && (
                         <Icon
                             name='chevron-forward'
                             type='ionicon'
                             color={theme.colors.whiteColor}
+                            size={20}
                         />
                     )}
                 </View>

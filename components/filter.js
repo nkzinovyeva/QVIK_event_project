@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { filterEventsByTag, filterRestsByTag } from '../redux/actions';
 import theme from '../constants/theme';
+import MyIcon from './icons/index';
 
 export default AppFilter = (props) => {
 
@@ -71,9 +72,14 @@ export default AppFilter = (props) => {
               ...styles.tag,
               ...{
                 backgroundColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : null,
-                borderColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : theme.colors.whiteColor
+                borderColor: ifExistsTag(item) || ifParentTag(item) ? theme.colors.blueColor : theme.colors.whiteColor,
+                flexDirection: 'row'
               }
             }} >
+              {ifExistsTag(item) || ifParentTag(item)
+                ? <MyIcon name={'check'} color={theme.colors.whiteColor} size={20}/> 
+                : <Text></Text>
+              }
               <Text style={styles.tagText}>{item}</Text>
             </View>
           </View>

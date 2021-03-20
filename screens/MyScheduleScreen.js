@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View,FlatList, TouchableOpacity, SafeAreaView, Text  } from 'react-native';
-import Colors from "../constants/colors";
 import moment from "moment";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
@@ -57,7 +56,7 @@ export default function MyScheduleScreen({navigation}) {
         >
         <AppList
             leftIcon={true}
-            iconColor={Colors.blackColor}
+            iconColor={theme.colors.blackColor}
             title={item.title}
             subtitle={item.stage.name}
             rightTopSubtitle={moment(item.startDate, "YYYY-MM-DD").format('ll')}

@@ -1,10 +1,9 @@
 import React from 'react';
 import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions} from 'react-native';
-import Colors from "../constants/colors";
+import moment from "moment";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
 import ButtonTag from '../components/buttonTag';
-import moment from "moment";
 import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
@@ -36,23 +35,24 @@ export default function RestDetails({ route, navigation }) {
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>
-            <ScrollView
-            style={styles.tagContainer}
-            horizontal={true}>
-                <ButtonTag
-                    isButton={true}
-                    name={'ios-location'}
-                    data={restaurant.location}
-                />
+                <ScrollView
+                    style={styles.tagContainer}
+                    horizontal={true}>
+                    <ButtonTag
+                        isButton={true}
+                        name={'ios-location'}
+                        data={restaurant.location}
+                    />
                 </ScrollView>
                 <ScrollView
-            style={styles.tagContainer}
-            horizontal={true}>
-                <ButtonTag
-                    isButton={false}
-                    name={'time'}
-                    data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
-                /></ScrollView>
+                    style={styles.tagContainer}
+                    horizontal={true}>
+                    <ButtonTag
+                        isButton={false}
+                        name={'time'}
+                        data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
+                    />
+                </ScrollView>
                 <Text style={styles.title}>{restaurant.shortDescription.toUpperCase()}</Text>
                 <Text style={styles.text}>{restaurant.fullDescription}</Text>
             </ScrollView>
@@ -63,7 +63,7 @@ export default function RestDetails({ route, navigation }) {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.backwhite,
+        backgroundColor: theme.colors.backWhite,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
         marginTop: 0,
     },
     tagContainer: {
-      //flexDirection: 'row',
       borderBottomWidth: 0.5,
       borderColor: 'grey',
       width: width,

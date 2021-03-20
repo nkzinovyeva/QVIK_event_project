@@ -1,16 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useCallback} from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-
-import Colors from "../constants/colors";
 import moment from "moment";
+import { useIsConnected } from 'react-native-offline';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
-import { useIsConnected } from 'react-native-offline';
 
 export default function EventsScreen({ navigation }) {
   
@@ -77,7 +75,7 @@ export default function EventsScreen({ navigation }) {
       >
         <AppList
           leftIcon={true}
-          iconColor={Colors.blackColor}
+          iconColor={theme.colors.blackColor}
           title={item.title}
           subtitle={item.stage.name}
           rightTopSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}

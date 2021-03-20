@@ -1,10 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
-import AppFilter from "../components/filter"
 import theme from '../constants/theme';
 import CacheImage from '../components/CacheImage';
+import AppFilter from "../components/filter"
+import MyIcon from './icons/index';
+
 
 const { width } = Dimensions.get("screen");
 
@@ -22,7 +24,8 @@ export default AppHeader = (props) => {
         tags.map((item, index) =>
           <View key={index + item} style={styles.tagContainer} >
             <View style={{ ...styles.tag, ...{ borderColor: theme.colors.whiteColor } }}>
-              <Text style={styles.tagText}>#{item}</Text>
+              <MyIcon name={'check'} color={theme.colors.whiteColor} size={20}/> 
+              <Text style={styles.tagText}>{item}</Text>
             </View>
           </View>
         )
@@ -121,6 +124,8 @@ const styles = StyleSheet.create({
     paddingTop: 20
   },
   tag: {
+    flexDirection: 'row',
+
     padding: 4,
     margin: 8,
     borderRadius: 16,

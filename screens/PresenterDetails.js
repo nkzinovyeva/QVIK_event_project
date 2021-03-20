@@ -1,17 +1,15 @@
 import React from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
-import Colors from "../constants/colors";
-import AppHeader from "../components/header";
+import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions} from 'react-native';
 import theme from '../constants/theme';
 import moment from "moment";
+import AppHeader from "../components/header";
 import { useSelector } from 'react-redux';
-import { Dimensions } from 'react-native';
 
 const { width } = Dimensions.get("screen");
 
 export default function PresenterDetails({ route, navigation }) {
 
-    const { presenters, parent } = useSelector(state => state.eventsReducer);
+    const { presenters } = useSelector(state => state.eventsReducer);
     const presenterId = route.params;
     const presenter = presenters.filter((presenter) => presenter.presenterId === presenterId)[0];
   
@@ -42,7 +40,7 @@ export default function PresenterDetails({ route, navigation }) {
                         <ButtonTag
                             key={index + item}
                             isButton={true}
-                            name={'attach-sharp'}
+                            name={'stars-black-24dp-1'}
                             onPress={() => navigation.push("Event", item.eventId) }
                             data={`"${item.title}", ${moment(item.startDate).format("ddd")}, ${moment(item.startTime, "HH:mm:ss").format('LT')}`}
                         />
@@ -58,7 +56,7 @@ export default function PresenterDetails({ route, navigation }) {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.backwhite,
+        backgroundColor: theme.colors.backWhite,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },

@@ -1,11 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native';
-import Colors from "../constants/colors";
+import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions } from 'react-native';
+import moment from "moment";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
-import moment from "moment";
 import { useSelector } from 'react-redux';
-import { Dimensions } from 'react-native';
 
 const { width } = Dimensions.get("screen");
 
@@ -42,7 +40,7 @@ export default function StagesDetails({ route, navigation }) {
                         <ButtonTag
                             key={index + item}
                             isButton={true}
-                            name={'attach-sharp'}
+                            name={'stars-black-24dp-1'}
                             onPress={() => navigation.push("Event", item.eventId) }
                             data={`"${item.title}", ${moment(item.startDate).format("ddd")}, ${moment(item.startTime, "HH:mm:ss").format('LT')}`}
                         />
@@ -58,7 +56,7 @@ export default function StagesDetails({ route, navigation }) {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.backwhite,
+        backgroundColor: theme.colors.backWhite,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },

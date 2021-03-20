@@ -1,22 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { Alert, ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
-import Colors from "../constants/colors";
-import AppFavButton from "../components/favButton";
+import React from 'react';
+import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
 import moment from "moment";
+import AppFavButton from "../components/favButton";
+import AppHeader from "../components/header";
 import theme from '../constants/theme';
 import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
 
-import AppHeader from "../components/header";
 
 export default function EventDetailsScreen({ route, navigation }) {
-
-  const { events, setupData } = useSelector(state => state.eventsReducer);
-
-  const eventId = route.params;
  
+  const eventId = route.params;
+  const { events, setupData } = useSelector(state => state.eventsReducer);
+ 
+  //get exact event from list of events
   let event = {}
   events.map((block) => {
     block.data.map((ev) => {
@@ -65,7 +64,7 @@ export default function EventDetailsScreen({ route, navigation }) {
             horizontal={true}>
             <ButtonTag
               isButton={true}
-              name={'ios-location'}
+              name={'compass'}
               onPress={() => navigation.push("Stage", event.stage.stageId)}
               data={event.stage.name}
               subData={setupData.venue}
@@ -78,7 +77,7 @@ export default function EventDetailsScreen({ route, navigation }) {
               <ButtonTag
                 key={index + item}
                 isButton={true}
-                name={'volume-high'}
+                name={'mic'}
                 onPress={() => navigation.push("Presenter", item.presenterId)}
                 data={item.name}
               />
@@ -91,7 +90,7 @@ export default function EventDetailsScreen({ route, navigation }) {
               <ButtonTag
                 key={index + item}
                 isButton={true}
-                name={'ios-restaurant'}
+                name={'food'}
                 onPress={() => navigation.push('Restaurant', item.restaurantId)}
                 data={item.name}
               />
@@ -111,7 +110,7 @@ export default function EventDetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: Colors.backwhite,
+    backgroundColor: theme.colors.backWhite,
     alignItems: 'center',
     justifyContent: 'center',
   },
