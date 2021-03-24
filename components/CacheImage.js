@@ -66,7 +66,7 @@ export default class CacheImage extends React.Component {
         if (this.state.failed) {
               // if the image url has an issue
             return (
-                <Image style={this.props.style} source={require('../assets/mainPic.jpg')} /> 
+                <Image style={this.props.style} source={require('../assets/default_img.jpg')} /> 
             );
         }
         return <Image style={this.props.style} source={this.state.source} />;

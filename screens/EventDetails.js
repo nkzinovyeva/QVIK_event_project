@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text, } from 'react-native';
 import moment from "moment";
 import AppFavButton from "../components/favButton";
 import AppHeader from "../components/header";
@@ -96,10 +96,7 @@ export default function EventDetailsScreen({ route, navigation }) {
               />
             )}
           </ScrollView>
-          <Text style={styles.title}>{event.shortDescription}</Text>
-          <View style={styles.buttonContainer}>
-            <AppFavButton item={event} text="My Schedule" color={theme.colors.blackColor} />
-          </View>
+          <Text style={styles.title}><AppFavButton item={event} color={theme.colors.blackColor} size={22} />  {event.shortDescription}</Text>
           <Text style={styles.text}>{event.fullDescription}</Text>
         </ScrollView>
       </SafeAreaView>
@@ -117,7 +114,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: theme.fontSizes.detailsTitle,
     fontFamily: theme.fonts.fontFamily,
-    margin: 16
+    margin: 16,
+    //marginLeft: 10,
   },
   text: {
     fontSize: theme.fontSizes.detailsText,
@@ -126,16 +124,11 @@ const styles = StyleSheet.create({
     margin: 16,
     marginTop: 0,
   },
-  buttonContainer: {
-    marginLeft: 16,
-    marginBottom: 16,
-    marginTop: 0,
-  },
   tagContainer: {
-    //flexDirection: 'row',
+    flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: 'grey',
     width: width,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   }
 });

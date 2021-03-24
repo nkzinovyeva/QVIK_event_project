@@ -60,7 +60,6 @@ export default AppHeader = (props) => {
               onPress={props.rightButton ? () => navigation.popToTop() : {}}
             />
           }
-
         </View>
 
         <View style={styles.textContainer}>
@@ -125,7 +124,6 @@ const styles = StyleSheet.create({
   },
   tag: {
     flexDirection: 'row',
-
     padding: 4,
     margin: 8,
     borderRadius: 16,

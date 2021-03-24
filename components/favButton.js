@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addFavourite, removeFavourite } from '../redux/actions';
 import theme from '../constants/theme';
 
-const AppFavButton = ({item, text, color}) => {
+const AppFavButton = ({item, text, color, size}) => {
 
     const { favourites } = useSelector(state => state.eventsReducer);
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const AppFavButton = ({item, text, color}) => {
             }
             >
             <Icon
-                size={22}
+                size={size ? size : 22}
                 name={ifExists(item) ? 'star-sharp' : 'star-outline'}
                 type='ionicon'
                 color={color}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     text: {
-        color: theme.colors.blackColor, 
+        color: theme.colors.blueColor, 
         fontSize: theme.fontSizes.headerSubtitle, 
         paddingTop: 4, 
         paddingLeft: 5
