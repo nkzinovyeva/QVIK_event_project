@@ -28,6 +28,8 @@ export default function EventDetailsScreen({ route, navigation }) {
   let date = moment(event.startDate, "YYYY-MM-DD")
   let time = moment(event.startTime, "HH:mm:ss").format('LT');
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
+  let imgurl = "https://qvik.herokuapp.com/api/v1/images/"+event.image.imageId;
+  console.log(imgurl);
 
   //header component 
   React.useLayoutEffect(() => {
@@ -37,7 +39,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           item={event}
           tags={event.inheritedTags.concat(event.eventTags)}
           //img={require('../assets/eventPic.jpg')}
-          img={event.image}
+          img={imgurl}
           title={event.title}
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}

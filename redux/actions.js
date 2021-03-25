@@ -4,7 +4,8 @@ import {
   EVENTS_URL,
   RESTAURANT_URL,
   PRESENTERS_URL,
-  STAGES_URL
+  STAGES_URL,
+  VENUES_URL
 } from '../config';
 
 // Define action types
@@ -13,6 +14,7 @@ export const GET_EVENTS = 'GET_EVENTS';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 export const GET_PRESENTERS = 'GET_PRESENTERS';
 export const GET_STAGES = 'GET_STAGES';
+export const GET_VENUES = 'GET_VENUES';
 export const ADD_TO_FAVOURITE_LIST = 'ADD_TO_FAVOURITE_LIST';
 export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
@@ -104,6 +106,25 @@ export const getStages = () => {
       if (response.data) {
         dispatch({
           type: GET_STAGES,
+          payload: response.data.data
+        });
+      } else {
+        console.log('Unable to fetch data from the API !');
+      }
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//stages get info action
+export const getVenues = () => {
+  try {
+    return async dispatch => {
+      const response = await axios.get(`${VENUES_URL}`);
+      if (response.data) {
+        dispatch({
+          type: GET_VENUES,
           payload: response.data.data
         });
       } else {

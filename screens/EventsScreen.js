@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp } from '../redux/actions';
+import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp, getVenues } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
@@ -22,6 +22,7 @@ export default function EventsScreen({ navigation }) {
   const fetchRestaurants = () => dispatch(getRestaurants());
   const fetchPresenters = () => dispatch(getPresenters());
   const fetchStages = () => dispatch(getStages());
+  const fetchVenues = () => dispatch(getVenues());
   const updateTimestamp = () => dispatch(addTimestamp(moment().format("MMM Do, h:mm a")));
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function EventsScreen({ navigation }) {
     fetchRestaurants();
     fetchPresenters();
     fetchStages();
+    fetchVenues();
     {isConnected ? updateTimestamp() : {} }
   }, []);
 

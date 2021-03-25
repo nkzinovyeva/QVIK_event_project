@@ -10,9 +10,11 @@ const { width } = Dimensions.get("screen");
 export default function StagesDetails({ route, navigation }) {
 
     const { stages } = useSelector(state => state.eventsReducer);
+    const { venues } = useSelector(state => state.eventsReducer);
     const stageId = route.params;
     const stage = stages.filter((stage) => stage.stageId === stageId)[0];
-  
+    const venue = venues.filter((venue) => venue.venueId === stage.venue.venueId)[0];
+
     //header component 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -47,7 +49,13 @@ export default function StagesDetails({ route, navigation }) {
                     )}
                 </ScrollView>
                 <Text style={styles.title}>TRANSPORTATION</Text>
+                <Text style={styles.text}>{venue.transportation}</Text>
                 <Text style={styles.title}>FACILITIES</Text>
+                <Text style={styles.text}>{venue.facilities}</Text>
+                <Text style={styles.title}>ADDRESS</Text>
+                <Text style={styles.text}>{venue.address}</Text>
+                <Text style={styles.title}>CONTACT</Text>
+                <Text style={styles.text}>{venue.contact}</Text>
             </ScrollView>
         </SafeAreaView>
     );
