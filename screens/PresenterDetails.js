@@ -40,7 +40,7 @@ export default function PresenterDetails({ route, navigation }) {
                         <ButtonTag
                             key={index + item}
                             isButton={true}
-                            name={'stars-black-24dp-1'}
+                            name={'star'}
                             onPress={() => navigation.push("Event", item.eventId) }
                             data={`"${item.title}", ${moment(item.startDate).format("ddd")}, ${moment(item.startTime, "HH:mm:ss").format('LT')}`}
                         />

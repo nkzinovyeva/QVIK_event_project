@@ -40,7 +40,7 @@ export default function RestDetails({ route, navigation }) {
                     horizontal={true}>
                     <ButtonTag
                         isButton={true}
-                        name={'ios-location'}
+                        name={'compass'}
                         data={restaurant.location}
                     />
                 </ScrollView>
@@ -49,7 +49,7 @@ export default function RestDetails({ route, navigation }) {
                     horizontal={true}>
                     <ButtonTag
                         isButton={false}
-                        name={'time'}
+                        name={'sharp'}
                         data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}
                     />
                 </ScrollView>
