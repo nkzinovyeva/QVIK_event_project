@@ -59,11 +59,12 @@ export default function EventsScreen({ navigation }) {
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
 
-    var passed = "";
-    if (item.startDate > nowDate || item.startTime > nowTime ) {
-      passed = false;
-    } else {
-      passed = true;
+    var status = "active";
+    if (item.activeEvent == false ) {
+      status = "canceled";
+    }
+    else if (item.startDate < nowDate || item.startDate == nowDate && item.startTime > nowTime  ) {
+      status = "passed";
     }
 
     let duration = moment(item.endTime, "HH:mm:ss").diff(moment(item.startTime, "HH:mm:ss"), 'minutes')
@@ -82,7 +83,7 @@ export default function EventsScreen({ navigation }) {
           subtitle={item.stage.name}
           rightTopSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}
           rightBottomSubtitle={rightBottomSubtitle}
-          passed={passed}
+          status={status}
           item={item}
         />
       </TouchableOpacity>

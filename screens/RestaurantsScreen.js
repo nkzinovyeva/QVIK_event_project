@@ -34,17 +34,17 @@ export default function RestsScreen({ navigation }) {
     const now = moment().format('HH:mm:ss');
 
     var time = "";
-    var status = "";
-    var closed = "";
+    var message = "";
+    var status = "closed";
 
     if (item.closeTime > now && now > item.openTime) {
-      closed = true;
-      status = "Open till";
+      status = "active";
+      message = "Open till";
       time = moment(item.closeTime, "HH:mm:ss").format('LT');
     }
     else {
-      closed = false;
-      status = "Closed till";
+      //closed = false;
+      message = "Closed till";
       time = moment(item.openTime, "HH:mm:ss").format('LT');
     }
 
@@ -56,9 +56,9 @@ export default function RestsScreen({ navigation }) {
           leftIcon={false}
           title={item.name}
           subtitle={`${item.location}, ${item.venue.name}`}
-          rightTopSubtitle={status}
+          rightTopSubtitle={message}
           rightBottomSubtitle={time}
-          passed={!closed}
+          status={status}
         />
       </TouchableOpacity>
     )

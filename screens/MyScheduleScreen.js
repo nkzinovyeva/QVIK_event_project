@@ -23,12 +23,11 @@ export default function MyScheduleScreen({navigation}) {
     navigation.setOptions({
       header: () => 
         <AppHeader 
-          tags={setupData.allEventTags}
           img={setupData.eventImage}
           //img={require('../assets/mainPic.jpg')}
           //img={{uri: setupData.eventImage}}
           title="My schedule" 
-          subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
+          subTitle={setupData.title + ', ' + setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}
           rightButton={false}
           clickableTag={false}
@@ -43,12 +42,14 @@ export default function MyScheduleScreen({navigation}) {
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
     
-    var passed = "";
-      if (item.startDate > nowDate || item.startTime > nowTime ) {
-        passed = false;
-      } else {
-        passed = true;
-      }
+    var status = "active";
+    if (item.activeEvent == false ) {
+      status = "canceled";
+    }
+    else if (item.startDate < nowDate || item.startDate == nowDate && item.startTime > nowTime  ) {
+      status = "passed";
+    }
+
     return (
         <TouchableOpacity
           onPress={() =>
@@ -61,7 +62,7 @@ export default function MyScheduleScreen({navigation}) {
             subtitle={item.stage.name}
             rightTopSubtitle={moment(item.startDate, "YYYY-MM-DD").format('ll')}
             rightBottomSubtitle={moment(item.startTime, "HH:mm:ss").format('LT')}
-            passed={passed}
+            status={status}
             item={item}
         />
       </TouchableOpacity>
