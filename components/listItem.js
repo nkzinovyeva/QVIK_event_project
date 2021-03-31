@@ -1,8 +1,10 @@
 import React from 'react';
 import { ListItem } from 'react-native-elements';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import theme from '../constants/theme';
-import AppFavButton from "../components/favButton"
+import AppFavButton from "../components/favButton";
+
+const { width } = Dimensions.get("screen");
 
 export default AppList = (props) => {
 
@@ -36,21 +38,6 @@ export default AppList = (props) => {
         chevronColor = theme.colors.redColor;
         statusNumber = 4;
     }
-
-    // const getStatus = (status) => {
-    //     if (status == "active") {
-    //         return 1
-    //     }
-    //     else if (status == "passed") {
-    //         return 2
-    //     }
-    //     else if (status == "canceled") {
-    //         return 3
-    //     }
-    //     else if (status == "closed") {
-    //         return 4
-    //     }
-    // }
 
     return (
         <ListItem bottomDivider >
@@ -92,27 +79,29 @@ export default AppList = (props) => {
 const styles = StyleSheet.create({
     title: {
         color: theme.colors.blackColor,
-        fontSize: theme.fontSizes.listTitle
+        fontSize: theme.fontSizes.listTitle,
+        width: (width/3)*2
     },
     passedTitle: {
         color: theme.colors.grayColor,
-        fontSize: theme.fontSizes.listTitle
+        fontSize: theme.fontSizes.listTitle,
     },
     canceledTitle: {
         color: theme.colors.grayColor,
-        fontSize: theme.fontSizes.listTitle
+        fontSize: theme.fontSizes.listTitle,
     },
     subtitle: {
         color: theme.colors.grayColor,
-        fontSize: theme.fontSizes.listSubtitle
+        fontSize: theme.fontSizes.listSubtitle,
+        width: (width/3)*2
     },
     passedSubtitle: {
         color: theme.colors.grayColor,
-        fontSize: theme.fontSizes.listSubtitle
+        fontSize: theme.fontSizes.listSubtitle,
     },
     canceledSubtitle: {
         color: theme.colors.redColor,
-        fontSize: theme.fontSizes.listSubtitle
+        fontSize: theme.fontSizes.listSubtitle,
     },
     rightContent: {
         alignItems: 'flex-end',
