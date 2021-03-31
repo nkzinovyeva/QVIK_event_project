@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(50,50,50, 0.4)',
+    //backgroundColor: 'rgba(50,50,50, 0.4)',
   },
   upperContainer: {
     justifyContent: 'space-between',

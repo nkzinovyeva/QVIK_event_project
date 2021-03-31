@@ -2,18 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text, } from 'react-native';
 import moment from "moment";
+import { useIsConnected } from 'react-native-offline';
 import AppFavButton from "../components/favButton";
 import AppHeader from "../components/header";
+import AppOfflineBar  from "../components/oflineBar"
 import theme from '../constants/theme';
 import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
 
-
 export default function EventDetailsScreen({ route, navigation }) {
  
+  const isConnected = useIsConnected();
+
   const eventId = route.params;
-  const { events, setupData } = useSelector(state => state.eventsReducer);
+  const { events, setupData, timestamp } = useSelector(state => state.eventsReducer);
  
   //get exact event from list of events
   let event = {}
@@ -60,6 +63,11 @@ export default function EventDetailsScreen({ route, navigation }) {
   else {
     return (
       <SafeAreaView style={styles.screen}>
+        {isConnected ? (
+          null
+          ) : (
+          <AppOfflineBar timestamp = {timestamp} />
+        )}
         <ScrollView showsHorizontalScrollIndicator={true} >
           <ScrollView
             style={styles.tagContainer}
@@ -110,14 +118,11 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: theme.colors.backWhite,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: theme.fontSizes.detailsTitle,
     fontFamily: theme.fonts.fontFamily,
     margin: 16,
-    //marginLeft: 10,
   },
   text: {
     fontSize: theme.fontSizes.detailsText,

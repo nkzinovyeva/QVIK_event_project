@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, View } from 'react-native';
-import { Icon } from 'react-native-elements';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp, getVenues } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
+import AppOfflineBar  from "../components/oflineBar"
 import theme from '../constants/theme';
 
 export default function EventsScreen({ navigation }) {
@@ -93,15 +93,9 @@ export default function EventsScreen({ navigation }) {
   return ( 
     <SafeAreaView style={styles.container}>
       {isConnected ? (
-        <Text></Text>
+        null
       ) : (
-        <View style={styles.offlineContainer}>
-          <View style={{ flexDirection: "row",}}>
-            <Icon size={15} name={'exclamationcircle'} type={'antdesign'} color={theme.colors.blackColor}/>
-            <Text style={styles.offlineText}>  Offline</Text>
-          </View>
-          <Text style={styles.offlineText}>Last Update {timestamp}</Text>
-        </View>
+        <AppOfflineBar timestamp = {timestamp} />
       )}
       <View>
         <SectionList
@@ -128,19 +122,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backWhite, 
     marginLeft: 35, 
     padding: 16
-  },
-  offlineContainer: {
-    flexDirection: "row",
-    backgroundColor: theme.colors.lightgrayColor,
-    justifyContent: "space-between", 
-    padding: 16,
-    borderBottomWidth: 0.5,
-    borderColor: 'grey',
-  },
-  offlineText: {
-    fontSize: theme.fontSizes.listSubtitle,
-    color: theme.colors.blackColor,
-    fontWeight: "600", 
-  },
+  }
 }
 );

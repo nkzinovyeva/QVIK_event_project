@@ -72,7 +72,6 @@ export default function MyScheduleScreen({navigation}) {
   //return flatlist
   return (
       <SafeAreaView style={styles.container}>
-          <View style={{ }}>
           {favourites.length === 0 ? (
             <Text style={styles.replacementText}>
               Add events to favourite list
@@ -84,7 +83,6 @@ export default function MyScheduleScreen({navigation}) {
                 renderItem={({item}) => <Event item={item}/>}
             />
             )}
-          </View>
       </SafeAreaView> 
     );
 }
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.backWhite,
-    paddingTop: StatusBar.currentHeight,
+    //paddingTop: StatusBar.currentHeight,
   },
   replacementText: {
     color: theme.colors.grayColor, 

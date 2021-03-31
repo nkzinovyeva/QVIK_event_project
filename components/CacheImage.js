@@ -41,7 +41,7 @@ export default class CacheImage extends React.Component {
                 source: {
                     uri: uri,
                 },
-                loading: true,
+                loading: false,
             }))
             .catch(e => {
                 console.log('Image loading error:', e);
