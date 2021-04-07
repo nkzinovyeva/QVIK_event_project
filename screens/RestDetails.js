@@ -8,10 +8,17 @@ import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
 
-export default function RestDetails({ route, navigation }) {
+/****
+ * SCREEN FOR THE SPECIFIC RESTAURANT
+****/
 
+export default function RestDetails({ route, navigation }) {
+    
+    //constants
     const { restaurants } = useSelector(state => state.eventsReducer);
     const restaurantId = route.params;
+
+    //get exact restaurant from the list of restaurants
     const restaurant = restaurants.restaurants.filter((rest) => rest.restaurantId === restaurantId)[0]
   
     //header component 
@@ -32,6 +39,7 @@ export default function RestDetails({ route, navigation }) {
         });
     }, [navigation]); 
 
+    //rendering the restaurant details
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>

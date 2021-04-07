@@ -1,24 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text, Alert } from 'react-native';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
+import { useSelector } from 'react-redux';
 import AppFavButton from "../components/favButton";
 import AppHeader from "../components/header";
 import AppOfflineBar  from "../components/oflineBar"
 import theme from '../constants/theme';
-import { useSelector } from 'react-redux';
+import { IMAGES_URL } from '../config';
 
 const { width } = Dimensions.get("screen");
 
+/****
+ * SCREEN FOR THE SPECIFIC EVENT
+****/
+
 export default function EventDetailsScreen({ route, navigation }) {
  
-  const isConnected = useIsConnected();
+  //check the Internet connection
+  const isConnected = useIsConnected(); 
 
+  //constants
   const eventId = route.params;
   const { events, setupData, timestamp } = useSelector(state => state.eventsReducer);
  
-  //get exact event from list of events
+  //get exact event from the list of events
   let event = {}
   events.map((block) => {
     block.data.map((ev) => {
@@ -28,13 +34,11 @@ export default function EventDetailsScreen({ route, navigation }) {
     })
   })
 
-  
-
+  //header's fields data
   let date = moment(event.startDate, "YYYY-MM-DD")
   let time = moment(event.startTime, "HH:mm:ss").format('LT');
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
-  let imgurl = "https://qvik.herokuapp.com/api/v1/images/"+event.image.imageId;
-  console.log(imgurl);
+  let imgurl = IMAGES_URL + event.image.imageId;
 
   //header component 
   React.useLayoutEffect(() => {
@@ -55,10 +59,12 @@ export default function EventDetailsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+//notification for the canceled event
   if (event.active !== true){
     Alert.alert("The event is canceled!")
   }
 
+//render
   if (!event) {
     return (
       <View>

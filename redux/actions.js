@@ -21,7 +21,7 @@ export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 export const FILTER_RESTS_BY_TAG = 'FILTER_RESTS_BY_TAG';
 export const SET_TIMESTAMP = 'SET_TIMESTAMP';
 
-//"parent" event get info action
+//get setup information action
 export const getSetUp = () => {
   try {
     return async dispatch => {
@@ -211,6 +211,7 @@ export const filterEventsByTag = (tag, eventsArray) => dispatch => {
   });
 };
 
+//set timestamp action
 export const addTimestamp = time => dispatch => {
   console.log('time', time)
   dispatch({

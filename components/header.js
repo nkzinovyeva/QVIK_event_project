@@ -3,21 +3,22 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
-import CacheImage from '../components/CacheImage';
+import CacheImage from './cacheImage';
 import AppFilter from "../components/filter"
 import MyIcon from './icons/index';
 
-
 const { width } = Dimensions.get("screen");
+
+/****
+ * COMPONENT FOR THE HEADER
+****/
 
 export default AppHeader = (props) => {
 
-  //console.log('header props', props)
-
+  //constants
   const { title, subTitle, img, tags, navigation, clickableTag, item, rests } = props;
 
-  //ordinary tag bar
-
+  //ordinary tag 
   const Tag = () => {
     if (Array.isArray(tags)) {
       return (
@@ -35,12 +36,14 @@ export default AppHeader = (props) => {
     }
   }
 
+  //clickable tag 
   return (
     <View style={styles.mainContainer}>
       {/* <Image source={img} style={styles.image} /> */}
       <CacheImage uri={img} style={styles.image} />
       <View style={styles.overlay}>
         <View style={styles.upperContainer}>
+
           {!props.leftButton
             ? <Text style={styles.replacementText}></Text>
             : <Icon
@@ -61,7 +64,6 @@ export default AppHeader = (props) => {
             />
           }
         </View>
-
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subTitle}</Text>

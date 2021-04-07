@@ -3,8 +3,13 @@ import { Image, View, ActivityIndicator } from 'react-native';
 import shorthash from 'shorthash';
 import * as FileSystem from 'expo-file-system'
 
+/****
+ * COMPONENT FOR THE CACHED IMAGE
+****/
+
 export default class CacheImage extends React.Component {
     
+    //initial state
     state = {
         source: null,
         loading: true, 
@@ -13,6 +18,7 @@ export default class CacheImage extends React.Component {
 
     componentDidMount = async () => {
         const { uri } = this.props;
+        //check if there is an image
         if (!uri) {
             this.setState({
                 failed: true,
@@ -23,7 +29,9 @@ export default class CacheImage extends React.Component {
             const name = shorthash.unique(uri);
             const path = `${FileSystem.cacheDirectory}${name}`;
             const image = await FileSystem.getInfoAsync(path);
+            //check if the image exists in the cache
             if (image.exists) {
+                //read from cache
                 console.log('read image from cache');
                 this.setState({
                     loading: false,
@@ -34,8 +42,8 @@ export default class CacheImage extends React.Component {
                 return;
             }
 
+             //downloading image to cache 
             console.log('downloading image to cache');
-            //const newImage = 
             await FileSystem.downloadAsync(uri, path)
             .then(this.setState({
                 source: {

@@ -12,6 +12,7 @@ import {
   GET_VENUES
 } from './actions';
 
+//initial states
 const initialState = {
   setupData: {},
   events: [],

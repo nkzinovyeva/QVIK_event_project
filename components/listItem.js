@@ -6,8 +6,13 @@ import AppFavButton from "../components/favButton";
 
 const { width } = Dimensions.get("screen");
 
+/****
+ * COMPONENT FOR THE LIST
+****/
+
 export default AppList = (props) => {
 
+    //constants
     const {
         leftIcon,
         iconColor,
@@ -22,6 +27,7 @@ export default AppList = (props) => {
     let starColor = iconColor;
     let statusNumber;
 
+    //check the status of the item
     if (status == "active") {
         chevronColor = theme.colors.blueColor;
         statusNumber = 1;
@@ -39,6 +45,7 @@ export default AppList = (props) => {
         statusNumber = 4;
     }
 
+    //rendering
     return (
         <ListItem bottomDivider >
             {leftIcon && <AppFavButton item={item} color={starColor} />}

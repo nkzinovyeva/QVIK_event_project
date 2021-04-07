@@ -3,17 +3,22 @@ import { Text, StyleSheet, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
 
+/****
+ * COMPONENT FOR THE OFFLINE BAR
+****/
+
 export default AppOfflineBar = ({timestamp}) => {
 
-    return (
-        <View style={styles.offlineContainer}>
-          <View style={{ flexDirection: "row",}}>
-            <Icon size={15} name={'exclamationcircle'} type={'antdesign'} color={theme.colors.blackColor}/>
-            <Text style={styles.offlineText}>  Offline</Text>
-          </View>
-          <Text style={styles.offlineText}>Last Update {timestamp}</Text>
+  //rendering
+  return (
+      <View style={styles.offlineContainer}>
+        <View style={{ flexDirection: "row",}}>
+          <Icon size={15} name={'exclamationcircle'} type={'antdesign'} color={theme.colors.blackColor}/>
+          <Text style={styles.offlineText}>  Offline</Text>
         </View>
-    )
+        <Text style={styles.offlineText}>Last Update {timestamp}</Text>
+      </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -31,4 +36,4 @@ const styles = StyleSheet.create({
       fontWeight: "600", 
     },
   }
-  );
+);

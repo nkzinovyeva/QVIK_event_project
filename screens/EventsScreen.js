@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, View } from 'react-native';
 import moment from "moment";
@@ -10,11 +9,16 @@ import AppList from "../components/listItem";
 import AppOfflineBar  from "../components/oflineBar"
 import theme from '../constants/theme';
 
+/****
+ * MAIN SCREEN FOR THE LIST OF EVENTS
+****/
+
 export default function EventsScreen({ navigation }) {
   
+  //check the Internet connection
   const isConnected = useIsConnected();
 
-  //loading the data
+  //loading the data and constants
   const { events, setupData, filteredEvents, timestamp } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
@@ -52,10 +56,10 @@ export default function EventsScreen({ navigation }) {
     });
   }, [navigation]);
 
-  //render the event
+  //render the event item
   const Event = ({ item }) => {
     
-    //code-block to check the passed/future events
+    //check the passed/future state
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
 
@@ -90,6 +94,7 @@ export default function EventsScreen({ navigation }) {
     );
   }
  
+  //render the list of events
   return ( 
     <SafeAreaView style={styles.container}>
       {isConnected ? (

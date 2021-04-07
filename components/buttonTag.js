@@ -4,10 +4,16 @@ import MyIcon from './icons/index';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
 
+/****
+ * COMPONENT FOR THE TAG BUTTON
+****/
+
 export default ButtonTag = ( props ) => {
 
+    //constants
     const { subData, isButton, data, onPress, name } = props;
 
+    //rendering
     return (
             <TouchableOpacity 
                 onPress={onPress}

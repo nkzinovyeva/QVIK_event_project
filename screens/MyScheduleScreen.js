@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View,FlatList, TouchableOpacity, SafeAreaView, Text  } from 'react-native';
 import moment from "moment";
@@ -6,11 +5,16 @@ import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
 import theme from '../constants/theme';
 
+/****
+ * SCREEN FOR THE FAVOURITE EVENTS
+****/
 
 export default function MyScheduleScreen({navigation}) {
 
+  //constants
   const { setupData, favourites } = useSelector(state => state.eventsReducer);
 
+  //sorting the list of favourites
   favourites.sort((a, b) =>
     a.startDate > b.startDate || a.startTime > b.startTime
       ? 1
@@ -18,7 +22,6 @@ export default function MyScheduleScreen({navigation}) {
   )
 
   //header component 
-  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () => 
@@ -35,10 +38,10 @@ export default function MyScheduleScreen({navigation}) {
     });
   }, [navigation]);
 
-//render the event
+  //render the event
   const Event = ({item}) => {
 
-    //code-block to check the passed/future events
+    //check the passed/future state of events
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
     
@@ -69,7 +72,7 @@ export default function MyScheduleScreen({navigation}) {
     );
   }
 
-  //return flatlist
+  //render the list of favourites
   return (
       <SafeAreaView style={styles.container}>
           {favourites.length === 0 ? (

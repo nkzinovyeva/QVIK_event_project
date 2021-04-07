@@ -7,10 +7,17 @@ import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
 
+/****
+ * SCREEN FOR THE SPECIFIC PRESENTER
+****/
+
 export default function PresenterDetails({ route, navigation }) {
 
+    //constants
     const { presenters } = useSelector(state => state.eventsReducer);
     const presenterId = route.params;
+
+    //get exact presenter from the list of presenters
     const presenter = presenters.filter((presenter) => presenter.presenterId === presenterId)[0];
   
     //header component 
@@ -30,6 +37,7 @@ export default function PresenterDetails({ route, navigation }) {
         });
     }, [navigation]); 
 
+    //rendering the presenter details
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>

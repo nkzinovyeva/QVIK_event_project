@@ -6,22 +6,26 @@ import EventsDetails from "../screens/EventDetails";
 import RestsScreen from "../screens/RestaurantsScreen";
 import MySchedule from "../screens/MyScheduleScreen";
 import { Icon } from 'react-native-elements';
-import Colors from "../constants/colors";
+import theme from '../constants/theme';
 import RestDetails from '../screens/RestDetails';
 import PresenterDetails from '../screens/PresenterDetails';
 import StageDetails from '../screens/StageDetails';
+
+/****
+ * COMPONENT FOR THE NAVIGATION
+****/
 
 //default options for the screens || check later if needed
 const defaultNavOptions =  {
   headerStyle: {
     height: 185,
-    //backgroundColor: Colors.backwhite,
+    //backgroundColor: theme.colors.backwhite,
    },
-  headerTintColor: Colors.whiteColor,
+  headerTintColor: theme.colors.whiteColor,
   headerTitleStyle: {
     fontSize: 32,  
     fontFamily: 'System', 
-    color: Colors.whiteColor
+    color: theme.colors.whiteColor
   },
   headerLeft: null,
 }
@@ -41,7 +45,7 @@ function EventsStackScreen() {
     );
 }
 
-
+// favourite events stack 
 const myScheduleStack = createStackNavigator();
 
 function MyScheduleStackScreen() {
@@ -56,7 +60,7 @@ function MyScheduleStackScreen() {
     );
 }
 
-
+// restaurants stack 
 const restStack = createStackNavigator();
 
 function RestaurantsStackScreen() {
@@ -81,14 +85,14 @@ export default function AppNav() {
             let iconName, iconType;
 
             if (route.name === 'My Schedule') {
-                iconName = 'star-outline';
-                iconType = 'material-community';
+              iconName = 'star-outline';
+              iconType = 'material-community';
             } else if (route.name === 'Events') {
               iconName = 'drama-masks';
               iconType = 'material-community';
             } else if (route.name === 'Late Bites') {
-                iconName = 'fast-food-outline';
-                iconType = 'ionicon';
+              iconName = 'fast-food-outline';
+              iconType = 'ionicon';
             } 
 
             return <Icon name={iconName} type={iconType} size={size} color={color}/>
@@ -96,15 +100,15 @@ export default function AppNav() {
         })}
         initialRouteName="Events"
         tabBarOptions={{
-          activeTintColor: Colors.blueColor,
-          inactiveTintColor: Colors.grayColor,
+          activeTintColor: theme.colors.blueColor,
+          inactiveTintColor: theme.colors.grayColor,
           style: { 
-            backgroundColor: Colors.whiteColor,
+            backgroundColor: theme.colors.whiteColor,
             shadowOffset: {
               width: 0,
               height: 0,
             },
-            shadowColor: Colors.grayColor,
+            shadowColor: theme.colors.grayColor,
             shadowOpacity: 2,
             shadowRadius: 2,
             elevation: 2,

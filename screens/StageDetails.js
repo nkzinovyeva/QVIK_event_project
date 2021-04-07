@@ -7,11 +7,18 @@ import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
 
+/****
+ * SCREEN FOR THE SPECIFIC STAGE
+****/
+
 export default function StagesDetails({ route, navigation }) {
 
+    //constants
     const { stages } = useSelector(state => state.eventsReducer);
     const { venues } = useSelector(state => state.eventsReducer);
     const stageId = route.params;
+
+    //get exact stage and venue from the lists
     const stage = stages.filter((stage) => stage.stageId === stageId)[0];
     const venue = venues.filter((venue) => venue.venueId === stage.venue.venueId)[0];
 
@@ -32,6 +39,7 @@ export default function StagesDetails({ route, navigation }) {
         });
     }, [navigation]); 
 
+    //rendering the stage details
     return (
         <SafeAreaView style={styles.screen}>
             <ScrollView showsHorizontalScrollIndicator={true}>

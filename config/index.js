@@ -5,3 +5,4 @@ export const RESTAURANT_URL = 'https://qvik.herokuapp.com/api/v1/restaurants';
 export const PRESENTERS_URL = 'https://qvik.herokuapp.com/api/v1/presenters';
 export const STAGES_URL = 'https://qvik.herokuapp.com/api/v1/stages';
 export const VENUES_URL = 'https://qvik.herokuapp.com/api/v1/venues';
+export const IMAGES_URL = 'https://qvik.herokuapp.com/api/v1/images/';

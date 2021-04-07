@@ -1,10 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
+
+/****
+ * SCREEN FOR THE LIST OF RESTAURANTS
+****/
 
 export default function RestsScreen({ navigation }) {
 
@@ -29,22 +32,23 @@ export default function RestsScreen({ navigation }) {
     });
   }, [navigation]);
 
+  //rendering restaurant item
   const renderItem = ({ item }) => {
 
     const now = moment().format('HH:mm:ss');
 
     var time = "";
-    var message = "";
+    var stateMessage = "";
     var status = "closed";
 
+   //check the open/close state 
     if (item.closeTime > now && now > item.openTime) {
       status = "active";
-      message = "Open till";
+      stateMessage = "Open till";
       time = moment(item.closeTime, "HH:mm:ss").format('LT');
     }
     else {
-      //closed = false;
-      message = "Closed till";
+      stateMessage = "Closed till";
       time = moment(item.openTime, "HH:mm:ss").format('LT');
     }
 
@@ -56,7 +60,7 @@ export default function RestsScreen({ navigation }) {
           leftIcon={false}
           title={item.name}
           subtitle={`${item.location}, ${item.venue.name}`}
-          rightTopSubtitle={message}
+          rightTopSubtitle={stateMessage}
           rightBottomSubtitle={time}
           status={status}
         />
@@ -64,6 +68,7 @@ export default function RestsScreen({ navigation }) {
     )
   }
 
+  //rendering list of restaurants
   return (
     <SafeAreaView >
       <FlatList
