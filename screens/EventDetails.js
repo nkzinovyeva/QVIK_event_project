@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text, } from 'react-native';
+import { ScrollView, StyleSheet, View, Dimensions, SafeAreaView, Text, Alert } from 'react-native';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
 import AppFavButton from "../components/favButton";
@@ -28,6 +28,8 @@ export default function EventDetailsScreen({ route, navigation }) {
     })
   })
 
+  
+
   let date = moment(event.startDate, "YYYY-MM-DD")
   let time = moment(event.startTime, "HH:mm:ss").format('LT');
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
@@ -52,6 +54,10 @@ export default function EventDetailsScreen({ route, navigation }) {
         />,
     });
   }, [navigation]);
+
+  if (event.active !== true){
+    Alert.alert("The event is canceled!")
+  }
 
   if (!event) {
     return (

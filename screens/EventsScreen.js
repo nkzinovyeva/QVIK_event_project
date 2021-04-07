@@ -60,7 +60,7 @@ export default function EventsScreen({ navigation }) {
     let nowDate = moment().format('YYYY-MM-DD');
 
     var status = "active";
-    if (item.activeEvent == false ) {
+    if (item.active == false ) {
       status = "canceled";
     }
     else if (item.startDate < nowDate || item.startDate == nowDate && item.startTime > nowTime  ) {
