@@ -19,8 +19,7 @@ const theme = {
         detailsText: 16
     },
     fonts: {
-        //fontFamily: 'System',
-        fontFamily:'sanfrancisco',
+        fontFamily: 'System',
     },
 };
 

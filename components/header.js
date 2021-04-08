@@ -6,6 +6,7 @@ import theme from '../constants/theme';
 import CacheImage from './CacheImage';
 import AppFilter from "../components/filter"
 import MyIcon from './icons/index';
+import { Platform } from 'react-native';
 
 const { width } = Dimensions.get("screen");
 
@@ -25,7 +26,7 @@ export default AppHeader = (props) => {
         tags.map((item, index) =>
           <View key={index + item} style={styles.tagContainer} >
             <View style={{ ...styles.tag, ...{ borderColor: theme.colors.whiteColor } }}>
-              <MyIcon name={'check'} color={theme.colors.whiteColor} size={20}/> 
+              <MyIcon name={'check'} color={theme.colors.whiteColor} size={20} />
               <Text style={styles.tagText}>{item}</Text>
             </View>
           </View>
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 50,
+    paddingTop: Platform.OS === 'android' ? 40 : 50
   },
   textContainer: {
     justifyContent: 'center',
@@ -111,14 +112,12 @@ const styles = StyleSheet.create({
   title: {
     color: theme.colors.whiteColor,
     fontSize: theme.fontSizes.headerTitle,
-    marginLeft: 15,
-    fontFamily:theme.fonts.fontFamily
+    marginLeft: 15
   },
   subtitle: {
     color: theme.colors.whiteColor,
     fontSize: theme.fontSizes.headerSubtitle,
-    marginLeft: 15,
-    fontFamily:theme.fonts.fontFamily
+    marginLeft: 15
   },
   replacementText: {
     paddingTop: 10
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: theme.colors.whiteColor,
-    fontSize: theme.fontSizes.tagText,
-    fontFamily:theme.fonts.fontFamily
+    fontSize: theme.fontSizes.tagText
   },
 });

@@ -11,14 +11,8 @@ import { store, persistor } from './redux/store';
 import { getSetUp } from './redux/actions';
 import { NetworkProvider } from 'react-native-offline';
 import * as Font from 'expo-font';
-import { useFonts } from 'expo-font';
-
 
 export default function App() {
-
-  const [loadedFonts] = useFonts({
-    sanfrancisco: require("./constants/fonts/SF-Pro-Display-Regular.ttf"),
-  });
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
@@ -31,31 +25,18 @@ export default function App() {
       />
     );
   } else {
-    if (!loadedFonts) {
-      return (
-        <AppLoading
-          startAsync={customFonts}
-          onFinish={() => setLoadedFonts(true)}
-          onError={console.warn}
-        />
-      );
-    }
-    else {
-      return (
-        <NetworkProvider>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <StatusBar style="light" />
-              < NavigationContainer >
-                <AppNav headerMode="none" headerShown="false" />
-              </NavigationContainer >
-            </PersistGate>
-          </Provider>
-        </NetworkProvider>
-      );
-    }
-
-
+    return (
+      <NetworkProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <StatusBar style="light" />
+            < NavigationContainer >
+              <AppNav headerMode="none" headerShown="false" />
+            </NavigationContainer >
+          </PersistGate>
+        </Provider>
+      </NetworkProvider>
+    );
   }
 };
 
