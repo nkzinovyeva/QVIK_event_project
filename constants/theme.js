@@ -11,15 +11,16 @@ const theme = {
     fontSizes: {
         listTitle: 16,
         listSubtitle: 14,
-        headerTitle: 32,
-        headerSubtitle: 16,
+        headerTitle: 30,
+        headerSubtitle: 14,
         eventTitle: 22,
-        tagText: 16,
+        tagText: 14,
         detailsTitle: 24,
         detailsText: 16
     },
     fonts: {
-        fontFamily: 'System',
+        //fontFamily: 'System',
+        fontFamily:'sanfrancisco',
     },
 };
 

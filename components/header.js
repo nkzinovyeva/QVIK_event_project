@@ -111,12 +111,14 @@ const styles = StyleSheet.create({
   title: {
     color: theme.colors.whiteColor,
     fontSize: theme.fontSizes.headerTitle,
-    marginLeft: 15
+    marginLeft: 15,
+    fontFamily:theme.fonts.fontFamily
   },
   subtitle: {
     color: theme.colors.whiteColor,
     fontSize: theme.fontSizes.headerSubtitle,
-    marginLeft: 15
+    marginLeft: 15,
+    fontFamily:theme.fonts.fontFamily
   },
   replacementText: {
     paddingTop: 10
@@ -133,6 +135,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: theme.colors.whiteColor,
-    fontSize: theme.fontSizes.tagText
+    fontSize: theme.fontSizes.tagText,
+    fontFamily:theme.fonts.fontFamily
   },
 });

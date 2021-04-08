@@ -2,35 +2,24 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { StyleSheet } from 'react-native';
 import AppNav from "./navigation/AppNavigation";
-import  AppLoading from "expo-app-loading";
+import AppLoading from "expo-app-loading";
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Asset } from 'expo-asset';
 import { store, persistor } from './redux/store';
-import { getSetUp} from './redux/actions';
+import { getSetUp } from './redux/actions';
 import { NetworkProvider } from 'react-native-offline';
 import * as Font from 'expo-font';
+import { useFonts } from 'expo-font';
 
-
-/*const customFonts = () => {
-  Font.loadAsync({
-    sanfrancisco: require("./constants/fonts/SF-Pro-Display-Regular.otf"),
-  });
-};*/
 
 export default function App() {
 
-  /*const [loadedFonts, setLoadedFonts] = useState(false);
-  if (!loadedFonts) {
-    return (
-      <AppLoading
-        startAsync={customFonts}
-        onFinish={() => setLoadedFonts(true)}
-        onError={console.warn}
-      />
-    );
-  }*/
+  const [loadedFonts] = useFonts({
+    sanfrancisco: require("./constants/fonts/SF-Pro-Display-Regular.ttf"),
+  });
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete) {
@@ -42,19 +31,31 @@ export default function App() {
       />
     );
   } else {
-  
-  return (
-    <NetworkProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <StatusBar style="light" />
-          < NavigationContainer >
-              <AppNav headerMode="none" headerShown="false" />
-          </NavigationContainer >
-        </PersistGate>
-      </Provider>
-    </NetworkProvider>
-  );
+    if (!loadedFonts) {
+      return (
+        <AppLoading
+          startAsync={customFonts}
+          onFinish={() => setLoadedFonts(true)}
+          onError={console.warn}
+        />
+      );
+    }
+    else {
+      return (
+        <NetworkProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <StatusBar style="light" />
+              < NavigationContainer >
+                <AppNav headerMode="none" headerShown="false" />
+              </NavigationContainer >
+            </PersistGate>
+          </Provider>
+        </NetworkProvider>
+      );
+    }
+
+
   }
 };
 
