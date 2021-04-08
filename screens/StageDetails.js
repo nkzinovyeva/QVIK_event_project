@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
+import AppTagButton from "../components/tagButton"
 import theme from '../constants/theme';
 import { useSelector } from 'react-redux';
 
@@ -47,7 +48,7 @@ export default function StagesDetails({ route, navigation }) {
                     style={styles.tagContainer}
                     horizontal={true}>
                     {stage.events.map((item, index) =>
-                        <ButtonTag
+                        <AppTagButton
                             key={index + item}
                             isButton={true}
                             name={'star'}

@@ -5,7 +5,8 @@ import { useIsConnected } from 'react-native-offline';
 import { useSelector } from 'react-redux';
 import AppFavButton from "../components/favButton";
 import AppHeader from "../components/header";
-import AppOfflineBar  from "../components/oflineBar"
+import AppOfflineBar  from "../components/oflineBar";
+import AppTagButton from "../components/tagButton"
 import theme from '../constants/theme';
 import { IMAGES_URL } from '../config';
 
@@ -84,7 +85,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
-            <ButtonTag
+            <AppTagButton
               isButton={true}
               name={'compass'}
               onPress={() => navigation.push("Stage", event.stage.stageId)}
@@ -96,7 +97,7 @@ export default function EventDetailsScreen({ route, navigation }) {
             style={styles.tagContainer}
             horizontal={true}>
             {event.presenters.map((item, index) =>
-              <ButtonTag
+              <AppTagButton
                 key={index + item}
                 isButton={true}
                 name={'mic'}
@@ -109,7 +110,7 @@ export default function EventDetailsScreen({ route, navigation }) {
             style={styles.tagContainer}
             horizontal={true}>
             {event.restaurants.map((item, index) =>
-              <ButtonTag
+              <AppTagButton
                 key={index + item}
                 isButton={true}
                 name={'food'}

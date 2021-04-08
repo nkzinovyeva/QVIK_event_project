@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions} from 'react-nat
 import moment from "moment";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
-import ButtonTag from '../components/buttonTag';
+import AppTagButton from '../components/tagButton';
 import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
@@ -46,7 +46,7 @@ export default function RestDetails({ route, navigation }) {
                 <ScrollView
                     style={styles.tagContainer}
                     horizontal={true}>
-                    <ButtonTag
+                    <AppTagButton
                         isButton={true}
                         name={'compass'}
                         data={restaurant.location}
@@ -55,7 +55,7 @@ export default function RestDetails({ route, navigation }) {
                 <ScrollView
                     style={styles.tagContainer}
                     horizontal={true}>
-                    <ButtonTag
+                    <AppTagButton
                         isButton={false}
                         name={'sharp'}
                         data={moment(restaurant.openTime, "HH:mm:ss").format('HH:mm') + '-' + moment(restaurant.closeTime, "HH:mm:ss").format('HH:mm')}

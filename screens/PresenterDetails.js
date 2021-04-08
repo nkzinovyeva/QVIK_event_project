@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions} from 'react-nat
 import theme from '../constants/theme';
 import moment from "moment";
 import AppHeader from "../components/header";
+import AppTagButton from "../components/tagButton"
 import { useSelector } from 'react-redux';
 
 const { width } = Dimensions.get("screen");
@@ -45,7 +46,7 @@ export default function PresenterDetails({ route, navigation }) {
                     style={styles.tagContainer}
                     horizontal={true}>
                     {presenter.events.map((item, index) =>
-                        <ButtonTag
+                        <AppTagButton
                             key={index + item}
                             isButton={true}
                             name={'star'}

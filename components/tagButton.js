@@ -8,7 +8,7 @@ import theme from '../constants/theme';
  * COMPONENT FOR THE TAG BUTTON
 ****/
 
-export default ButtonTag = ( props ) => {
+export default AppTagButton = ( props ) => {
 
     //constants
     const { subData, isButton, data, onPress, name } = props;
