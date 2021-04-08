@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, ScrollView } from 'react-native';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
 import { useSelector, useDispatch } from 'react-redux';
@@ -102,7 +102,7 @@ export default function EventsScreen({ navigation }) {
       ) : (
         <AppOfflineBar timestamp = {timestamp} />
       )}
-      <View>
+      <ScrollView>
         <SectionList
           sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
           keyExtractor={(item, index) => item + index}
@@ -111,7 +111,7 @@ export default function EventsScreen({ navigation }) {
             <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
           )}
         />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
