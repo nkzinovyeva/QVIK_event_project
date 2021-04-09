@@ -54,8 +54,9 @@ const loadResourcesAsync = async () => {
     Font.loadAsync({
       'custom-icons': require('./assets/fonts/icomoon.ttf'),
     }),
+    store.dispatch(getSetUp())
   ]);
-  await store.dispatch(getSetUp());
+  //await store.dispatch(getSetUp());
 }
 
 
