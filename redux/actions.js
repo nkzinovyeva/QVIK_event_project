@@ -248,6 +248,6 @@ export const setUpdateTimestamp = date => dispatch => {
   console.log('date', date)
   dispatch({
     type: SET_UPDATE_TIMESTAMP,
-    payload: date
+    payload: date //format need to be agreed with the BE
   });
 };
