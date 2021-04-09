@@ -53,8 +53,9 @@ export const getLastUpdate = () => {
       if (response.data) {
         dispatch({
           type: GET_UPDATE_TIMESTAMP,
-          payload: response.data.data
+          payload: response.data.data.lastUpdateDateTime
         });
+        console.log('BE last', response.data.data.lastUpdateDateTime);
       } else {
         console.log('Unable to fetch data from the API !');
       }
@@ -236,7 +237,7 @@ export const filterEventsByTag = (tag, eventsArray) => dispatch => {
 
 //set timestamp action
 export const addTimestamp = time => dispatch => {
-  console.log('time', time)
+  //console.log('time', time)
   dispatch({
     type: SET_TIMESTAMP,
     payload: time
@@ -245,7 +246,7 @@ export const addTimestamp = time => dispatch => {
 
 //set last update timestamp action
 export const setUpdateTimestamp = date => dispatch => {
-  console.log('date', date)
+  console.log('our last', date)
   dispatch({
     type: SET_UPDATE_TIMESTAMP,
     payload: date //format need to be agreed with the BE

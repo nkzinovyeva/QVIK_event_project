@@ -29,11 +29,11 @@ export default function EventsScreen({ navigation }) {
   const fetchStages = () => dispatch(getStages());
   const fetchVenues = () => dispatch(getVenues());
   const updateTimestamp = () => dispatch(addTimestamp(moment().format("MMM Do, h:mm a")));
-  const setLastUpdateTimestamp = () => dispatch(setUpdateTimestamp(moment().format("MMM Do, h:mm a"))); //the format need to be agreed with the BE
+  const setLastUpdateTimestamp = () => dispatch(setUpdateTimestamp(moment().format('YYYY-MM-DDTHH:mm:ss.SSS'))); //the format need to be agreed with the BE
 
   useEffect(() => {
     fetchLastUpdate();
-    if (lastUpdate > lastUpdateTimestamp) {
+    if (!moment(lastUpdate).isAfter(lastUpdateTimestamp)) {
       fetchEvents();
       fetchRestaurants();
       fetchPresenters();
