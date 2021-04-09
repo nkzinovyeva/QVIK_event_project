@@ -86,7 +86,7 @@ export default AppHeader = (props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     height: 210,
-    paddingTop: StatusBar.currentHeight,
+    //paddingTop: StatusBar.currentHeight,
   },
   image: {
     width: width,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: Platform.OS === 'android' ? 40 : 50
+    paddingTop: Platform.OS === 'android' ? 45 : 55
   },
   textContainer: {
     justifyContent: 'center',

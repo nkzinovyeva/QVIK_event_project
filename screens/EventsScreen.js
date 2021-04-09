@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, SafeAreaView, Text, SectionList, ScrollView, View } from 'react-native';
 import moment from "moment";
 import { useIsConnected } from 'react-native-offline';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEvents, getRestaurants, getPresenters, getStages, addTimestamp, getVenues } from '../redux/actions';
+import { getLastUpdate, getEvents, getRestaurants, getPresenters, getStages, addTimestamp, getVenues, setUpdateTimestamp } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
 import AppOfflineBar  from "../components/oflineBar"
@@ -19,22 +19,28 @@ export default function EventsScreen({ navigation }) {
   const isConnected = useIsConnected();
 
   //loading the data and constants
-  const { events, setupData, filteredEvents, timestamp } = useSelector(state => state.eventsReducer);
+  const { events, setupData, filteredEvents, timestamp, lastUpdate, lastUpdateTimestamp } = useSelector(state => state.eventsReducer);
   const dispatch = useDispatch();
 
+  const fetchLastUpdate = () => dispatch(getLastUpdate());
   const fetchEvents = () => dispatch(getEvents());
   const fetchRestaurants = () => dispatch(getRestaurants());
   const fetchPresenters = () => dispatch(getPresenters());
   const fetchStages = () => dispatch(getStages());
   const fetchVenues = () => dispatch(getVenues());
   const updateTimestamp = () => dispatch(addTimestamp(moment().format("MMM Do, h:mm a")));
+  const setLastUpdateTimestamp = () => dispatch(setUpdateTimestamp(moment().format("MMM Do, h:mm a"))); //the format need to be agreed with the BE
 
   useEffect(() => {
-    fetchEvents();
-    fetchRestaurants();
-    fetchPresenters();
-    fetchStages();
-    fetchVenues();
+    fetchLastUpdate();
+    if (lastUpdate > lastUpdateTimestamp) {
+      fetchEvents();
+      fetchRestaurants();
+      fetchPresenters();
+      fetchStages();
+      fetchVenues();
+      setLastUpdateTimestamp();
+    }
     {isConnected ? updateTimestamp() : {} }
   }, []);
 
@@ -102,7 +108,7 @@ export default function EventsScreen({ navigation }) {
       ) : (
         <AppOfflineBar timestamp = {timestamp} />
       )}
-      <ScrollView>
+      <View>
         <SectionList
           sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
           keyExtractor={(item, index) => item + index}
@@ -111,7 +117,7 @@ export default function EventsScreen({ navigation }) {
             <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
           )}
         />
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

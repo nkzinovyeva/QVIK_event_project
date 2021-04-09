@@ -5,11 +5,13 @@ import {
   RESTAURANT_URL,
   PRESENTERS_URL,
   STAGES_URL,
-  VENUES_URL
+  VENUES_URL,
+  UPDATE_URL
 } from '../config';
 
 // Define action types
 export const GET_SETUP = 'GET_SETUP';
+export const GET_UPDATE_TIMESTAMP = 'GET_UPDATE_TIMESTAMP';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_RESTAURANTS = 'GET_RESTAURANTS';
 export const GET_PRESENTERS = 'GET_PRESENTERS';
@@ -20,6 +22,8 @@ export const REMOVE_FROM_FAVOURITE_LIST = 'REMOVE_FROM_FAVOURITE_LIST';
 export const FILTER_EVENTS_BY_TAG = 'FILTER_EVENTS_BY_TAG';
 export const FILTER_RESTS_BY_TAG = 'FILTER_RESTS_BY_TAG';
 export const SET_TIMESTAMP = 'SET_TIMESTAMP';
+export const SET_UPDATE_TIMESTAMP = 'SET_UPDATE_TIMESTAMP';
+
 
 //get setup information action
 export const getSetUp = () => {
@@ -37,6 +41,25 @@ export const getSetUp = () => {
     };
   } catch (error) {
     // possible custom logic to handle errors
+    console.log(error);
+  }
+};
+
+//get last update info action
+export const getLastUpdate = () => {
+  try {
+    return async dispatch => {
+      const response = await axios.get(`${UPDATE_URL}`);
+      if (response.data) {
+        dispatch({
+          type: GET_UPDATE_TIMESTAMP,
+          payload: response.data.data
+        });
+      } else {
+        console.log('Unable to fetch data from the API !');
+      }
+    };
+  } catch (error) {
     console.log(error);
   }
 };
@@ -217,5 +240,14 @@ export const addTimestamp = time => dispatch => {
   dispatch({
     type: SET_TIMESTAMP,
     payload: time
+  });
+};
+
+//set last update timestamp action
+export const setUpdateTimestamp = date => dispatch => {
+  console.log('date', date)
+  dispatch({
+    type: SET_UPDATE_TIMESTAMP,
+    payload: date
   });
 };

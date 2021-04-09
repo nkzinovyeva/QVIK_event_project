@@ -1,20 +1,23 @@
 import {
   GET_SETUP,
+  GET_UPDATE_TIMESTAMP,
   GET_EVENTS,
   GET_RESTAURANTS,
   GET_PRESENTERS,
   GET_STAGES,
+  GET_VENUES,
   ADD_TO_FAVOURITE_LIST,
   REMOVE_FROM_FAVOURITE_LIST,
   FILTER_EVENTS_BY_TAG,
   FILTER_RESTS_BY_TAG,
   SET_TIMESTAMP,
-  GET_VENUES
+  SET_UPDATE_TIMESTAMP,
 } from './actions';
 
 //initial states
 const initialState = {
   setupData: {},
+  lastUpdate: {},
   events: [],
   eventTags: [],
   filteredEvents: [],
@@ -24,14 +27,17 @@ const initialState = {
   favourites: [],
   stages: [],
   presenters: [],
+  venues: [],
   timestamp: {},
-  venues: []
+  lastUpdateTimestamp: {},
 };
 
 function eventsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_SETUP:
       return { ...state, setupData: action.payload };
+    case GET_UPDATE_TIMESTAMP:
+      return { ...state, lastUpdate: action.payload };
     case GET_EVENTS:
       return { ...state, events: action.payload };
     case GET_RESTAURANTS:
@@ -55,6 +61,8 @@ function eventsReducer(state = initialState, action) {
       return { ...state, restsTags: action.payload.tag, filteredRests: action.payload.items }
     case SET_TIMESTAMP:
       return { ...state, timestamp: action.payload };
+    case SET_UPDATE_TIMESTAMP:
+        return { ...state, lastUpdateTimestamp: action.payload };
     default:
       return state;
   }
