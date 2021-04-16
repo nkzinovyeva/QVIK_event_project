@@ -5,7 +5,7 @@ import { useIsConnected } from 'react-native-offline';
 import { useSelector } from 'react-redux';
 import AppFavButton from "../components/favButton";
 import AppHeader from "../components/header";
-import AppOfflineBar  from "../components/oflineBar";
+import AppOfflineBar from "../components/oflineBar";
 import AppTagButton from "../components/tagButton"
 import theme from '../constants/theme';
 import { IMAGES_URL } from '../config';
@@ -17,14 +17,14 @@ const { width } = Dimensions.get("screen");
 ****/
 
 export default function EventDetailsScreen({ route, navigation }) {
- 
+
   //check the Internet connection
-  const isConnected = useIsConnected(); 
+  const isConnected = useIsConnected();
 
   //constants
   const eventId = route.params;
   const { events, setupData, timestamp } = useSelector(state => state.eventsReducer);
- 
+
   //get exact event from the list of events
   let event = {}
   events.map((block) => {
@@ -34,6 +34,10 @@ export default function EventDetailsScreen({ route, navigation }) {
       }
     })
   })
+
+  //constants for tags
+  const inheritedTags = event.inheritedTags || [];
+  const tags = event.eventTags || [];
 
   //header's fields data
   let date = moment(event.startDate, "YYYY-MM-DD")
@@ -47,7 +51,7 @@ export default function EventDetailsScreen({ route, navigation }) {
       header: () =>
         <AppHeader
           item={event}
-          tags={event.inheritedTags.concat(event.eventTags)}
+          tags={inheritedTags.concat(tags)}
           //img={require('../assets/eventPic.jpg')}
           img={imgurl}
           title={event.title}
@@ -60,12 +64,12 @@ export default function EventDetailsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
-//notification for the canceled event
-  if (event.active !== true){
+  //notification for the canceled event
+  if (event.active !== true) {
     Alert.alert("The event is canceled!")
   }
 
-//render
+  //render
   if (!event) {
     return (
       <View>
@@ -78,8 +82,8 @@ export default function EventDetailsScreen({ route, navigation }) {
       <SafeAreaView style={styles.screen}>
         {isConnected ? (
           null
-          ) : (
-          <AppOfflineBar timestamp = {timestamp} />
+        ) : (
+          <AppOfflineBar timestamp={timestamp} />
         )}
         <ScrollView showsHorizontalScrollIndicator={true} >
           <ScrollView

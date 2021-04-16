@@ -68,15 +68,17 @@ export default AppHeader = (props) => {
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subTitle}</Text>
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-          >
-            {clickableTag
-              ? <AppFilter tags={tags} rests={rests} />
-              : <Tag />
-            }
-          </ScrollView>
+          {!(tags.size > 0)&&(
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+            >
+              {clickableTag
+                ? <AppFilter tags={tags} rests={rests} />
+                : <Tag />
+              }
+            </ScrollView>
+          )}
         </View>
       </View>
     </View>

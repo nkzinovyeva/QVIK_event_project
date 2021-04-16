@@ -14,12 +14,15 @@ export default function RestsScreen({ navigation }) {
   //constants
   const { restaurants, filteredRests, setupData } = useSelector(state => state.eventsReducer);
 
+  //constant for tags
+  const allTags = setupData.allRestaurantCuisines || [];
+
   //header component 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () =>
         <AppHeader
-          tags={setupData.allRestaurantTags}
+          tags={allTags}
           //img={require('../assets/restPic.jpg')}
           img={setupData.restaurantImage}
           title="Late Bites"
@@ -41,7 +44,7 @@ export default function RestsScreen({ navigation }) {
     var stateMessage = "";
     var status = "closed";
 
-   //check the open/close state 
+    //check the open/close state 
     if (item.closeTime > now && now > item.openTime) {
       status = "active";
       stateMessage = "Open till";

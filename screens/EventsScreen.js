@@ -31,6 +31,9 @@ export default function EventsScreen({ navigation }) {
   const updateTimestamp = () => dispatch(addTimestamp(moment().format("MMM Do, h:mm a")));
   const setLastUpdateTimestamp = () => dispatch(setUpdateTimestamp(moment().format('YYYY-MM-DDTHH:mm:ss.SSS'))); //the format need to be agreed with the BE
 
+  //constant for tags
+  const allTags = setupData.allEventTags || [];
+
   useEffect(() => {
     fetchLastUpdate();
     if (!moment(lastUpdate).isAfter(lastUpdateTimestamp)) {
@@ -50,7 +53,7 @@ export default function EventsScreen({ navigation }) {
     navigation.setOptions({
       header: () =>
         <AppHeader
-          tags={setupData.allEventTags}
+          tags={allTags}
           //img={require('../assets/mainPic.jpg')}
           //img={setupData.eventImage}
           title={setupData.title} 

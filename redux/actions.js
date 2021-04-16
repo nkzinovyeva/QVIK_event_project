@@ -183,7 +183,7 @@ export const filterRestsByTag = (tag, restaurantsArray) => dispatch => {
     restaurantsArray.restaurants.filter((restaurant) => {
       let hasAllTags = true;
       tag.map((tag) => {
-        if (!restaurant.allTags.includes(tag)) {
+        if (!restaurant.allCuisines.includes(tag)) {
           hasAllTags = false;
         }
       });

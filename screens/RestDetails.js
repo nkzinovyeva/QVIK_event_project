@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions} from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, Text, Dimensions } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
 import theme from '../constants/theme';
@@ -13,21 +13,24 @@ const { width } = Dimensions.get("screen");
 ****/
 
 export default function RestDetails({ route, navigation }) {
-    
+
     //constants
     const { restaurants } = useSelector(state => state.eventsReducer);
     const restaurantId = route.params;
 
     //get exact restaurant from the list of restaurants
     const restaurant = restaurants.restaurants.filter((rest) => rest.restaurantId === restaurantId)[0]
-  
+
+    //constant for tags
+    const tags = restaurant.allCuisines || [];
+
     //header component 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             header: () =>
                 <AppHeader
                     item={restaurant}
-                    tags={restaurant.allTags}
+                    tags={tags}
                     //img={require('../assets/foodPic.jpg')}
                     title={restaurant.name}
                     subTitle={restaurant.location}
@@ -37,7 +40,7 @@ export default function RestDetails({ route, navigation }) {
                     clickableTag={false}
                 />,
         });
-    }, [navigation]); 
+    }, [navigation]);
 
     //rendering the restaurant details
     return (
@@ -88,9 +91,9 @@ const styles = StyleSheet.create({
         marginTop: 0,
     },
     tagContainer: {
-      borderBottomWidth: 0.5,
-      borderColor: 'grey',
-      width: width,
-      backgroundColor: 'white'
-  }
+        borderBottomWidth: 0.5,
+        borderColor: 'grey',
+        width: width,
+        backgroundColor: 'white'
+    }
 });
