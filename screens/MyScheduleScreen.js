@@ -42,6 +42,7 @@ export default function MyScheduleScreen({ navigation }) {
           leftButton={false}
           rightButton={false}
           clickableTag={false}
+          tags={[]}
         />
     });
   }, [navigation]);

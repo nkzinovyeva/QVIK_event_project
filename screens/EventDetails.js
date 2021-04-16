@@ -23,7 +23,7 @@ export default function EventDetailsScreen({ route, navigation }) {
 
   //constants
   const eventId = route.params;
-  const { events, setupData, timestamp } = useSelector(state => state.eventsReducer);
+  const { events, setupData, timestamp, restaurants } = useSelector(state => state.eventsReducer);
 
   //get exact event from the list of events
   let event = {}
@@ -131,7 +131,7 @@ export default function EventDetailsScreen({ route, navigation }) {
                 />
               )}
             </ScrollView>
-          ) : (
+          ) : restaurants.length !== 0 && (
             <View style={styles.tagContainer}>
               <Text style={styles.replacementText}>No restaurants linked to this event</Text>
             </View>

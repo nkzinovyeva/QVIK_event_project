@@ -1,9 +1,10 @@
 import React from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { FlatList, SafeAreaView, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import moment from "moment";
 import AppHeader from "../components/header";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";
+import theme from '../constants/theme';
 
 /****
  * SCREEN FOR THE LIST OF RESTAURANTS
@@ -74,11 +75,28 @@ export default function RestsScreen({ navigation }) {
   //rendering list of restaurants
   return (
     <SafeAreaView >
-      <FlatList
-        data={filteredRests.restaurants && filteredRests.restaurants.length > 0 ? filteredRests.restaurants : restaurants.restaurants}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index + item}
-      />
+      {restaurants.length === 0 ? (
+        <Text style={styles.replacementText}>
+          No restaurant are available for these events
+        </Text>
+      ) : (
+        <FlatList
+          data={filteredRests.restaurants && filteredRests.restaurants.length > 0 ? filteredRests.restaurants : restaurants.restaurants}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index + item}
+        />
+      )}
+
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  replacementText: {
+    color: theme.colors.grayColor,
+    fontSize: 18,
+    alignSelf: "center",
+    marginTop: 50
+  }
+}
+);
