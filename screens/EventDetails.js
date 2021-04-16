@@ -97,32 +97,46 @@ export default function EventDetailsScreen({ route, navigation }) {
               subData={setupData.venue}
             />
           </ScrollView>
-          <ScrollView
-            style={styles.tagContainer}
-            horizontal={true}>
-            {event.presenters.map((item, index) =>
-              <AppTagButton
-                key={index + item}
-                isButton={true}
-                name={'mic'}
-                onPress={() => navigation.push("Presenter", item.presenterId)}
-                data={item.name}
-              />
-            )}
-          </ScrollView>
-          <ScrollView
-            style={styles.tagContainer}
-            horizontal={true}>
-            {event.restaurants.map((item, index) =>
-              <AppTagButton
-                key={index + item}
-                isButton={true}
-                name={'food'}
-                onPress={() => navigation.push('Restaurant', item.restaurantId)}
-                data={item.name}
-              />
-            )}
-          </ScrollView>
+          {event.presenters ? (
+            <ScrollView
+              style={styles.tagContainer}
+              horizontal={true}>
+              {event.presenters.map((item, index) =>
+                <AppTagButton
+                  key={index + item}
+                  isButton={true}
+                  name={'mic'}
+                  onPress={() => navigation.push("Presenter", item.presenterId)}
+                  data={item.name}
+                />
+              )}
+            </ScrollView>
+          ) : (
+            <View style={styles.tagContainer}>
+              <Text style={styles.replacementText}>No presenters linked to this event</Text>
+            </View>
+          )}
+
+          {event.restaurants ? (
+            <ScrollView
+              style={styles.tagContainer}
+              horizontal={true}>
+              {event.restaurants.map((item, index) =>
+                <AppTagButton
+                  key={index + item}
+                  isButton={true}
+                  name={'food'}
+                  onPress={() => navigation.push('Restaurant', item.restaurantId)}
+                  data={item.name}
+                />
+              )}
+            </ScrollView>
+          ) : (
+            <View style={styles.tagContainer}>
+              <Text style={styles.replacementText}>No restaurants linked to this event</Text>
+            </View>
+          )}
+
           <Text style={styles.title}><AppFavButton item={event} color={theme.colors.blackColor} size={22} />  {event.shortDescription}</Text>
           <Text style={styles.text}>{event.fullDescription}</Text>
         </ScrollView>
@@ -154,5 +168,10 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     width: width,
     backgroundColor: 'white',
+  },
+  replacementText: {
+    fontSize: theme.fontSizes.detailsText,
+    fontFamily: theme.fonts.fontFamily,
+    margin: 5,
   }
 });
