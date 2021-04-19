@@ -29,6 +29,7 @@ export default function StagesDetails({ route, navigation }) {
             header: () =>
                 <AppHeader
                     item={stage}
+                    tags={[]}
                     //img={require('../assets/stagePic.jpg')}
                     title={`${stage.venue.name}, ${stage.name}`}
                     subTitle={stage.location}

@@ -2,7 +2,7 @@ import React from 'react';
 import { ListItem } from 'react-native-elements';
 import { StyleSheet, Dimensions } from 'react-native';
 import theme from '../constants/theme';
-import AppFavButton from "../components/favButton";
+import AppFavButton from "./favButton";
 
 const { width } = Dimensions.get("screen");
 

@@ -4,7 +4,7 @@ import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
 import CacheImage from './CacheImage';
-import AppFilter from "../components/filter"
+import AppFilter from "./filter"
 import MyIcon from './icons/index';
 import { Platform } from 'react-native';
 
