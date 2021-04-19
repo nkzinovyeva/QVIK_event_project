@@ -17,7 +17,7 @@ const { width } = Dimensions.get("screen");
 export default AppHeader = (props) => {
 
   //constants
-  const { title, subTitle, img, tags, navigation, clickableTag, item, rests } = props;
+  const { title, subTitle, img, tags, navigation, clickableTag, rests } = props;
 
   //ordinary tag 
   const Tag = () => {

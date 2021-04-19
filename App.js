@@ -52,7 +52,7 @@ const loadResourcesAsync = async () => {
       require("./src/assets/default_img.jpg")
     ]),
     Font.loadAsync({
-      'custom-icons': require('./src/assets/fonts/icomoon.ttf'),
+      'custom-icons': require('./src/assets/icons/icomoon.ttf'),
     }),
     store.dispatch(getSetUp())
   ]);

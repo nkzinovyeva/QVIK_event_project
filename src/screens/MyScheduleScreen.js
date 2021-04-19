@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, TouchableOpacity, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Text } from 'react-native';
 import moment from "moment";
 import { useSelector } from 'react-redux';
 import AppList from "../components/listItem";

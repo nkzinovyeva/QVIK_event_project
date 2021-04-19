@@ -17,4 +17,4 @@ const rootReducer = combineReducers({
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 export const persistor = persistStore(store);
-//persistor.purge()
+//persistor.purge() // code for empty the storage
