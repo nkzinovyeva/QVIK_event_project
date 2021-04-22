@@ -54,26 +54,26 @@ npm run android
 * Documentation
 
 ## Folder structure
-src: This folder is the main container of all the code inside the application
-* assets: Asset folder to store all images, vectors, etc.
+`src`: This folder is the main container of all the code inside the application
+* `assets`: Asset folder to store all images, vectors, etc.
         
-    * icons:  folder to store custom icons font
-* components:  Folder to store any common component using through the app (such as a generic button).
-* config: Folder that contains application’s configurations.
+    * `icons`:  Folder to store custom icons font
+* `components`:  Folder to store any common component using through the app (such as a generic button).
+* `config`: Folder that contains application’s configurations.
 
     * index.js: File that contains application URLs.
-* constants: Folder to store any kind of constant that you have.
+* `constants`: Folder to store any kind of constant that you have.
 
-    * fonts: Folder that contains fonts used in the application
+    * `fonts`: Folder that contains fonts used in the application
     * theme.js: File to store all the styling concerns related to the application theme.
-* navigation: Folder that contains files for the navigation within the application.
-* redux: Folder that contains redux related files such as reducers, actions and store.
+* `navigation`: Folder that contains files for the navigation within the application.
+* `redux`: Folder that contains redux related files such as reducers, actions and store.
     * actions.js: This file contains all actions that can be dispatched to redux.
     * reducers.js: This file has all reducers, and expose the combined result.
     * store.js: The file contains all redux middlewares and the store.
-* screens: Folder that contains all application’s screens.
+* `screens`: Folder that contains all application’s screens.
 
-App.js: The main component that starts the whole app.
+`App.js`: The main component that starts the whole app.
 
 
 
