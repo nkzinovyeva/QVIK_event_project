@@ -1,7 +1,8 @@
 # Mobile app for the Event platform by QVIK
-"Event platform - Cost efficient way to create event apps"
+"Event platform - cost efficient way to create event apps"
 ## Description
-A Front-end part of the project aiming to create versalite and scalable mobile application for Event platform end-users.
+A Front-end part of the project aiming to create versalite and scalable mobile application for the Event platform's end-users.
+Written in JavaScript — rendered with native code. With React Native we maintain two platforms and share a common technology — React.
 
 ## Getting Started
 
