@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import theme from '../constants/theme';
 import CacheImage from './CacheImage';
@@ -17,7 +17,7 @@ const { width } = Dimensions.get("screen");
 export default AppHeader = (props) => {
 
   //constants
-  const { title, subTitle, img, tags, navigation, clickableTag, rests } = props;
+  const { title, subTitle, img, tags, navigation, clickableTag, rests, source } = props;
 
   //ordinary tag 
   const Tag = () => {
@@ -40,8 +40,12 @@ export default AppHeader = (props) => {
   //clickable tag 
   return (
     <View style={styles.mainContainer}>
-      {/* <Image source={img} style={styles.image} /> */}
-      <CacheImage uri={img} style={styles.image} />
+      {source ?
+        <Image source={source} style={styles.image} />
+        :
+        <CacheImage uri={img} style={styles.image} />
+      }
+
       <View style={styles.overlay}>
         <View style={styles.upperContainer}>
 
@@ -68,7 +72,7 @@ export default AppHeader = (props) => {
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subTitle}</Text>
-          {!(tags.size > 0)&&(
+          {!(tags.size > 0) && (
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}

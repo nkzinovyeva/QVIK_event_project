@@ -43,7 +43,15 @@ export default function EventDetailsScreen({ route, navigation }) {
   let date = moment(event.startDate, "YYYY-MM-DD")
   let time = moment(event.startTime, "HH:mm:ss").format('LT');
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
-  let imgurl = IMAGES_URL + event.image.imageId;
+  let imgurl = null;
+  let src = null;
+  if (event.image.imageId) {
+    imgurl = IMAGES_URL + event.image.imageId;
+  }
+  else {
+    src = require('../assets/eventPic.jpg');
+  }
+
 
   //header component 
   React.useLayoutEffect(() => {
@@ -52,8 +60,8 @@ export default function EventDetailsScreen({ route, navigation }) {
         <AppHeader
           item={event}
           tags={inheritedTags.concat(tags)}
-          //img={require('../assets/eventPic.jpg')}
           img={imgurl}
+          source={src}
           title={event.title}
           subTitle={date.format('ddd') + ", " + date.format("MMM Do") + ", " + time + ", " + duration + 'min'}
           leftButton={true}
