@@ -45,7 +45,7 @@ export default function EventDetailsScreen({ route, navigation }) {
   let duration = moment(event.endTime, "HH:mm:ss").diff(moment(event.startTime, "HH:mm:ss"), 'minutes')
   let imgurl = null;
   let src = null;
-  if (event.image.imageId) {
+  if (event.image) {
     imgurl = IMAGES_URL + event.image.imageId;
   }
   else {
