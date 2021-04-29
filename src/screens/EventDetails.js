@@ -94,6 +94,7 @@ export default function EventDetailsScreen({ route, navigation }) {
           <AppOfflineBar timestamp={timestamp} />
         )}
         <ScrollView showsHorizontalScrollIndicator={true} >
+        {event.stage.name !== "No Stage" ? (
           <ScrollView
             style={styles.tagContainer}
             horizontal={true}>
@@ -105,6 +106,9 @@ export default function EventDetailsScreen({ route, navigation }) {
               subData={setupData.venue}
             />
           </ScrollView>
+          ) : (
+            <View ></View>
+          )}
           {event.presenters ? (
             <ScrollView
               style={styles.tagContainer}
@@ -178,6 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   replacementText: {
+    color: theme.colors.grayColor,
     fontSize: theme.fontSizes.detailsText,
     fontFamily: theme.fonts.fontFamily,
     margin: 5,
