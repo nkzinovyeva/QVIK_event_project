@@ -79,8 +79,9 @@ npm run android
 
 
 ## Authors
-
+* Nataliya Zinovyeva [GitHub](https://github.com/nkzinovyeva), [LinkedIn](https://www.linkedin.com/in/nkzinovyeva/)
+* Coline Fardel [GitHub](https://github.com/ColineFardel), [LinkedIn](https://linkedin.com/in/coline-fardel-b31990172)
 
 ## License
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-## Acknowledgments
+
