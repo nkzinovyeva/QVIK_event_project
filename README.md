@@ -1,8 +1,48 @@
 # Mobile app for the Event platform by QVIK
 "Event platform - cost efficient way to create event apps"
+
 ## Description
 A Front-end part of the project aiming to create versalite and scalable mobile application for the Event platform's end-users.
 Written in JavaScript — rendered with native code. With React Native we maintain two platforms and share a common technology — React.
+<img src="readme_images/Img1.png" width='200'> <img src="readme_images/Img2.png" width='200'> <img src="readme_images/Img3.png" width='200'>
+<img src="readme_images/Img4.png" width='200'> <img src="readme_images/Img5.png" width='200'> <img src="readme_images/Img6.png" width='200'>
+<img src="readme_images/Img7.png" width='200'>
+
+## Authors
+* Nataliya Zinovyeva [GitHub](https://github.com/nkzinovyeva), [LinkedIn](https://www.linkedin.com/in/nkzinovyeva/)
+* Coline Fardel [GitHub](https://github.com/ColineFardel), [LinkedIn](https://linkedin.com/in/coline-fardel-b31990172)
+
+## License
+This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+
+## References
+* [Prototype](https://www.figma.com/file/T3yHtaDVUCrhHDlOXnLSqO/MyEvent-design-handover?node-id=0%3A1)
+* [API Definition](https://qvik.herokuapp.com/swagger-ui.html)
+* [API Documentation](https://qvik.herokuapp.com/api-docs)
+* Documentation
+
+## Folder structure
+`src`: This folder is the main container of all the code inside the application
+* `assets`: Asset folder to store all images, vectors, etc.
+        
+    * `icons`:  Folder to store custom icons font
+* `components`:  Folder to store any common component using through the app (such as a generic button).
+* `config`: Folder that contains application’s configurations.
+
+    * index.js: File that contains application URLs.
+* `constants`: Folder to store any kind of constant that you have.
+
+    * `fonts`: Folder that contains fonts used in the application
+    * theme.js: File to store all the styling concerns related to the application theme.
+* `navigation`: Folder that contains files for the navigation within the application.
+* `redux`: Folder that contains redux related files such as reducers, actions and store.
+    * actions.js: This file contains all actions that can be dispatched to redux.
+    * reducers.js: This file has all reducers, and expose the combined result.
+    * store.js: The file contains all redux middlewares and the store.
+* `screens`: Folder that contains all application’s screens.
+
+`App.js`: The main component that starts the whole app.
+
 
 ## Getting Started
 
@@ -48,40 +88,4 @@ npm run android
  ```
   npm run ios 
   ``` 
-
-## References
-* [API Definition](https://qvik.herokuapp.com/swagger-ui.html)
-* [API Documentation](https://qvik.herokuapp.com/api-docs)
-* Documentation
-
-## Folder structure
-`src`: This folder is the main container of all the code inside the application
-* `assets`: Asset folder to store all images, vectors, etc.
-        
-    * `icons`:  Folder to store custom icons font
-* `components`:  Folder to store any common component using through the app (such as a generic button).
-* `config`: Folder that contains application’s configurations.
-
-    * index.js: File that contains application URLs.
-* `constants`: Folder to store any kind of constant that you have.
-
-    * `fonts`: Folder that contains fonts used in the application
-    * theme.js: File to store all the styling concerns related to the application theme.
-* `navigation`: Folder that contains files for the navigation within the application.
-* `redux`: Folder that contains redux related files such as reducers, actions and store.
-    * actions.js: This file contains all actions that can be dispatched to redux.
-    * reducers.js: This file has all reducers, and expose the combined result.
-    * store.js: The file contains all redux middlewares and the store.
-* `screens`: Folder that contains all application’s screens.
-
-`App.js`: The main component that starts the whole app.
-
-
-
-## Authors
-* Nataliya Zinovyeva [GitHub](https://github.com/nkzinovyeva), [LinkedIn](https://www.linkedin.com/in/nkzinovyeva/)
-* Coline Fardel [GitHub](https://github.com/ColineFardel), [LinkedIn](https://linkedin.com/in/coline-fardel-b31990172)
-
-## License
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
