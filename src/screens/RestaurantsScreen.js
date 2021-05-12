@@ -1,30 +1,36 @@
-import React from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import React from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+} from "react-native";
 import moment from "moment";
 import AppHeader from "../components/header";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import AppList from "../components/listItem";
-import theme from '../constants/theme';
+import theme from "../constants/theme";
 
 /****
  * SCREEN FOR THE LIST OF RESTAURANTS
-****/
+ ****/
 
 export default function RestsScreen({ navigation }) {
-
   //constants
-  const { restaurants, filteredRests, setupData } = useSelector(state => state.eventsReducer);
+  const { restaurants, filteredRests, setupData } = useSelector(
+    (state) => state.eventsReducer
+  );
 
   //constant for tags
   const allTags = setupData.allRestaurantCuisines || [];
 
-  //header component 
+  //header component
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      header: () =>
+      header: () => (
         <AppHeader
           tags={allTags}
-          //img={require('../assets/restPic.jpg')}
           img={setupData.restaurantImage}
           title="Late Bites"
           subTitle="@Helsinki region"
@@ -32,33 +38,34 @@ export default function RestsScreen({ navigation }) {
           rightButton={false}
           clickableTag={true}
           rests={true}
-        />,
+        />
+      ),
     });
   }, [navigation]);
 
   //rendering restaurant item
   const renderItem = ({ item }) => {
-
-    const now = moment().format('HH:mm:ss');
+    const now = moment().format("HH:mm:ss");
 
     var time = "";
     var stateMessage = "";
     var status = "closed";
 
-    //check the open/close state 
+    //check the open/close state
     if (item.closeTime > now && now > item.openTime) {
       status = "active";
       stateMessage = "Open till";
-      time = moment(item.closeTime, "HH:mm:ss").format('LT');
-    }
-    else {
+      time = moment(item.closeTime, "HH:mm:ss").format("LT");
+    } else {
       stateMessage = "Closed till";
-      time = moment(item.openTime, "HH:mm:ss").format('LT');
+      time = moment(item.openTime, "HH:mm:ss").format("LT");
     }
 
     return (
       <TouchableOpacity
-        onPress={() => { navigation.navigate('Restaurant', item.restaurantId) }}
+        onPress={() => {
+          navigation.navigate("Restaurant", item.restaurantId);
+        }}
       >
         <AppList
           leftIcon={false}
@@ -69,24 +76,27 @@ export default function RestsScreen({ navigation }) {
           status={status}
         />
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   //rendering list of restaurants
   return (
-    <SafeAreaView >
+    <SafeAreaView>
       {restaurants.length === 0 ? (
         <Text style={styles.replacementText}>
           No restaurant are available for these events
         </Text>
       ) : (
         <FlatList
-          data={filteredRests.restaurants && filteredRests.restaurants.length > 0 ? filteredRests.restaurants : restaurants.restaurants}
+          data={
+            filteredRests.restaurants && filteredRests.restaurants.length > 0
+              ? filteredRests.restaurants
+              : restaurants.restaurants
+          }
           renderItem={renderItem}
           keyExtractor={(item, index) => index + item}
         />
       )}
-
     </SafeAreaView>
   );
 }
@@ -96,7 +106,6 @@ const styles = StyleSheet.create({
     color: theme.colors.grayColor,
     fontSize: 18,
     alignSelf: "center",
-    marginTop: 50
-  }
-}
-);
+    marginTop: 50,
+  },
+});

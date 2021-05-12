@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getLastUpdate, getEvents, getRestaurants, getPresenters, getStages, addTimestamp, getVenues, setUpdateTimestamp } from '../redux/actions';
 import AppHeader from "../components/header";
 import AppList from "../components/listItem";
-import AppOfflineBar  from "../components/oflineBar"
+import AppOfflineBar  from "../components/offlineBar"
 import theme from '../constants/theme';
 
 /****
@@ -54,8 +54,6 @@ export default function EventsScreen({ navigation }) {
       header: () =>
         <AppHeader
           tags={allTags}
-          //img={require('../assets/mainPic.jpg')}
-          //img={setupData.eventImage}
           title={setupData.title} 
           subTitle={setupData.venue + ', ' + (moment(setupData.startDate).format("MMM Do") +  " - " + moment(setupData.endDate).format("Do YYYY"))}
           leftButton={false}
@@ -72,8 +70,8 @@ export default function EventsScreen({ navigation }) {
     let nowTime = moment().format('HH:mm:ss');
     let nowDate = moment().format('YYYY-MM-DD');
 
-    var status = "active";
-    if (item.active == false ) {
+    let status = "active";
+    if (item.active === false ) {
       status = "canceled";
     }
     else if (item.startDate < nowDate || item.startDate == nowDate && item.startTime > nowTime  ) {
@@ -102,6 +100,7 @@ export default function EventsScreen({ navigation }) {
       </TouchableOpacity>
     );
   }
+  
  
   //render the list of events
   return ( 
@@ -116,9 +115,9 @@ export default function EventsScreen({ navigation }) {
           sections={filteredEvents && filteredEvents.length > 0 ? filteredEvents : events}
           keyExtractor={(item, index) => item + index}
           renderItem={({item}) => <Event item={item} />}
-          renderSectionHeader={({ section: { dateAsTitle } }) => (
-            <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>
-          )}
+          // The code below is used when it's necessary to separate the list with the headers 
+          //renderSectionHeader = {({ section: { dateAsTitle }}) => (
+          // <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>)}
         />
       </View>
     </SafeAreaView>

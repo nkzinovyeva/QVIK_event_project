@@ -6,37 +6,40 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import theme from "../constants/theme";
 import moment from "moment";
 import AppHeader from "../components/header";
+import theme from "../constants/theme";
 import AppTagButton from "../components/tagButton";
 import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("screen");
 
 /****
- * SCREEN FOR THE SPECIFIC PRESENTER
+ * SCREEN FOR THE SPECIFIC RESTAURANT
  ****/
 
-export default function PresenterDetails({ route, navigation }) {
+export default function RestDetails({ route, navigation }) {
   //constants
-  const { presenters } = useSelector((state) => state.eventsReducer);
-  const presenterId = route.params;
+  const { restaurants } = useSelector((state) => state.eventsReducer);
+  const restaurantId = route.params;
 
-  //get exact presenter from the list of presenters
-  const presenter = presenters.filter(
-    (presenter) => presenter.presenterId === presenterId
+  //get exact restaurant from the list of restaurants
+  const restaurant = restaurants.restaurants.filter(
+    (rest) => rest.restaurantId === restaurantId
   )[0];
+
+  //constant for tags
+  const tags = restaurant.allCuisines || [];
 
   //header component
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (
         <AppHeader
-          item={presenter}
-          tags={[]}
-          title={presenter.name}
-          subTitle={presenter.contact}
+          item={restaurant}
+          tags={tags}
+          title={restaurant.name}
+          subTitle={restaurant.location}
           leftButton={true}
           rightButton={true}
           navigation={navigation}
@@ -46,27 +49,32 @@ export default function PresenterDetails({ route, navigation }) {
     });
   }, [navigation]);
 
-  //rendering the presenter details
+  //rendering the restaurant details
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView showsHorizontalScrollIndicator={true}>
         <ScrollView style={styles.tagContainer} horizontal={true}>
-          {presenter.events.map((item, index) => (
-            <AppTagButton
-              key={index + item}
-              isButton={true}
-              name={"star"}
-              onPress={() => navigation.push("Event", item.eventId)}
-              data={`"${item.title}", ${moment(item.startDate).format(
-                "ddd"
-              )}, ${moment(item.startTime, "HH:mm:ss").format("LT")}`}
-            />
-          ))}
+          <AppTagButton
+            isButton={true}
+            name={"compass"}
+            data={restaurant.location}
+          />
+        </ScrollView>
+        <ScrollView style={styles.tagContainer} horizontal={true}>
+          <AppTagButton
+            isButton={false}
+            name={"sharp"}
+            data={
+              moment(restaurant.openTime, "HH:mm:ss").format("HH:mm") +
+              "-" +
+              moment(restaurant.closeTime, "HH:mm:ss").format("HH:mm")
+            }
+          />
         </ScrollView>
         <Text style={styles.title}>
-          {presenter.shortDescription.toUpperCase()}
+          {restaurant.shortDescription.toUpperCase()}
         </Text>
-        <Text style={styles.text}>{presenter.fullDescription}</Text>
+        <Text style={styles.text}>{restaurant.fullDescription}</Text>
       </ScrollView>
     </SafeAreaView>
   );
