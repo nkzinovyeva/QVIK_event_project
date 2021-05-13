@@ -4,8 +4,8 @@
 ## Description
 A Front-end part of the project aiming to create versalite and scalable mobile application for the Event platform's end-users.
 Written in JavaScript — rendered with native code. With React Native we maintain two platforms and share a common technology — React.
-<img src="readme_images/Img1.png" width='200'> <img src="readme_images/Img2.png" width='200'> <img src="readme_images/Img3.png" width='200'>
-<img src="readme_images/Img4.png" width='200'> <img src="readme_images/Img5.png" width='200'> <img src="readme_images/Img6.png" width='200'>
+<img src="readme_images/Img_main.png" width='200'> <img src="readme_images/Img_shc.png" width='200'> <img src="readme_images/Img3.png" width='200'> 
+<img src="readme_images/Img8.png" width='200'> <img src="readme_images/Img4.png" width='200'> <img src="readme_images/Img9.png" width='200'> <img src="readme_images/Img5.png" width='200'> <img src="readme_images/Img6.png" width='200'>
 <img src="readme_images/Img7.png" width='200'>
 
 ## Authors
@@ -13,13 +13,14 @@ Written in JavaScript — rendered with native code. With React Native we mainta
 * Coline Fardel [GitHub](https://github.com/ColineFardel), [LinkedIn](https://linkedin.com/in/coline-fardel-b31990172)
 
 ## License
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the [NAME HERE] License
 
 ## References
-* [Prototype](https://www.figma.com/file/T3yHtaDVUCrhHDlOXnLSqO/MyEvent-design-handover?node-id=0%3A1)
+* Design: @JaakkoJunttila
+* Back-end: @Raphael77777 @taeheelee90
+* [Prototype](https://github.com/JaakkoJunttila/Event_project_UI)
 * [API Definition](https://qvik.herokuapp.com/swagger-ui.html)
 * [API Documentation](https://qvik.herokuapp.com/api-docs)
-* Documentation
 
 ## Folder structure
 `src`: This folder is the main container of all the code inside the application
