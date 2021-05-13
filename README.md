@@ -4,7 +4,7 @@
 ## Description
 A Front-end part of the project aiming to create versalite and scalable mobile application for the Event platform's end-users.
 Written in JavaScript — rendered with native code. With React Native we maintain two platforms and share a common technology — React.
-<img src="readme_images/Img_main.png" width='200'> <img src="readme_images/Img_shc.png" width='200'> <img src="readme_images/Img3.png" width='200'> 
+<img src="readme_images/Img1.png" width='200'> <img src="readme_images/Img2.png" width='200'> <img src="readme_images/Img3.png" width='200'> 
 <img src="readme_images/Img8.png" width='200'> <img src="readme_images/Img4.png" width='200'> <img src="readme_images/Img9.png" width='200'> <img src="readme_images/Img5.png" width='200'> <img src="readme_images/Img6.png" width='200'>
 <img src="readme_images/Img7.png" width='200'>
 
