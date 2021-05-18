@@ -12,9 +12,6 @@ Written in JavaScript — rendered with native code. With React Native we mainta
 * Nataliya Zinovyeva [GitHub](https://github.com/nkzinovyeva), [LinkedIn](https://www.linkedin.com/in/nkzinovyeva/)
 * Coline Fardel [GitHub](https://github.com/ColineFardel), [LinkedIn](https://linkedin.com/in/coline-fardel-b31990172)
 
-## License
-This project is licensed under the [NAME HERE] License
-
 ## References
 * Design: @JaakkoJunttila
 * Back-end: @Raphael77777 @taeheelee90
