@@ -63,6 +63,30 @@ export default function EventsScreen({ navigation }) {
     });
   }, [navigation]);
 
+  filteredEvents.map(group => {
+    group.data.sort((a, b) => {
+      if (a.startDate === b.startDate) {
+        if (a.startTime > b.startTime) return 1;
+        else return -1;
+      } else {
+        if (a.startDate > b.startDate) return 1;
+        else return -1;
+      }
+    });
+  })
+
+  events.map(group => {
+    group.data.sort((a, b) => {
+      if (a.startDate === b.startDate) {
+        if (a.startTime > b.startTime) return 1;
+        else return -1;
+      } else {
+        if (a.startDate > b.startDate) return 1;
+        else return -1;
+      }
+    });
+  })
+
   //render the event item
   const Event = ({ item }) => {
     
@@ -116,8 +140,8 @@ export default function EventsScreen({ navigation }) {
           keyExtractor={(item, index) => item + index}
           renderItem={({item}) => <Event item={item} />}
           // The code below is used when it's necessary to separate the list with the headers 
-          //renderSectionHeader = {({ section: { dateAsTitle }}) => (
-          // <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd').toUpperCase()}</Text>)}
+          renderSectionHeader = {({ section: { dateAsTitle }}) => (
+           <Text style={styles.listTitle}>{moment(dateAsTitle, "YYYY-MM-DD").format('dddd, ll').toUpperCase()}</Text>)}
         />
       </View>
     </SafeAreaView>

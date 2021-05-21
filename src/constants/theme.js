@@ -13,7 +13,7 @@ const theme = {
         listSubtitle: 14,
         headerTitle: 30,
         headerSubtitle: 14,
-        eventTitle: 22,
+        eventTitle: 18,
         tagText: 14,
         detailsTitle: 24,
         detailsText: 16
