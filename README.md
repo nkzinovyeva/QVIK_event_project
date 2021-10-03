@@ -14,7 +14,7 @@ Written in JavaScript — rendered with native code. With React Native we mainta
 
 ## References
 * Design: @JaakkoJunttila
-* Back-end: @Raphael77777 @taeheelee90
+* Back-end: @Raphael77777 @taeheelee90 [Repository](https://github.com/Raphael77777/QVIK_EventsAPI)
 * [Prototype](https://github.com/JaakkoJunttila/Event_project_UI)
 * [API Definition](https://qvik.herokuapp.com/swagger-ui.html)
 * [API Documentation](https://qvik.herokuapp.com/api-docs)
